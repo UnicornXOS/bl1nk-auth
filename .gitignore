@@ -1,0 +1,16 @@
+# Node / Next.js build artifacts
+.next/
+node_modules/
+
+# Environment files
+.env.local
+.env
+
+# Logs and temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
