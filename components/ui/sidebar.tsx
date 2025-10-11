@@ -1,47 +1,27 @@
 import type { JSX } from 'react';
-import styles from './sidebar.module.css';
-
-export interface SidebarSection {
-  heading: string;
-  items: string[];
-}
-
-export interface SidebarProps {
-  title?: string;
-  description?: string;
-  sections?: SidebarSection[];
-}
-
-const defaultTitle = 'Docs';
-const defaultDescription = 'บริหาร OAuth, webhook และ SSE chat';
-const defaultSections: SidebarSection[] = [
-  {
-    heading: 'Overview',
-    items: ['Authentication', 'Webhook Relay', 'Chat Streaming']
-  }
-];
-
-export default function Sidebar({
-  title = defaultTitle,
-  description = defaultDescription,
-  sections = defaultSections
-}: SidebarProps = {}): JSX.Element {
+export default function Sidebar(): JSX.Element {
   return (
-    <div className={styles.container}>
+    <div style={{ display: 'grid', gap: '12px' }}>
       <div>
-        <p className={styles.heading}>{title}</p>
-        <p className={styles.description}>{description}</p>
+        <p style={{ fontSize: '12px', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          Docs
+        </p>
+        <p style={{ marginTop: '4px', fontSize: '14px', color: '#0F172A' }}>
+          บริหาร OAuth, webhook และ SSE chat
+        </p>
       </div>
-      {sections.map((section) => (
-        <div key={section.heading} className={styles.section}>
-          <p className={styles.sectionHeading}>{section.heading}</p>
-          <ul className={styles.list}>
-            {section.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+      <div style={{ display: 'grid', gap: '8px' }}>
+        <div>
+          <p style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Overview
+          </p>
         </div>
-      ))}
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '6px', fontSize: '14px' }}>
+          <li>Authentication</li>
+          <li>Webhook Relay</li>
+          <li>Chat Streaming</li>
+        </ul>
+      </div>
     </div>
   );
 }

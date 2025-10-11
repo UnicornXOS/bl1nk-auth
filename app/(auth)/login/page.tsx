@@ -1,30 +1,12 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
 import type { JSX } from 'react';
 import Button from '@/components/ui/button';
 
 export default function LoginPage(): JSX.Element {
   const [loading, setLoading] = useState(false);
-  const isMounted = useRef(true);
 
-  useEffect(() => {
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  const handleSignIn = async (): Promise<void> => {
-    setLoading(true);
-    try {
-      await signIn('github', { callbackUrl: '/dashboard' });
-    } catch (error) {
-      console.error('[login] sign-in failed', error);
-    } finally {
-      if (isMounted.current) {
-        setLoading(false);
-      }
     }
   };
 

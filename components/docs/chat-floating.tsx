@@ -6,12 +6,6 @@ import type { FormEvent } from 'react';
 import Button from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-type ChatRole = 'system' | 'user' | 'assistant';
-
-interface ChatLine {
-  id: number;
-  text: string;
-  role: ChatRole;
 }
 
 let lineId = 0;
@@ -25,8 +19,6 @@ export default function ChatFloating(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<ChatLine[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const [connectionState, setConnectionState] = useState<'connecting' | 'online' | 'error'>('connecting');
-  const readyAnnouncedRef = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -38,14 +30,7 @@ export default function ChatFloating(): JSX.Element {
       try {
         const data = JSON.parse(event.data) as { type?: string; [key: string]: unknown };
         if (data.type === 'ready') {
-          setConnectionState('online');
-          if (!readyAnnouncedRef.current) {
-            readyAnnouncedRef.current = true;
-            setLines((prev) => [...prev, { id: nextId(), text: 'assistant online', role: 'system' }]);
-          }
-        }
-        if (data.type === 'tick') {
-          setConnectionState('online');
+
         }
       } catch (error) {
         console.error('[chat-floating] invalid event payload', error);
@@ -54,14 +39,7 @@ export default function ChatFloating(): JSX.Element {
     ev.onerror = () => {
       ev.close();
       if (active) {
-        setConnectionState('error');
-        setLines((prev) => [...prev, { id: nextId(), text: 'connection lost, retrying…', role: 'system' }]);
-        setTimeout(() => {
-          if (active) {
-            setLines((prev) => [
-              ...prev,
-              { id: nextId(), text: 'refresh the page to reconnect.', role: 'system' }
-            ]);
+
           }
         }, 1000);
       }
@@ -79,7 +57,7 @@ export default function ChatFloating(): JSX.Element {
     if (!message) {
       return;
     }
-    setLines((prev) => [...prev, { id: nextId(), text: `you: ${message}`, role: 'user' }]);
+
     if (formRef.current) {
       formRef.current.reset();
     }
@@ -93,16 +71,7 @@ export default function ChatFloating(): JSX.Element {
         throw new Error(`request failed: ${response.status}`);
       }
       const payload = (await response.json()) as { reply?: string };
-      setLines((prev) => [
-        ...prev,
-        { id: nextId(), text: `assistant: ${payload.reply ?? 'no reply'}`, role: 'assistant' }
-      ]);
-    } catch (error) {
-      console.error('[chat-floating] ask error', error);
-      setLines((prev) => [
-        ...prev,
-        { id: nextId(), text: 'assistant: เกิดข้อผิดพลาด ลองอีกครั้ง', role: 'assistant' }
-      ]);
+
     }
   }
 
@@ -120,7 +89,7 @@ export default function ChatFloating(): JSX.Element {
             </svg>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="chat-popover" side="top" align="end" sideOffset={16}>
+
           <div style={{ display: 'flex', flexDirection: 'column', height: '480px', width: '360px' }}>
             <header style={{ padding: '16px', borderBottom: '1px solid #E2E8F0', fontSize: '14px', fontWeight: 600 }}>
               Assistant • Docs
@@ -136,17 +105,7 @@ export default function ChatFloating(): JSX.Element {
                 color: '#1F2937'
               }}
             >
-              {lines.length === 0 && (
-                <p style={{ color: '#94A3B8' }}>
-                  {connectionState === 'error'
-                    ? 'ไม่สามารถเชื่อมต่อได้'
-                    : 'กำลังเชื่อมต่อกับ assistant…'}
-                </p>
-              )}
-              {lines.map((line) => (
-                <div key={line.id} data-role={line.role}>
-                  {line.text}
-                </div>
+
               ))}
             </div>
             <form ref={formRef} onSubmit={onSubmit} style={{ borderTop: '1px solid #E2E8F0', padding: '12px 16px' }}>

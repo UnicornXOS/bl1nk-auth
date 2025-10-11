@@ -1,52 +1,14 @@
 'use client';
 
-import {
-  cloneElement,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
-import type {
-  CSSProperties,
-  MouseEventHandler,
-  MutableRefObject,
-  ReactElement,
-  ReactNode,
-  Ref
-} from 'react';
+import { createContext, useContext } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
-interface PopoverContextValue {
+type PopoverContextValue = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  anchorRef: MutableRefObject<HTMLDivElement | null>;
-  triggerRef: MutableRefObject<HTMLElement | null>;
-  contentRef: MutableRefObject<HTMLDivElement | null>;
-  contentId: string;
-}
+};
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
-
-function usePopoverContext(component: string): PopoverContextValue {
-  const ctx = useContext(PopoverContext);
-  if (!ctx) {
-    throw new Error(`${component} must be used within a Popover`);
-  }
-  return ctx;
-}
-
-function focusElement(element: HTMLElement): void {
-  try {
-    element.focus({ preventScroll: true });
-  } catch {
-    element.focus();
-  }
-}
 
 type PopoverProps = {
   open: boolean;
@@ -55,20 +17,9 @@ type PopoverProps = {
 };
 
 export function Popover({ open, onOpenChange, children }: PopoverProps): ReactElement {
-  const anchorRef = useRef<HTMLDivElement | null>(null);
-  const triggerRef = useRef<HTMLElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
-  const contentId = useId();
-  const value = useMemo(
-    () => ({ open, onOpenChange, anchorRef, triggerRef, contentRef, contentId }),
-    [open, onOpenChange, contentId]
-  );
-
   return (
-    <PopoverContext.Provider value={value}>
-      <div ref={anchorRef} style={{ position: 'relative', display: 'inline-flex' }}>
-        {children}
-      </div>
+    <PopoverContext.Provider value={{ open, onOpenChange }}>
+      <div style={{ position: 'relative', display: 'inline-flex' }}>{children}</div>
     </PopoverContext.Provider>
   );
 }
