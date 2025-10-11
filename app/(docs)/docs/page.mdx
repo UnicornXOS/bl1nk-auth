@@ -1,0 +1,37 @@
+import { createElement } from 'react';
+
+export const metadata = { title: 'Introduction' };
+
+export default function Introduction() {
+  return createElement(
+    'article',
+    { style: { display: 'grid', gap: '16px', maxWidth: '720px' } },
+    createElement('h1', null, 'Introduction'),
+    createElement(
+      'p',
+      null,
+      'Neon-like docs with ',
+      createElement('strong', null, 'MDX'),
+      ', custom auth helpers, and SSE chat.'
+    ),
+    createElement(
+      'ul',
+      null,
+      createElement(
+        'li',
+        null,
+        'Webhook: ',
+        createElement('code', null, 'POST /api/webhooks')
+      ),
+      createElement('li', null, 'Auth: GitHub via the OAuth gateway'),
+      createElement(
+        'li',
+        null,
+        'Chat: ',
+        createElement('code', null, '/api/chat/stream'),
+        ' + ',
+        createElement('code', null, '/api/chat/ask')
+      )
+    )
+  );
+}
