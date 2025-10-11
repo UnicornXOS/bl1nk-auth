@@ -1,5 +1,4 @@
 import type { JSX } from 'react';
-
 export default function Sidebar(): JSX.Element {
   return (
     <div style={{ display: 'grid', gap: '12px' }}>

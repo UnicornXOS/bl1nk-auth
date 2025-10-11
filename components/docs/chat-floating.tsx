@@ -6,9 +6,6 @@ import type { FormEvent } from 'react';
 import Button from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-interface ChatLine {
-  id: number;
-  text: string;
 }
 
 let lineId = 0;
@@ -33,13 +30,7 @@ export default function ChatFloating(): JSX.Element {
       try {
         const data = JSON.parse(event.data) as { type?: string; [key: string]: unknown };
         if (data.type === 'ready') {
-          setLines((prev) => [...prev, { id: nextId(), text: 'assistant online' }]);
-        }
-        if (data.type === 'tick') {
-          setLines((prev) => {
-            const keep = prev.slice(-20);
-            return [...keep, { id: nextId(), text: 'heartbeat received' }];
-          });
+
         }
       } catch (error) {
         console.error('[chat-floating] invalid event payload', error);
@@ -48,10 +39,7 @@ export default function ChatFloating(): JSX.Element {
     ev.onerror = () => {
       ev.close();
       if (active) {
-        setLines((prev) => [...prev, { id: nextId(), text: 'connection lost, retrying…' }]);
-        setTimeout(() => {
-          if (active) {
-            setLines((prev) => [...prev, { id: nextId(), text: 'refresh the page to reconnect.' }]);
+
           }
         }, 1000);
       }
@@ -69,7 +57,7 @@ export default function ChatFloating(): JSX.Element {
     if (!message) {
       return;
     }
-    setLines((prev) => [...prev, { id: nextId(), text: `you: ${message}` }]);
+
     if (formRef.current) {
       formRef.current.reset();
     }
@@ -83,10 +71,7 @@ export default function ChatFloating(): JSX.Element {
         throw new Error(`request failed: ${response.status}`);
       }
       const payload = (await response.json()) as { reply?: string };
-      setLines((prev) => [...prev, { id: nextId(), text: `assistant: ${payload.reply ?? 'no reply'}` }]);
-    } catch (error) {
-      console.error('[chat-floating] ask error', error);
-      setLines((prev) => [...prev, { id: nextId(), text: 'assistant: เกิดข้อผิดพลาด ลองอีกครั้ง' }]);
+
     }
   }
 
@@ -104,7 +89,7 @@ export default function ChatFloating(): JSX.Element {
             </svg>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="chat-popover">
+
           <div style={{ display: 'flex', flexDirection: 'column', height: '480px', width: '360px' }}>
             <header style={{ padding: '16px', borderBottom: '1px solid #E2E8F0', fontSize: '14px', fontWeight: 600 }}>
               Assistant • Docs
@@ -120,9 +105,7 @@ export default function ChatFloating(): JSX.Element {
                 color: '#1F2937'
               }}
             >
-              {lines.length === 0 && <p style={{ color: '#94A3B8' }}>กำลังเชื่อมต่อกับ assistant…</p>}
-              {lines.map((line) => (
-                <div key={line.id}>{line.text}</div>
+
               ))}
             </div>
             <form ref={formRef} onSubmit={onSubmit} style={{ borderTop: '1px solid #E2E8F0', padding: '12px 16px' }}>
