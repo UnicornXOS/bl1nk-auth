@@ -29,6 +29,12 @@ type PopoverTriggerProps = {
   children: ReactElement;
 };
 
+import { createContext, useContext, useCallback, useEffect, useLayoutEffect, useRef, useState, cloneElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import type { Ref, MutableRefObject, CSSProperties, MouseEventHandler } from 'react';
+
+// …rest of your file…
+
 function mergeRefs<T>(...refs: Array<Ref<T> | undefined>): (node: T | null) => void {
   return (node) => {
     refs.forEach((ref) => {
