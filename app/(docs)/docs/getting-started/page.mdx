@@ -1,0 +1,32 @@
+import { createElement } from 'react';
+
+export const metadata = { title: 'Getting Started' };
+
+export default function GettingStarted() {
+  return createElement(
+    'article',
+    { style: { display: 'grid', gap: '16px', maxWidth: '720px' } },
+    createElement('h1', null, 'Getting Started'),
+    createElement(
+      'section',
+      null,
+      createElement('h2', null, 'Install'),
+      createElement(
+        'pre',
+        { style: { background: '#0F172A', color: '#F8FAFC', padding: '16px', borderRadius: '12px' } },
+        'npm install\n',
+        'npm run dev'
+      )
+    ),
+    createElement(
+      'section',
+      null,
+      createElement('h2', null, 'Webhook Test'),
+      createElement(
+        'pre',
+        { style: { background: '#0F172A', color: '#F8FAFC', padding: '16px', borderRadius: '12px', overflowX: 'auto' } },
+        "curl -X POST https://<domain>/api/webhooks \\\n  -H \"x-webhook-signature: <WEBHOOK_SECRET>\" \\\n  -H \"content-type: application/json\" \\\n  -d '{ \"type\":\"ping\",\"data\":{\"ok\":true}}'"
+      )
+    )
+  );
+}
