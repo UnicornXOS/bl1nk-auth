@@ -189,6 +189,15 @@ function computePosition(
   };
 }
 
+function focusElement(element: HTMLElement): void {
+  try {
+    element.focus();
+  } catch (error) {
+    // Some elements may not be focusable in certain states
+    console.warn('[popover] failed to focus element', error);
+  }
+}
+
 export function PopoverContent({
   children,
   className,
@@ -236,6 +245,7 @@ export function PopoverContent({
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, [open, anchorRef, contentRef, side, align, sideOffset, alignOffset]);
+}
 
   useEffect(() => {
     if (!open) {
