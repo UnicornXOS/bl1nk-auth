@@ -10,12 +10,12 @@ async function ensureKeys() {
   const pubPem = process.env.AUTH_PUBLIC_KEY_PEM;
   kid = process.env.AUTH_KEY_KID || 'dev-key-1';
   if (privPem && pubPem) {
-    privateKey = await importPKCS8(privPem, 'RS256');
-    publicKey = await importSPKI(pubPem, 'RS256');
+    privateKey = (await importPKCS8(privPem, 'RS256')) as unknown as CryptoKey;
+    publicKey = (await importSPKI(pubPem, 'RS256')) as unknown as CryptoKey;
     return;
   }
   const { publicKey: pub, privateKey: prv } = await generateKeyPair('RS256');
-  privateKey = prv; publicKey = pub;
+  privateKey = prv as CryptoKey; publicKey = pub as CryptoKey;
 }
 
 export async function jwks() {
