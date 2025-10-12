@@ -33,6 +33,9 @@
       ],
       "next-auth/react": [
         "./stubs/next-auth/react"
+      ],
+      "next-themes": [
+        "./stubs/next-themes"
       ]
     }
     // ----------------------------------------------------
@@ -46,4 +49,3 @@
     "node_modules"
   ]
 }
-

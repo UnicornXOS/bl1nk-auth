@@ -2,17 +2,12 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 
-export default {
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb'
-    },
-    mdxRs: true
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  pageExtensions: ['ts', 'tsx', 'mdx'],
   webpack(config) {
     config.module.rules.push({
-      test: /\.mdx$/, 
+      test: /\.mdx$/,
       use: [
         {
           loader: require.resolve('./config/mdx-pass-through.js')
@@ -22,3 +17,5 @@ export default {
     return config;
   }
 };
+
+export default nextConfig;

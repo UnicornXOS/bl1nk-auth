@@ -5,33 +5,29 @@ export const metadata = { title: 'Introduction' };
 export default function Introduction() {
   return createElement(
     'article',
-    { style: { display: 'grid', gap: '16px', maxWidth: '720px' } },
-    createElement('h1', null, 'Introduction'),
+    { className: 'space-y-4 max-w-xl' },
+    createElement('h1', { className: 'text-2xl font-semibold' }, 'Introduction'),
     createElement(
       'p',
-      null,
+      { className: 'text-muted-foreground' },
       'Neon-like docs with ',
       createElement('strong', null, 'MDX'),
-      ', custom auth helpers, and SSE chat.'
+      ', shadcn/ui, and floating chat.'
     ),
     createElement(
       'ul',
-      null,
+      { className: 'space-y-2 text-sm' },
       createElement(
         'li',
         null,
-        'Webhook: ',
-        createElement('code', null, 'POST /api/webhooks')
+        'Context Service: ',
+        createElement('code', null, '/index'),
+        ', ',
+        createElement('code', null, '/search'),
+        ', ',
+        createElement('code', null, '/chat')
       ),
-      createElement('li', null, 'Auth: GitHub via the OAuth gateway'),
-      createElement(
-        'li',
-        null,
-        'Chat: ',
-        createElement('code', null, '/api/chat/stream'),
-        ' + ',
-        createElement('code', null, '/api/chat/ask')
-      )
+      createElement('li', null, 'Providers: ZAI / OpenRouter / Mistral')
     )
   );
 }
