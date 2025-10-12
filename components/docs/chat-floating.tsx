@@ -1,131 +1,97 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type { JSX } from 'react';
-import type { FormEvent } from 'react';
-import Button from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useEffect, useState } from 'react';
+import type { FormEvent, JSX } from 'react';
 
-}
+type ChatLine = {
+  role: 'you' | 'assistant' | 'error';
+  text: string;
+};
 
-let lineId = 0;
-
-function nextId(): number {
-  lineId += 1;
-  return lineId;
-}
-
-export default function ChatFloating(): JSX.Element {
+export function ChatFloating(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<ChatLine[]>([]);
-  const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
-    let active = true;
-    const ev = new EventSource('/api/chat/stream');
-    ev.onmessage = (event) => {
-      if (!active) {
-        return;
+    setLines([
+      {
+        role: 'assistant',
+        text: 'สวัสดีค่ะ! ถามฉันเกี่ยวกับระบบเอกสารหรือการตั้งค่า deployment ได้เลยนะคะ 💡'
       }
-      try {
-        const data = JSON.parse(event.data) as { type?: string; [key: string]: unknown };
-        if (data.type === 'ready') {
-
-        }
-      } catch (error) {
-        console.error('[chat-floating] invalid event payload', error);
-      }
-    };
-    ev.onerror = () => {
-      ev.close();
-      if (active) {
-
-          }
-        }, 1000);
-      }
-    };
-    return () => {
-      active = false;
-      ev.close();
-    };
+    ]);
   }, []);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const message = String(formData.get('q') ?? '').trim();
     if (!message) {
       return;
     }
+    form.reset();
+    setLines((current) => [...current, { role: 'you', text: message }]);
 
-    if (formRef.current) {
-      formRef.current.reset();
-    }
     try {
-      const response = await fetch('/api/chat/ask', {
+      const endpoint = process.env.NEXT_PUBLIC_CONTEXT_BASE
+        ? `${process.env.NEXT_PUBLIC_CONTEXT_BASE}/chat`
+        : '/api/chat-proxy';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({
+          userId: 'web',
+          provider: 'openrouter',
+          messages: [{ role: 'user', content: message }]
+        })
       });
-      if (!response.ok) {
-        throw new Error(`request failed: ${response.status}`);
-      }
-      const payload = (await response.json()) as { reply?: string };
-
+      const payload = (await response.json()) as { answer?: string };
+      setLines((current) => [
+        ...current,
+        { role: 'assistant', text: payload.answer ?? '(no answer)' }
+      ]);
+    } catch (error) {
+      const text = error instanceof Error ? error.message : 'unknown error';
+      setLines((current) => [...current, { role: 'error', text: `เกิดข้อผิดพลาด: ${text}` }]);
     }
-  }
+  };
 
   return (
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 50 }}>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button size="icon" aria-label="Open assistant">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-              <path
-                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Button>
-        </PopoverTrigger>
-
-          <div style={{ display: 'flex', flexDirection: 'column', height: '480px', width: '360px' }}>
-            <header style={{ padding: '16px', borderBottom: '1px solid #E2E8F0', fontSize: '14px', fontWeight: 600 }}>
-              Assistant • Docs
-            </header>
-            <div
-              style={{
-                flex: 1,
-                padding: '16px',
-                overflowY: 'auto',
-                display: 'grid',
-                gap: '8px',
-                fontSize: '14px',
-                color: '#1F2937'
-              }}
-            >
-
+    <div className="fixed bottom-5 right-5">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className="w-10 h-10 rounded-full shadow-lg bg-primary text-primary-foreground"
+        aria-expanded={open}
+        aria-label="Toggle chat assistant"
+      >
+        💬
+      </button>
+      {open && (
+        <div className="mt-2 w-[360px] h-[480px] rounded-lg border bg-background shadow-lg overflow-hidden">
+          <div className="flex h-full flex-col">
+            <header className="p-3 border-b text-sm font-semibold">Assistant</header>
+            <div className="flex-1 p-3 overflow-auto text-sm space-y-2">
+              {lines.map((line, index) => (
+                <div key={index} className="leading-relaxed">
+                  <span className="font-medium capitalize">{line.role}:</span>{' '}
+                  <span>{line.text}</span>
+                </div>
               ))}
             </div>
-            <form ref={formRef} onSubmit={onSubmit} style={{ borderTop: '1px solid #E2E8F0', padding: '12px 16px' }}>
+            <form onSubmit={handleSubmit} className="p-3 border-t">
               <input
                 name="q"
                 placeholder="ถามคำถาม…"
+                className="w-full bg-transparent outline-none text-sm"
                 autoComplete="off"
-                style={{
-                  width: '100%',
-                  border: 'none',
-                  outline: 'none',
-                  fontSize: '14px'
-                }}
               />
             </form>
           </div>
-        </PopoverContent>
-      </Popover>
+        </div>
+      )}
     </div>
   );
 }
 
-export { ChatFloating };
+export default ChatFloating;

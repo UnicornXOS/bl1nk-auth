@@ -5,27 +5,32 @@ export const metadata = { title: 'Getting Started' };
 export default function GettingStarted() {
   return createElement(
     'article',
-    { style: { display: 'grid', gap: '16px', maxWidth: '720px' } },
-    createElement('h1', null, 'Getting Started'),
+    { className: 'space-y-6 max-w-xl' },
+    createElement(
+      'header',
+      { className: 'space-y-2' },
+      createElement('h1', { className: 'text-2xl font-semibold' }, 'Getting Started'),
+      createElement('p', { className: 'text-sm text-muted-foreground' }, 'Install dependencies and ping the webhook endpoint.')
+    ),
     createElement(
       'section',
-      null,
-      createElement('h2', null, 'Install'),
+      { className: 'space-y-2' },
+      createElement('h2', { className: 'text-xl font-semibold' }, 'Install'),
       createElement(
         'pre',
-        { style: { background: '#0F172A', color: '#F8FAFC', padding: '16px', borderRadius: '12px' } },
+        { className: 'p-4 rounded-lg bg-card border text-sm overflow-auto' },
         'npm install\n',
         'npm run dev'
       )
     ),
     createElement(
       'section',
-      null,
-      createElement('h2', null, 'Webhook Test'),
+      { className: 'space-y-2' },
+      createElement('h2', { className: 'text-xl font-semibold' }, 'Webhook Test'),
       createElement(
         'pre',
-        { style: { background: '#0F172A', color: '#F8FAFC', padding: '16px', borderRadius: '12px', overflowX: 'auto' } },
-        "curl -X POST https://<domain>/api/webhooks \\\n  -H \"x-webhook-signature: <WEBHOOK_SECRET>\" \\\n  -H \"content-type: application/json\" \\\n  -d '{ \"type\":\"ping\",\"data\":{\"ok\":true}}'"
+        { className: 'p-4 rounded-lg bg-card border text-sm overflow-auto' },
+        "curl -X POST https://<domain>/api/webhook \\\n  -H \"x-webhook-secret: <WEBHOOK_SECRET>\" \\\n  -H \"content-type: application/json\" \\\n  -d '{ \"type\":\"ping\",\"data\":{\"ok\":true}}'"
       )
     )
   );

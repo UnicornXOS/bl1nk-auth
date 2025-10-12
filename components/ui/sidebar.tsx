@@ -1,22 +1,15 @@
 import type { JSX } from 'react';
+
 export default function Sidebar(): JSX.Element {
   return (
-    <div style={{ display: 'grid', gap: '12px' }}>
-      <div>
-        <p style={{ fontSize: '12px', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          Docs
-        </p>
-        <p style={{ marginTop: '4px', fontSize: '14px', color: '#0F172A' }}>
-          บริหาร OAuth, webhook และ SSE chat
-        </p>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <p className="text-xs uppercase text-muted-foreground font-semibold tracking-tight">Docs</p>
+        <p className="text-sm text-muted-foreground">บริหาร OAuth, webhook และ SSE chat</p>
       </div>
-      <div style={{ display: 'grid', gap: '8px' }}>
-        <div>
-          <p style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Overview
-          </p>
-        </div>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '6px', fontSize: '14px' }}>
+      <div className="space-y-2">
+        <p className="text-xs uppercase text-muted-foreground font-semibold tracking-tight">Overview</p>
+        <ul className="space-y-2 text-sm text-foreground">
           <li>Authentication</li>
           <li>Webhook Relay</li>
           <li>Chat Streaming</li>

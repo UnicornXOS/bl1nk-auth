@@ -25,8 +25,11 @@ async function readRefreshToken(): Promise<string | null> {
 function mapPayloadToSession(payload: JwtPayload): Session {
   const id = typeof payload.sub === 'string' ? payload.sub : undefined;
   const provider = typeof payload.provider === 'string' ? payload.provider : undefined;
+  const name = typeof payload.name === 'string' ? payload.name : undefined;
 
-    },
+  const user = id || name ? { id, name } : undefined;
+  return {
+    user,
     provider
   };
 }
