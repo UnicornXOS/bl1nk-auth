@@ -3,6 +3,15 @@
 import Link from 'next/link';
 import type { JSX } from 'react';
 
+/**
+ * Top navigation bar containing the brand, primary site links, and a login action.
+ *
+ * The bar is sticky to the top with a translucent background and backdrop blur. The
+ * main navigation links are hidden on small screens and shown at medium screen sizes
+ * and above.
+ *
+ * @returns A header element containing the site navigation and login action as JSX.
+ */
 export function SiteNavbar(): JSX.Element {
   return (
     <header className="sticky top-0 z-50 bg-background/60 backdrop-blur border-b">
