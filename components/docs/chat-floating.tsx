@@ -33,22 +33,18 @@ export function ChatFloating(): JSX.Element {
     setLines((current) => [...current, { role: 'you', text: message }]);
 
     try {
-      const endpoint = process.env.NEXT_PUBLIC_CONTEXT_BASE
-        ? `${process.env.NEXT_PUBLIC_CONTEXT_BASE}/chat`
-        : '/api/chat-proxy';
-      const response = await fetch(endpoint, {
+      const response = await fetch('/api/chat/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: 'web',
-          provider: 'openrouter',
-          messages: [{ role: 'user', content: message }]
-        })
+        body: JSON.stringify({ message })
       });
-      const payload = (await response.json()) as { answer?: string };
+      if (!response.ok) {
+        throw new Error(`request failed: ${response.status}`);
+      }
+      const payload = (await response.json()) as { reply?: string };
       setLines((current) => [
         ...current,
-        { role: 'assistant', text: payload.answer ?? '(no answer)' }
+        { role: 'assistant', text: payload.reply ?? '(no answer)' }
       ]);
     } catch (error) {
       const text = error instanceof Error ? error.message : 'unknown error';

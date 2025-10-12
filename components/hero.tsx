@@ -19,7 +19,7 @@ export function Hero(): JSX.Element {
           <Link href="/docs/getting-started" className="px-6 py-2 rounded bg-primary text-primary-foreground font-medium">
             เริ่มต้นใช้งาน
           </Link>
-          <Link href="/auth/login" className="px-6 py-2 rounded border font-medium text-primary">
+          <Link href="/login" className="px-6 py-2 rounded border font-medium text-primary">
             ล็อกอินด้วย GitHub
           </Link>
         </div>
