@@ -18,7 +18,7 @@ export function SiteNavbar(): JSX.Element {
           <Link href="/blog">Blog</Link>
         </nav>
         <div className="flex items-center gap-2">
-          <Link href="/auth/login" className="px-3 py-2 rounded border">Log in</Link>
+          <Link href="/login" className="px-3 py-2 rounded border">Log in</Link>
         </div>
       </div>
     </header>
