@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import type { JSX } from 'react';
 
+/**
+ * Render the hero section for the Webhook + Auth Toolkit landing area.
+ *
+ * @returns A JSX.Element containing a styled hero section with a badge, Thai title and description, and action links to the getting-started docs and GitHub login.
+ */
 export function Hero(): JSX.Element {
   return (
     <section className="relative overflow-hidden">

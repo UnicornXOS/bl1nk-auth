@@ -8,6 +8,14 @@ type ChatLine = {
   text: string;
 };
 
+/**
+ * Renders a floating chat assistant UI with a toggle button and message panel.
+ *
+ * The component initializes the conversation with a Thai assistant greeting, accepts user input,
+ * posts messages to /api/chat/ask, and appends assistant replies or error messages to the chat history.
+ *
+ * @returns The chat assistant UI as a JSX element
+ */
 export function ChatFloating(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<ChatLine[]>([]);
