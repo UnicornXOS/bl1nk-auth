@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ENV } from '@/lib/env';
 import { signJWT } from '@/lib/crypto';
 import { getClient, isReturnAllowed } from '@/lib/clients';
+import { decode as base64urlDecode } from 'jose/base64url';
 
 type Provider = 'github' | 'google';
 
@@ -13,10 +14,13 @@ type OAuthState = {
 };
 
 const CALLBACK_URL = `${ENV.ISSUER.replace(/\/$/, '')}/api/oauth/callback`;
+const STATE_MAX_AGE_MS = 10 * 60 * 1000;
+const textDecoder = new TextDecoder();
 
 function parseState(raw: string): OAuthState | null {
   try {
-    const decoded = JSON.parse(Buffer.from(raw, 'base64url').toString());
+    const decodedJson = textDecoder.decode(base64urlDecode(raw));
+    const decoded = JSON.parse(decodedJson);
     if (!decoded || typeof decoded !== 'object') return null;
     const client = (decoded as any).client;
     const ret = (decoded as any).ret;
@@ -88,6 +92,10 @@ export async function GET(req: NextRequest){
 
   const state = parseState(stateParam);
   if(!state) return NextResponse.json({error:'invalid_state'},{status:400});
+
+  if(!state.ts || Date.now() - state.ts > STATE_MAX_AGE_MS){
+    return NextResponse.json({error:'expired_state'},{status:400});
+  }
 
   const provider: Provider = state.provider ?? 'github';
   const clientCfg = getClient(state.client);

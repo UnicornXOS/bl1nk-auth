@@ -8,4 +8,11 @@ export const ENV = {
   PRIV: process.env.AUTH_PRIVATE_KEY_PEM ?? '',
   PUB: process.env.AUTH_PUBLIC_KEY_PEM ?? '',
   KID: process.env.AUTH_KEY_KID ?? 'dev-key-1',
+  WEBHOOK_SECRET: process.env.WEBHOOK_SECRET ?? '',
+  UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL ?? '',
+  UPSTASH_REDIS_TOKEN: process.env.UPSTASH_REDIS_TOKEN ?? '',
+  NOTION_API_KEY: process.env.NOTION_API_KEY ?? '',
+  NOTION_TASKS_DB_ID: process.env.NOTION_TASKS_DB_ID ?? '',
+  GITHUB_TOKEN: process.env.GITHUB_TOKEN ?? '',
+  LOGTAIL_TOKEN: process.env.LOGTAIL_TOKEN ?? '',
 };
