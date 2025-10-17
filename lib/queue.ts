@@ -23,6 +23,10 @@ function createRedisConnection(): IORedis {
     throw new Error('UPSTASH_REDIS_URL environment variable is not set');
   }
 
+  if (!ENV.UPSTASH_REDIS_TOKEN) {
+    throw new Error('UPSTASH_REDIS_TOKEN environment variable is not set');
+  }
+
   return new IORedis(ENV.UPSTASH_REDIS_URL, {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
