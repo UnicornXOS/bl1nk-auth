@@ -39,22 +39,29 @@ export async function processNotionWebhook(payload: unknown): Promise<void> {
   }
 
   const notion = getClient();
-  await notion.pages.create({
-    parent: { database_id: ENV.NOTION_TASKS_DB_ID },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: { content: data.title },
-          },
-        ],
+  try {
+    await notion.pages.create({
+      parent: { database_id: ENV.NOTION_TASKS_DB_ID },
+      properties: {
+        Name: {
+          title: [
+            {
+              text: { content: data.title },
+            },
+          ],
+        },
+        Status: {
+          select: { name: 'Pending' },
+        },
+        ...(data.properties ?? {}),
       },
-      Status: {
-        select: { name: 'Pending' },
-      },
-      ...(data.properties ?? {}),
-    },
-  });
+    });
+  } catch (err) {
+    const error = err as Error;
+    logger.error('Failed to create Notion page', { title: data.title, error: error.message });
+    throw error;
+  }
+  logger.info('Created Notion task from webhook', { title: data.title });
 
   logger.info('Created Notion task from webhook', { title: data.title });
 }
