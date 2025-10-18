@@ -7,8 +7,8 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'mdx'],
   async rewrites() {
     return [
-      // Map standard well-known JWKS endpoint to our folder without a dot
-      { source: '/.well-known/jwks.json', destination: '/.well-known/jwks' },
+      // Map standard well-known JWKS endpoint to API route to avoid Windows path issues
+      { source: '/.well-known/jwks.json', destination: '/api/jwks' },
     ];
   },
   webpack(config) {
