@@ -715,6 +715,8 @@ input {
   width: min(100%, 1100px);
   margin-inline: auto;
   font-size: 0.9rem;
+}
+
 .neon-navbar {
   position: sticky;
   top: 0;

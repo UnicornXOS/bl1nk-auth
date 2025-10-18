@@ -1,76 +1,82 @@
-import { auth } from '@/auth';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import type { JSX } from 'react';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+import DashboardShell, { type DashboardOverview } from '@/components/DashboardShell';
 
-const metrics = [
-  { label: 'Connected clients', value: '12', detail: 'GitHub, Google, GraphicAI' },
-  { label: 'Verified webhooks (24h)', value: '348', detail: '0 signature failures' },
-  { label: 'Active agents', value: '5', detail: 'Streaming responses live' }
-];
+interface User {
+  id?: string;
+  name?: string;
+  email?: string;
+}
 
-const upcoming = [
-  'Rotate signing key and publish JWKS metadata.',
-  'Enable rate limits on /api/webhooks for partner tier.',
-  'Invite teammates to monitor dashboards in real-time.'
-];
+async function getDashboardOverview(): Promise<DashboardOverview> {
+  return {
+    metrics: [
+      {
+        id: 'active-users',
+        labelTh: 'ผู้ใช้ที่ลงชื่อเข้าใช้',
+        labelEn: 'Active sessions',
+        value: '1,286',
+        trend: { direction: 'up', percentage: '+12%' }
+      },
+      {
+        id: 'webhook-delivery',
+        labelTh: 'การส่ง webhook ที่สำเร็จ',
+        labelEn: 'Webhook success',
+        value: '98.7%',
+        trend: { direction: 'up', percentage: '+2.1%' }
+      },
+      {
+        id: 'alerts',
+        labelTh: 'การแจ้งเตือนช่วง 24 ชม.',
+        labelEn: 'Alerts in window',
+        value: '5',
+        trend: { direction: 'flat', percentage: '0%' }
+      }
+    ],
+    queues: [
+      { name: 'Webhook Queue', pending: 18, maxPending: 200, status: 'healthy' },
+      { name: 'Email Notifications', pending: 54, maxPending: 150, status: 'warning' },
+      { name: 'Customer Imports', pending: 4, maxPending: 50, status: 'healthy' }
+    ],
+    activities: [
+      {
+        id: 'activity-1',
+        messageTh: 'ลูกค้าใหม่เชื่อม OAuth สำเร็จ (graphic-ai)',
+        messageEn: 'New client graphic-ai completed OAuth handshake.',
+        timestamp: 'วันนี้ · 09:24 น.',
+        status: 'success'
+      },
+      {
+        id: 'activity-2',
+        messageTh: 'Webhook retry รอบที่ 2 สำเร็จ (note)',
+        messageEn: 'Webhook retry cycle resolved for client note.',
+        timestamp: 'วันนี้ · 08:41 น.',
+        status: 'warning'
+      },
+      {
+        id: 'activity-3',
+        messageTh: 'มีการร้องขอสิทธิ์เพิ่ม (admin@finpeak.co)',
+        messageEn: 'Elevated access request pending approval.',
+        timestamp: 'เมื่อวาน · 19:12 น.',
+        status: 'warning'
+      }
+    ]
+  };
+}
 
-export default async function Dashboard(): Promise<JSX.Element> {
+export default async function DashboardPage() {
   const session = await auth();
   if (!session) {
-    redirect('/login');
+    redirect('/auth/login');
   }
-
-  const displayName = session.user?.name ?? 'Operator';
+  const overview = await getDashboardOverview();
 
   return (
-    <div className="page-shell">
-      <header className="page-header">
-        <span className="page-header__eyebrow">Control Center</span>
-        <h1 className="page-header__title">Welcome back, {displayName}</h1>
-        <p className="page-header__subtitle">
-          Observe OAuth handshakes, webhook relays, and agent streaming from one command surface. Secrets
-          stored in your environment power each module instantly.
-        </p>
-      </header>
-
-      <section className="surface-panel">
-        <h2 className="surface-panel__title">Live status</h2>
-        <p className="surface-panel__muted">
-          Snapshot of your most important automation metrics. Numbers update automatically once your
-          secrets are configured.
-        </p>
-        <div className="surface-panel__grid">
-          {metrics.map((metric) => (
-            <div key={metric.label} className="metric-chip">
-              <span className="metric-chip__label">{metric.label}</span>
-              <span className="metric-chip__value">{metric.value}</span>
-              <span className="panel-subcopy">{metric.detail}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="surface-panel">
-        <h2 className="surface-panel__title">Next actions</h2>
-        <p className="surface-panel__muted">
-          Keep automations humming—rotate keys, confirm webhook secrets, and onboard team members to your
-          dashboard.
-        </p>
-        <ul className="list-dots">
-          {upcoming.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: '1.5rem' }}>
-          <Link href="/docs/getting-started" className="pill-link">
-            Review deployment guide
-          </Link>
-          <Link href="/login" className="pill-link">
-            Manage sessions
-          </Link>
-        </div>
-      </section>
-    </div>
+    <DashboardShell
+      userName={session.user?.name ?? 'ทีมของคุณ'}
+      userEmail={(session.user as User)?.email ?? undefined}
+      overview={overview}
+    />
   );
 }
