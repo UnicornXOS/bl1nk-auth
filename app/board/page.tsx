@@ -1,48 +1,52 @@
 import type { JSX } from 'react';
+import Link from 'next/link';
 
 import AssistantPanel from '@/components/assistant-panel';
 import FileBoard from '@/components/file-board';
-import IconSidebar from '@/components/icon-sidebar';
+
+const tasks = [
+  'Sync latest Notion docs after deploy.',
+  'Confirm webhook retries succeeded overnight.',
+  'Share dashboard snapshot with teammates.'
+];
 
 export default function BoardPage(): JSX.Element {
   return (
-    <div className="md:pl-12">
-      <IconSidebar />
-      <div className="container py-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
-        <section className="space-y-4">
-          <h1 className="text-xl font-semibold">Board</h1>
-          <FileBoard files={['file1.txt', 'file2.txt', 'file3.txt', 'tasks.md', 'outline.md', 'notes.txt']} />
-          <div className="glass rounded-xl border border-white/10 p-4">
-            <h2 className="mb-2 text-sm font-medium">Chat</h2>
-            <div className="token mb-3 w-fit">Choosing an AI agent</div>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm text-white/80">
-              Hello! How can I assist you today?
-            </div>
-            <form className="mt-3">
-              <input
-                className="w-full rounded-lg border border-white/10 bg-black/30 p-3 outline-none"
-                placeholder="Type a message..."
-                autoComplete="off"
-                type="text"
-                name="board-message"
-                aria-label="Type a message"
-              />
-            </form>
-          </div>
-          <div className="glass rounded-xl border border-white/10 p-4">
-            <h2 className="text-sm font-medium">Agent</h2>
-            <button
-              type="button"
-              className="mt-3 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10"
-            >
-              + Add document
-            </button>
-          </div>
-        </section>
-        <aside className="space-y-4">
-          <AssistantPanel />
-        </aside>
-      </div>
+    <div className="page-shell">
+      <header className="page-header">
+        <span className="page-header__eyebrow">Workspace</span>
+        <h1 className="page-header__title">Operate your automation library</h1>
+        <p className="page-header__subtitle">
+          Access every document, checklist, and automation blueprint in one glowing cockpit. Changes flow
+          in right after you commit.
+        </p>
+      </header>
+
+      <section className="neon-grid">
+        <FileBoard files={['playbooks/rotation.md', 'docs/oauth.md', 'webhooks/retry-guide.md', 'agents/roadmap.md', 'handoff.txt', 'metrics.csv']} />
+        <AssistantPanel />
+      </section>
+
+      <section className="surface-panel">
+        <h2 className="surface-panel__title">Operator to-dos</h2>
+        <p className="surface-panel__muted">
+          Use this run queue to keep your automation surface fresh. Items clear when you update the docs in
+          GitHub.
+        </p>
+        <ul className="list-dots">
+          {tasks.map((task) => (
+            <li key={task}>{task}</li>
+          ))}
+        </ul>
+        <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: '1.5rem' }}>
+          <Link href="/docs" className="pill-link">
+            Open docs
+          </Link>
+          <Link href="/chat" className="pill-link">
+            Ask the assistant
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

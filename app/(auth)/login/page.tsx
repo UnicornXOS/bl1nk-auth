@@ -1,35 +1,75 @@
 'use client';
 
 import { useState } from 'react';
-import type { JSX } from 'react';
+import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import type { JSX } from 'react';
+
+type Provider = 'github' | 'google';
+
+const providers: Array<{ id: Provider; label: string; description: string; accent: string }> = [
+  {
+    id: 'github',
+    label: 'Continue with GitHub',
+    description: 'Use your GitHub OAuth app configured in .env to provision refresh tokens.',
+    accent: 'btn-gradient--violet'
+  },
+  {
+    id: 'google',
+    label: 'Continue with Google',
+    description: 'Federate users via Google OAuth; requires GOOGLE_CLIENT_ID/SECRET.',
+    accent: 'btn-gradient--cyan'
+  }
+];
 
 export default function Login(): JSX.Element {
-  const [loading, setLoading] = useState(false);
+  const [loadingProvider, setLoadingProvider] = useState<Provider | null>(null);
 
-  const handleSignIn = async () => {
-    setLoading(true);
+  const handleSignIn = async (provider: Provider) => {
+    setLoadingProvider(provider);
     try {
-      await signIn('github', { callbackUrl: '/board' });
+      await signIn(provider, { callbackUrl: '/dashboard' });
     } finally {
-      setLoading(false);
+      setLoadingProvider(null);
     }
   };
 
   return (
-    <section className="container max-w-md py-16">
-      <h1 className="text-2xl font-semibold">Log in</h1>
-      <p className="mt-2 text-sm text-white/70">
-        เชื่อมต่อ GitHub เพื่อเข้าถึงแดชบอร์ดและทดสอบ webhook
-      </p>
-      <button
-        type="button"
-        className="mt-6 w-full h-10 rounded bg-primary text-primary-foreground glow"
-        onClick={handleSignIn}
-        disabled={loading}
-      >
-        {loading ? 'Connecting…' : 'Continue with GitHub'}
-      </button>
-    </section>
+    <div className="page-shell">
+      <header className="page-header">
+        <span className="page-header__eyebrow">Access</span>
+        <h1 className="page-header__title">Sign in to Blink</h1>
+        <p className="page-header__subtitle">
+          Choose your OAuth provider. Once your environment variables are present, authentication lights up
+          instantly.
+        </p>
+      </header>
+
+      <section className="surface-panel">
+        <h2 className="surface-panel__title">Single sign-on</h2>
+        <p className="surface-panel__muted">
+          These buttons trigger the NextAuth handlers already wired into <code>/api/auth</code>. Ensure the
+          provider credentials are set in <code>.env.local</code> or in your deployment dashboard.
+        </p>
+        <div className="surface-panel__grid">
+          {providers.map((provider) => (
+            <button
+              key={provider.id}
+              type="button"
+              className={`btn-gradient ${provider.accent}`}
+              style={{ width: '100%' }}
+              onClick={() => handleSignIn(provider.id)}
+              disabled={loadingProvider !== null}
+            >
+              {loadingProvider === provider.id ? 'Connecting…' : provider.label}
+            </button>
+          ))}
+        </div>
+        <p className="panel-subcopy" style={{ marginTop: '1.5rem' }}>
+          Looking to test locally? Run <code>npm run dev</code>, set your secrets, and try the flows above. Need an
+          account? <Link href="/docs/getting-started">Follow the getting started guide</Link>.
+        </p>
+      </section>
+    </div>
   );
 }

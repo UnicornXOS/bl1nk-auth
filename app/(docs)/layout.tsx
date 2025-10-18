@@ -5,18 +5,23 @@ import type { ReactNode, JSX } from 'react';
 
 export default function DocsLayout({ children }: { children: ReactNode }): JSX.Element {
   return (
-    <div className="flex">
-      <aside className="hidden md:block w-64 border-r p-4 text-sm space-y-2">
+    <div className="docs-shell">
+      <aside className="docs-shell__nav">
         <Sidebar />
-        <nav className="space-y-2">
-          <Link href="/docs">Introduction</Link>
-          <Link href="/docs/getting-started">Getting Started</Link>
+        <div className="docs-nav__heading">Guides</div>
+        <nav className="docs-nav__section">
+          <Link className="docs-nav__link" href="/docs">
+            Introduction
+          </Link>
+          <Link className="docs-nav__link" href="/docs/getting-started">
+            Getting Started
+          </Link>
         </nav>
       </aside>
-      <div className="flex-1 min-h-dvh p-6">
-        {children}
+      <main className="docs-shell__main">
+        <div className="docs-article">{children}</div>
         <ChatFloating />
-      </div>
+      </main>
     </div>
   );
 }

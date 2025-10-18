@@ -15,6 +15,8 @@ async function ensureKeys() {
     return;
   }
   const { publicKey: pub, privateKey: prv } = await generateKeyPair('RS256');
+  publicKey = pub;
+  privateKey = prv;
 }
 
 export async function jwks() {

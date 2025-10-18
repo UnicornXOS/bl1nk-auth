@@ -21,5 +21,22 @@
     "@types/react": "19.1.16",
     "tsx": "^4.20.6",
     "typescript": "5.6.2"
-  }
+  },
+  "description": "ศูนย์ล็อกอินกลางสำหรับหลายงาน ออก JWT + Refresh และ JWKS",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UnicornXOS/bl1nk-auth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/UnicornXOS/bl1nk-auth/issues"
+  },
+  "homepage": "https://github.com/UnicornXOS/bl1nk-auth#readme"
 }
