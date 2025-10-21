@@ -90,12 +90,18 @@ function parseForwarded(header: string | null): string | null {
 }
 
 function resolveClientIp(request: NextRequest): string {
-  const headerOrder = [
-    () => firstHeaderValue(request.headers.get('x-forwarded-for')),
-    () => parseForwarded(request.headers.get('forwarded')),
-    () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
-    () => firstHeaderValue(request.headers.get('x-real-ip')),
-    () => firstHeaderValue(request.headers.get('x-client-ip')),
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  const forwarded = request.headers.get('forwarded');
+  const cfConnectingIp = request.headers.get('cf-connecting-ip');
+  const xRealIp = request.headers.get('x-real-ip');
+  const xClientIp = request.headers.get('x-client-ip');
+
+  const headerOrder: Array<() => string | null> = [
+    () => firstHeaderValue(xForwardedFor),
+    () => parseForwarded(forwarded),
+    () => firstHeaderValue(cfConnectingIp),
+    () => firstHeaderValue(xRealIp),
+    () => firstHeaderValue(xClientIp),
   ];
 
   for (const resolver of headerOrder) {
