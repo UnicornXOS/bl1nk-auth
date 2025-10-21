@@ -68,9 +68,12 @@ function extractIpv4(candidate: string): string | null {
   return normalizedParts.join('.');
 }
 
-function sanitizeIp(ip: string): string {
+function sanitizeIp(ip: string): string | null {
   const trimmed = ip.trim();
+  if (trimmed.length === 0 || trimmed.length > 200) return null;
   const unwrapped = stripWrappingCharacters(trimmed);
+  // small safety check after unwrapping
+  if (unwrapped.length === 0 || unwrapped.length > 200) return null;
   const ipv4 = extractIpv4(unwrapped);
   if (ipv4) {
     return ipv4;
