@@ -1,4 +1,4 @@
-import { Queue, Worker } from 'bullmq';
+import { Queue, Worker, type Job } from 'bullmq';
 import IORedis from 'ioredis';
 
 import { ENV } from '@/lib/env';
@@ -18,13 +18,15 @@ export type WebhookJob = {
   timestamp: number;
 };
 
-function createRedisConnection(): IORedis {
-  if (!ENV.UPSTASH_REDIS_URL) {
-    throw new Error('UPSTASH_REDIS_URL environment variable is not set');
-  }
+let missingRedisWarningLogged = false;
 
-  if (!ENV.UPSTASH_REDIS_TOKEN) {
-    throw new Error('UPSTASH_REDIS_TOKEN environment variable is not set');
+function createRedisConnection(): IORedis | null {
+  if (!ENV.UPSTASH_REDIS_URL || !ENV.UPSTASH_REDIS_TOKEN) {
+    if (!missingRedisWarningLogged) {
+      logger.warn('Queue disabled - missing Upstash Redis credentials');
+      missingRedisWarningLogged = true;
+    }
+    return null;
   }
 
   return new IORedis(ENV.UPSTASH_REDIS_URL, {
@@ -35,21 +37,39 @@ function createRedisConnection(): IORedis {
   });
 }
 
-export const webhookQueue = new Queue<WebhookJob>('webhook-queue', {
-  connection: createRedisConnection(),
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: { type: 'exponential', delay: 2000 },
-    removeOnComplete: 100,
-    removeOnFail: 20,
-  },
-});
+function createQueue(): Queue<WebhookJob> | null {
+  const connection = createRedisConnection();
+  if (!connection) {
+    return null;
+  }
+
+  return new Queue<WebhookJob>('webhook-queue', {
+    connection,
+    defaultJobOptions: {
+      attempts: 3,
+      backoff: { type: 'exponential', delay: 2000 },
+      removeOnComplete: 100,
+      removeOnFail: 20,
+    },
+  });
+}
+
+export const webhookQueue = createQueue();
 
 export async function addWebhookToQueue(job: WebhookJob): Promise<void> {
+  if (!webhookQueue) {
+    throw new Error('Queue is disabled - missing Upstash Redis credentials');
+  }
+
   await webhookQueue.add('webhook-job', job);
 }
 
 export function createWorker(): Worker<WebhookJob> {
+  const connection = createRedisConnection();
+  if (!connection) {
+    throw new Error('Queue is disabled - cannot create worker');
+  }
+
   const worker = new Worker<WebhookJob>(
     'webhook-queue',
     async (job) => {
@@ -80,7 +100,7 @@ export function createWorker(): Worker<WebhookJob> {
     },
     {
       autorun: false,
-      connection: createRedisConnection(),
+      connection,
     },
   );
 
@@ -103,6 +123,10 @@ export async function getQueueStats(): Promise<{
   failed: number;
   total: number;
 }> {
+  if (!webhookQueue) {
+    throw new Error('Queue is disabled - missing Upstash Redis credentials');
+  }
+
   const [waiting, active, completed, failed] = await Promise.all([
     webhookQueue.getWaitingCount(),
     webhookQueue.getActiveCount(),
@@ -117,4 +141,13 @@ export async function getQueueStats(): Promise<{
     failed,
     total: waiting + active + completed + failed,
   };
+}
+
+export async function getRecentFailedJobs(limit: number): Promise<Job<WebhookJob>[]> {
+  if (!webhookQueue) {
+    throw new Error('Queue is disabled - missing Upstash Redis credentials');
+  }
+
+  const end = Math.max(limit - 1, 0);
+  return webhookQueue.getFailed(0, end);
 }

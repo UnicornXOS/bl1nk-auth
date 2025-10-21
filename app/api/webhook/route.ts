@@ -17,12 +17,117 @@ function resolveProvider(raw: string | null): SupportedProvider | null {
   return null;
 }
 
+function stripWrappingCharacters(value: string): string {
+  let start = 0;
+  let end = value.length;
+
+  const opens = ['"', "'", '[', '<', '('];
+  const closes = ['"', "'", ']', '>', ')'];
+
+  while (start < end && opens.includes(value[start])) {
+    start += 1;
+  }
+
+  while (end > start && closes.includes(value[end - 1])) {
+    end -= 1;
+  }
+
+  return value.slice(start, end).trim();
+}
+
+function extractIpv4(candidate: string): string | null {
+  const withoutPort = candidate.split(':', 1)[0] ?? candidate;
+  if (withoutPort.length > 45) return null;
+  const parts = withoutPort.split('.');
+
+  if (parts.length !== 4) {
+    return null;
+  }
+
+  const normalizedParts: string[] = [];
+  for (const part of parts) {
+    if (part.length === 0 || part.length > 3) {
+      return null;
+    }
+
+    for (let i = 0; i < part.length; i += 1) {
+      const code = part.charCodeAt(i);
+      if (code < 48 || code > 57) {
+        return null;
+      }
+    }
+
+    const value = Number(part);
+    if (Number.isNaN(value) || value < 0 || value > 255) {
+      return null;
+    }
+
+    normalizedParts.push(String(value));
+  }
+
+  return normalizedParts.join('.');
+}
+
+function sanitizeIp(ip: string): string | null {
+  const trimmed = ip.trim();
+  if (trimmed.length === 0 || trimmed.length > 200) return null;
+  const unwrapped = stripWrappingCharacters(trimmed);
+  // small safety check after unwrapping
+  if (unwrapped.length === 0 || unwrapped.length > 200) return null;
+  const ipv4 = extractIpv4(unwrapped);
+  if (ipv4) {
+    return ipv4;
+  }
+
+  return unwrapped;
+}
+
+function firstHeaderValue(header: string | null): string | null {
+  if (!header) return null;
+  for (const segment of header.split(',')) {
+    const candidate = segment.trim();
+    if (candidate) {
+      const sanitized = sanitizeIp(candidate);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
+function parseForwarded(header: string | null): string | null {
+  if (!header) return null;
+  const entries = header.split(',');
+  for (const entry of entries) {
+    const match = entry.match(/for=([^;]+)/i);
+    if (match?.[1]) {
+      const sanitized = sanitizeIp(match[1]);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
 function resolveClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0]?.trim() || 'unknown';
-  const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  if (cfConnectingIp) return cfConnectingIp;
-  return request.ip ?? 'unknown';
+  const headerOrder = [
+    () => firstHeaderValue(request.headers.get('x-forwarded-for')),
+    () => parseForwarded(request.headers.get('forwarded')),
+    () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
+    () => firstHeaderValue(request.headers.get('x-real-ip')),
+    () => firstHeaderValue(request.headers.get('x-client-ip')),
+  ];
+
+  for (const resolver of headerOrder) {
+    const value = resolver();
+    if (value) {
+      return value;
+    }
+  }
+
+  return 'unknown';
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
