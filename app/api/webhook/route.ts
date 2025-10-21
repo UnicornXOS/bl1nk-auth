@@ -21,11 +21,14 @@ function stripWrappingCharacters(value: string): string {
   let start = 0;
   let end = value.length;
 
-  while (start < end && (value[start] === '"' || value[start] === "'" || value[start] === '[')) {
+  const opens = ['"', "'", '[', '<', '('];
+  const closes = ['"', "'", ']', '>', ')'];
+
+  while (start < end && opens.includes(value[start])) {
     start += 1;
   }
 
-  while (end > start && (value[end - 1] === '"' || value[end - 1] === "'" || value[end - 1] === ']')) {
+  while (end > start && closes.includes(value[end - 1])) {
     end -= 1;
   }
 
