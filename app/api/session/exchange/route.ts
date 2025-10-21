@@ -29,6 +29,6 @@ export async function POST(req: NextRequest){
 }
 
 // Add an OPTIONS handler for preflight requests from the browser
-export async function OPTIONS(req: NextRequest) {
+export async function OPTIONS(_req: NextRequest) {
   return createCorsResponse({}, 200);
 }
