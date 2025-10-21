@@ -1,8 +1,8 @@
 import './globals.css';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode, JSX } from 'react';
-import { SiteNavbar } from '@/components/site-navbar';
-import { SiteFooter } from '@/components/site-footer';
+import SiteNavbar from '@/components/layout/SiteNavbar';
+import SiteFooter from '@/components/layout/SiteFooter';
 
 export const metadata = {
   title: 'bl1nk-auth',
