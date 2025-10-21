@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
-import DashboardShell, { type DashboardOverview } from '@/components/dashboard/DashboardShell';
+import DashboardShell, { type DashboardOverview } from '@/components/ui/dashboard-shell';
 
 interface User {
   id?: string;
@@ -80,3 +80,4 @@ export default async function DashboardPage() {
     />
   );
 }
+
