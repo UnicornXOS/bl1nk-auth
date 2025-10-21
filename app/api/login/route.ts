@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ENV } from '@/lib/env';
 import { getClient, isReturnAllowed } from '@/lib/clients';
+import { encode as base64urlEncode } from 'jose/base64url';
 
 type Provider = 'github' | 'google';
 
@@ -32,7 +33,8 @@ export async function GET(req: NextRequest){
     return NextResponse.json({ error: 'provider_not_configured' }, { status: 500 });
   }
 
-  const state = Buffer.from(JSON.stringify({client, ret, provider, ts: Date.now()})).toString('base64url');
+  const statePayload = JSON.stringify({ client, ret, provider, ts: Date.now() });
+  const state = base64urlEncode(statePayload);
   const redirectUri = `${ENV.ISSUER.replace(/\/$/, '')}/api/oauth/callback`;
 
   if (provider === 'github') {

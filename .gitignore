@@ -14,9 +14,9 @@ yarn-error.log*
 
 # Misc
 .DS_Store
-.kilocode/mcp.json
 
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
+.kilocode/mcp.json
 .vscode/extensions.json
