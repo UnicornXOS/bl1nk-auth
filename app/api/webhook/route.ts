@@ -18,24 +18,46 @@ function resolveProvider(raw: string | null): SupportedProvider | null {
 }
 
 function sanitizeIp(ip: string): string {
-  const trimmed = ip.trim();
+  if (!ip) return '';
+  // trim and remove surrounding quotes first
+  let trimmed = ip.trim().replace(/^['"]+|['"]+$/g, '').trim();
 
+  // If bracketed IPv6 like [::1] or [::1]:1234, extract inside brackets and drop zone id
   if (trimmed.startsWith('[')) {
     const closingIndex = trimmed.indexOf(']');
     if (closingIndex > 0) {
-      return trimmed.slice(1, closingIndex);
+      const inside = trimmed.slice(1, closingIndex);
+      return inside.split('%')[0]; // drop zone id if present
     }
   }
 
-  const withoutQuotes = trimmed.replace(/^['"]+|['"]+$/g, '');
-  const withoutBrackets = withoutQuotes.replace(/^\[|\]$/g, '').trim();
-
-  const ipv4Match = withoutBrackets.match(/^(\d{1,3}(?:\.\d{1,3}){3})(?::\d+)?$/);
+  // IPv4 with optional port (e.g. 1.2.3.4:5678) — validate octets <= 255
+  const ipv4Match = trimmed.match(/^(\d{1,3}(?:\.\d{1,3}){3})(?::\d+)?$/);
   if (ipv4Match) {
-    return ipv4Match[1];
+    const octets = ipv4Match[1].split('.').map(n => Number(n));
+    if (octets.length === 4 && octets.every(o => o >= 0 && o <= 255)) {
+      return octets.join('.');
+    }
   }
 
-  return withoutBrackets;
+  // Strip a trailing numeric port for non-bracketed addresses when clearly present
+  const lastColon = trimmed.lastIndexOf(':');
+  if (lastColon > -1) {
+    const possiblePort = trimmed.slice(lastColon + 1);
+    // If possiblePort is purely digits and there is at least one other colon (likely IPv6) treat port removal carefully:
+    if (/^\d+$/.test(possiblePort) && trimmed.indexOf(':') !== lastColon) {
+      trimmed = trimmed.slice(0, lastColon);
+    } else if (/^\d+$/.test(possiblePort) && trimmed.indexOf(':') === lastColon) {
+      // non-colon separated (unlikely) but remove port if it appears to be appended to IPv4
+      trimmed = trimmed.slice(0, lastColon);
+    }
+  }
+
+  // Remove zone id if present (e.g. fe80::1%eth0)
+  trimmed = trimmed.split('%')[0];
+
+  // Remove any remaining surrounding brackets and return
+  return trimmed.replace(/^\[|\]$/g, '').trim();
 }
 
 function firstHeaderValue(header: string | null): string | null {
