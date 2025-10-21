@@ -5,7 +5,7 @@ export function getClient(client: string|undefined){
 }
 export function isReturnAllowed(clientCfg:any, ret:string){
   try{
-    const url = new URL(ret);
+    new URL(ret);
     return clientCfg.returns.some((r:string)=> ret.startsWith(r));
   }catch{ return false; }
 }
