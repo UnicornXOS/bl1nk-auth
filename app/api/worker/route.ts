@@ -10,7 +10,20 @@ const MAX_PROCESSING_TIME = 9000;
 
 export async function GET(): Promise<NextResponse> {
   const start = Date.now();
-  const worker = createWorker();
+  let worker: ReturnType<typeof createWorker> | null = null;
+
+  try {
+    worker = createWorker();
+  } catch (err) {
+    const error = err as Error;
+    logger.error('Unable to start worker - queue unavailable', { error: error.message });
+    return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
+  }
+
+  if (!worker) {
+    return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
+  }
+
   let processed = 0;
 
   worker.on('completed', () => {
@@ -55,6 +68,8 @@ export async function GET(): Promise<NextResponse> {
     logger.error('Worker processing failed', { error: error.message });
     return NextResponse.json({ error: 'worker_failed' }, { status: 500 });
   } finally {
-    await worker.close();
+    if (worker) {
+      await worker.close();
+    }
   }
 }

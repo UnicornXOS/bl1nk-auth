@@ -17,12 +17,73 @@ function resolveProvider(raw: string | null): SupportedProvider | null {
   return null;
 }
 
+function sanitizeIp(ip: string): string {
+  const trimmed = ip.trim();
+
+  if (trimmed.startsWith('[')) {
+    const closingIndex = trimmed.indexOf(']');
+    if (closingIndex > 0) {
+      return trimmed.slice(1, closingIndex);
+    }
+  }
+
+  const withoutQuotes = trimmed.replace(/^['"]+|['"]+$/g, '');
+  const withoutBrackets = withoutQuotes.replace(/^\[|\]$/g, '').trim();
+
+  const ipv4Match = withoutBrackets.match(/^(\d{1,3}(?:\.\d{1,3}){3})(?::\d+)?$/);
+  if (ipv4Match) {
+    return ipv4Match[1];
+  }
+
+  return withoutBrackets;
+}
+
+function firstHeaderValue(header: string | null): string | null {
+  if (!header) return null;
+  for (const segment of header.split(',')) {
+    const candidate = segment.trim();
+    if (candidate) {
+      const sanitized = sanitizeIp(candidate);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
+function parseForwarded(header: string | null): string | null {
+  if (!header) return null;
+  const entries = header.split(',');
+  for (const entry of entries) {
+    const match = entry.match(/for=([^;]+)/i);
+    if (match?.[1]) {
+      const sanitized = sanitizeIp(match[1]);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
 function resolveClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0]?.trim() || 'unknown';
-  const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  if (cfConnectingIp) return cfConnectingIp;
-  return request.ip ?? 'unknown';
+  const headerOrder = [
+    () => firstHeaderValue(request.headers.get('x-forwarded-for')),
+    () => parseForwarded(request.headers.get('forwarded')),
+    () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
+    () => firstHeaderValue(request.headers.get('x-real-ip')),
+    () => firstHeaderValue(request.headers.get('x-client-ip')),
+  ];
+
+  for (const resolver of headerOrder) {
+    const value = resolver();
+    if (value) {
+      return value;
+    }
+  }
+
+  return 'unknown';
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
