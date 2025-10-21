@@ -37,12 +37,14 @@ function stripWrappingCharacters(value: string): string {
 
 function extractIpv4(candidate: string): string | null {
   const withoutPort = candidate.split(':', 1)[0] ?? candidate;
+  if (withoutPort.length > 45) return null;
   const parts = withoutPort.split('.');
 
   if (parts.length !== 4) {
     return null;
   }
 
+  const normalizedParts: string[] = [];
   for (const part of parts) {
     if (part.length === 0 || part.length > 3) {
       return null;
@@ -59,9 +61,11 @@ function extractIpv4(candidate: string): string | null {
     if (Number.isNaN(value) || value < 0 || value > 255) {
       return null;
     }
+
+    normalizedParts.push(String(value));
   }
 
-  return parts.join('.');
+  return normalizedParts.join('.');
 }
 
 function sanitizeIp(ip: string): string {
