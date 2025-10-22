@@ -62,6 +62,4 @@ export async function processNotionWebhook(payload: unknown): Promise<void> {
     throw error;
   }
   logger.info('Created Notion task from webhook', { title: data.title });
-
-  logger.info('Created Notion task from webhook', { title: data.title });
 }
