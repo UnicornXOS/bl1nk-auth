@@ -33,8 +33,10 @@ function stripWrappingCharacters(value: string): string {
 }
 
 function extractIpv4(candidate: string): string | null {
-  const withoutPort = candidate.split(':', 1)[0] ?? candidate;
-  const parts = withoutPort.split('.');
+  const match = candidate.match(/(\d{1,3}(?:\.\d{1,3}){3})/);
+  if (!match) return null;
+  const ip = match[1];
+  const parts = ip.split('.');
 
   if (parts.length !== 4) {
     return null;
