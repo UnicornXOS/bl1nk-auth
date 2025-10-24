@@ -18,18 +18,27 @@ function resolveProvider(raw: string | null): SupportedProvider | null {
 }
 
 function stripWrappingCharacters(value: string): string {
+  const trimmed = value.trim();
   let start = 0;
-  let end = value.length;
+  let end = trimmed.length;
 
-  while (start < end && (value[start] === '"' || value[start] === "'" || value[start] === '[')) {
-    start += 1;
+  // Only strip matching pairs: matching quotes or matching square brackets.
+  while (start < end) {
+    const startChar = trimmed[start];
+    const endChar = trimmed[end - 1];
+
+    if ((startChar === '"' && endChar === '"') ||
+        (startChar === "'" && endChar === "'") ||
+        (startChar === '[' && endChar === ']')) {
+      start += 1;
+      end -= 1;
+      continue;
+    }
+
+    break;
   }
 
-  while (end > start && (value[end - 1] === '"' || value[end - 1] === "'" || value[end - 1] === ']')) {
-    end -= 1;
-  }
-
-  return value.slice(start, end).trim();
+  return trimmed.slice(start, end).trim();
 }
 
 function extractIpv4(candidate: string): string | null {
