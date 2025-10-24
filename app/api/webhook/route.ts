@@ -17,12 +17,123 @@ function resolveProvider(raw: string | null): SupportedProvider | null {
   return null;
 }
 
+function stripWrappingCharacters(value: string): string {
+  let start = 0;
+  let end = value.length;
+
+  while (start < end && (value[start] === '"' || value[start] === "'" || value[start] === '[')) {
+    start += 1;
+  }
+
+  while (end > start && (value[end - 1] === '"' || value[end - 1] === "'" || value[end - 1] === ']')) {
+    end -= 1;
+  }
+
+  return value.slice(start, end).trim();
+}
+
+function extractIpv4(candidate: string): string | null {
+  const withoutPort = candidate.split(':', 1)[0] ?? candidate;
+  const parts = withoutPort.split('.');
+
+  if (parts.length !== 4) {
+    return null;
+  }
+
+  for (const part of parts) {
+    if (part.length === 0 || part.length > 3) {
+      return null;
+    }
+
+    for (let i = 0; i < part.length; i += 1) {
+      const code = part.charCodeAt(i);
+      if (code < 48 || code > 57) {
+        return null;
+      }
+    }
+
+    const value = Number(part);
+    if (Number.isNaN(value) || value < 0 || value > 255) {
+      return null;
+    }
+  }
+
+  return parts.join('.');
+}
+
+function sanitizeIp(ip: string): string {
+  const trimmed = ip.trim();
+  const unwrapped = stripWrappingCharacters(trimmed);
+  const ipv4 = extractIpv4(unwrapped);
+  if (ipv4) {
+    return ipv4;
+  }
+
+  return unwrapped;
+}
+
+function firstHeaderValue(header: string | null): string | null {
+  if (!header) return null;
+  for (const segment of header.split(',')) {
+    const candidate = segment.trim();
+    if (candidate) {
+      const sanitized = sanitizeIp(candidate);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
+function parseForwarded(header: string | null): string | null {
+  if (!header) return null;
+  for (const entry of header.split(',')) {
+    const trimmedEntry = entry.trim();
+    if (!trimmedEntry) continue;
+
+    for (const part of trimmedEntry.split(';')) {
+      const separatorIndex = part.indexOf('=');
+      if (separatorIndex === -1) {
+        continue;
+      }
+
+      const key = part.slice(0, separatorIndex).trim().toLowerCase();
+      if (key !== 'for') {
+        continue;
+      }
+
+      const rawValue = part.slice(separatorIndex + 1).trim();
+      if (!rawValue) {
+        continue;
+      }
+
+      const sanitized = sanitizeIp(rawValue);
+      if (sanitized) {
+        return sanitized;
+      }
+    }
+  }
+  return null;
+}
+
 function resolveClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0]?.trim() || 'unknown';
-  const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  if (cfConnectingIp) return cfConnectingIp;
-  return request.ip ?? 'unknown';
+  const headerOrder = [
+    () => firstHeaderValue(request.headers.get('x-forwarded-for')),
+    () => parseForwarded(request.headers.get('forwarded')),
+    () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
+    () => firstHeaderValue(request.headers.get('x-real-ip')),
+    () => firstHeaderValue(request.headers.get('x-client-ip')),
+  ];
+
+  for (const resolver of headerOrder) {
+    const value = resolver();
+    if (value) {
+      return value;
+    }
+  }
+
+  return 'unknown';
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
