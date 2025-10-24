@@ -148,6 +148,7 @@ export async function getRecentFailedJobs(limit: number): Promise<Job<WebhookJob
     throw new Error('Queue is disabled - missing Upstash Redis credentials');
   }
 
-  const end = Math.max(limit - 1, 0);
+  if (limit <= 0) return [];
+  const end = limit - 1;
   return webhookQueue.getFailed(0, end);
 }
