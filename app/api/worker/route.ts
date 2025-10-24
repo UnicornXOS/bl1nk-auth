@@ -18,7 +18,7 @@ export async function GET(): Promise<NextResponse> {
     worker = createWorker();
   } catch (err) {
     const error = err as Error;
-    logger.error('Unable to start worker - queue unavailable', { error: error.message });
+    logger.error('Unable to start worker - queue unavailable', { error: { message: error.message, stack: error.stack } });
     return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
   }
 
