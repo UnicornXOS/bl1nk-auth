@@ -42,29 +42,26 @@ function stripWrappingCharacters(value: string): string {
 }
 
 function extractIpv4(candidate: string): string | null {
-  const withoutPort = candidate.split(':', 1)[0] ?? candidate;
-  const parts = withoutPort.split('.');
+  const trimmed = candidate.trim();
 
-  if (parts.length !== 4) {
+  // If it's a bracketed address (likely IPv6) don't treat it as IPv4.
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
     return null;
   }
 
+  // Capture the address portion before an optional :port suffix (but avoid naive splitting that breaks on IPv6-like input).
+  const hostMatch = trimmed.match(/^([^:]+)(?::\d+)?$/);
+  if (!hostMatch) return null;
+  const withoutPort = hostMatch[1];
+
+  const parts = withoutPort.split('.');
+  if (parts.length !== 4) return null;
+
   for (const part of parts) {
-    if (part.length === 0 || part.length > 3) {
-      return null;
-    }
-
-    for (let i = 0; i < part.length; i += 1) {
-      const code = part.charCodeAt(i);
-      if (code < 48 || code > 57) {
-        return null;
-      }
-    }
-
+    // allow only 1-3 digit decimal parts
+    if (!/^\d{1,3}$/.test(part)) return null;
     const value = Number(part);
-    if (Number.isNaN(value) || value < 0 || value > 255) {
-      return null;
-    }
+    if (!Number.isInteger(value) || value < 0 || value > 255) return null;
   }
 
   return parts.join('.');
