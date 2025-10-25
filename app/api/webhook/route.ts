@@ -26,8 +26,8 @@ function sanitizeIp(ip: string): string {
   if (trimmed.startsWith('[')) {
     const closingIndex = trimmed.indexOf(']');
     if (closingIndex > 0) {
-      const inside = trimmed.slice(1, closingIndex);
-      return inside.split('%')[0]; // drop zone id if present
+      const inside = trimmed.slice(1, closingIndex).split('%')[0].trim();
+      return inside;
     }
   }
 
