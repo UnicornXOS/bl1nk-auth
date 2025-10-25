@@ -69,7 +69,12 @@ export async function GET(): Promise<NextResponse> {
     return NextResponse.json({ error: 'worker_failed' }, { status: 500 });
   } finally {
     if (worker) {
-      await worker.close();
+      try {
+        await worker.close();
+      } catch (closeErr) {
+        const message = closeErr instanceof Error ? closeErr.message : String(closeErr);
+        logger.error('Failed to close worker', { error: message });
+      }
     }
   }
 }
