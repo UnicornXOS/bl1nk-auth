@@ -72,7 +72,7 @@ export async function POST(req: NextRequest): Promise<Response> {
     return new Response(JSON.stringify({
       success: true,
       message: 'Code review job enqueued successfully',
-      jobId: `code-review-${repository}-${pullRequest}-${Date.now()}`,
+      jobId: `code-review-${repository}-${job.pullRequest}-${Date.now()}`,
       estimatedTime: '2-5 minutes'
     }), {
       status: 202,
