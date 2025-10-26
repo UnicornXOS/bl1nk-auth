@@ -93,11 +93,13 @@ npm install @slack/web-api
 ```javascript
 import { sendSecurityNotification } from '@/lib/integrations/slack';
 
-// Send a security alert
-await sendSecurityNotification(
-  'Suspicious login detected from IP 192.168.1.100',
-  '#security'
-);
+(async () => {
+  // Send a security alert
+  await sendSecurityNotification(
+    'Suspicious login detected from IP 192.168.1.100',
+    '#security'
+  );
+})();
 ```
 
 ### Code Review Requests
