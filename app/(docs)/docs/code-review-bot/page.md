@@ -43,8 +43,7 @@ STYLE_CHECK_ENABLED=true
 2. เพิ่ม webhook ใหม่:
    - **Payload URL**: `https://your-domain.com/api/github/webhook`
    - **Content type**: `application/json`
-   - **Secret**: ใช้ค่าจาก `GITHUB_WEBHOOK_SECRET`
-   - **Events**: เลือก `Pull requests` และ `Pushes`
+   - **Events**: เลือกเหตุการณ์ `pull_request` และ `push` (ใช้ชื่อตาม GitHub API เพื่อหลีกเลี่ยงความสับสน)
 
 ## การใช้งาน
 
