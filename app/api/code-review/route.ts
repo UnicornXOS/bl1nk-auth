@@ -52,7 +52,7 @@ export async function POST(req: NextRequest): Promise<Response> {
     const job = {
       provider: 'code-review' as const,
       repository,
-      pullRequest: parseInt(pullRequest.toString()),
+      pullRequest: parseInt(pullRequest.toString(), 10),
       author,
       branch,
       baseBranch: baseBranch || 'main',
