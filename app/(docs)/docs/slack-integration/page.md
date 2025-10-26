@@ -66,7 +66,8 @@ Add these variables to your `.env.local` file:
 # Slack Integration
 SLACK_SIGNING_SECRET=your_signing_secret_here
 SLACK_BOT_TOKEN=xoxb-your-bot-token-here
-SLACK_DEFAULT_CHANNEL=#general
+# Recommended: use a channel ID (e.g., C123456) for API calls to avoid ambiguity between names and IDs.
+SLACK_DEFAULT_CHANNEL=C123456
 ```
 
 Replace the placeholder values with your actual credentials.
