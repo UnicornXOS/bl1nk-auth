@@ -96,10 +96,11 @@ export async function POST(req: NextRequest): Promise<Response> {
 }
 
 export async function GET(): Promise<Response> {
+  const isEnabled = ENV.CODE_REVIEW_ENABLED && ENV.CODE_REVIEW_ENABLED !== 'false';
   return new Response(JSON.stringify({
     service: 'Automated Code Review API',
     version: '1.0.0',
-    status: ENV.CODE_REVIEW_ENABLED === 'false' ? 'disabled' : 'enabled',
+    status: isEnabled ? 'enabled' : 'disabled',
     features: [
       'Security vulnerability detection',
       'Code style analysis',
