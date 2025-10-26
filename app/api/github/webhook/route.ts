@@ -80,9 +80,9 @@ async function handlePullRequestEvent(payload: any): Promise<void> {
 
   logger.info('Processing GitHub pull request event', {
     action,
-    repository: repository.full_name,
-    pullRequest: pullRequest.number,
-    author: pullRequest.user.login,
+    repository: repository?.full_name ?? 'unknown',
+    pullRequest: pullRequest?.number ?? null,
+    author: pullRequest?.user?.login ?? 'unknown',
   });
 
   // Only process when PR is opened or synchronized (new commits)
