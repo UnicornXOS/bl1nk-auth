@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ENV } from '@/lib/env';
 import { verifyJWT, signJWT } from '@/lib/crypto';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 const Body = z.object({ ott: z.string(), audience: z.string().default(ENV.AUD) });
 
@@ -24,11 +25,21 @@ export async function POST(req: NextRequest){
     const jwt = await signJWT({ sub:String(ottPayload.sub), scope:['profile:read','email:read','github:public_repo'] }, {aud: body.data.audience, iss: ENV.ISSUER, expSeconds: 30*60});
     return createCorsResponse({ jwt }, 200);
   }catch(e:any){
-    return createCorsResponse({error:'invalid_ott', detail: e?.message}, 401);
+    logger.error('Session exchange failed', {
+      error: e?.message || 'Unknown error',
+      stack: e?.stack,
+      endpoint: 'session/exchange'
+    });
+
+    // Return generic error message to client without exposing internal details
+    return createCorsResponse({
+      error: 'invalid_ott',
+      message: 'Session exchange failed. Please try logging in again.'
+    }, 401);
   }
 }
 
 // Add an OPTIONS handler for preflight requests from the browser
-export async function OPTIONS(req: NextRequest) {
+export async function OPTIONS() {
   return createCorsResponse({}, 200);
 }

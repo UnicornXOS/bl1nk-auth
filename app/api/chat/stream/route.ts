@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-export async function GET(_req: NextRequest): Promise<Response> {
+export async function GET(): Promise<Response> {
   const encoder = new TextEncoder();
   let heartbeat: ReturnType<typeof setInterval> | null = null;
   const stream = new ReadableStream<Uint8Array>({

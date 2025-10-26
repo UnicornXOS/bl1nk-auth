@@ -3,6 +3,7 @@ import { ENV } from '@/lib/env';
 import { signJWT } from '@/lib/crypto';
 import { getClient, isReturnAllowed } from '@/lib/clients';
 import { decode as base64urlDecode } from 'jose/base64url';
+import { logger } from '@/lib/logger';
 
 type Provider = 'github' | 'google';
 
@@ -136,6 +137,18 @@ export async function GET(req: NextRequest){
     res.cookies.set('bl1nk_refresh', refresh, { httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:14*24*60*60 });
     return res;
   }catch(e:any){
-    return NextResponse.json({error:'oauth_failed', detail: e?.message},{status:400});
+    logger.error('OAuth callback failed', {
+      error: e?.message || 'Unknown error',
+      stack: e?.stack,
+      endpoint: 'oauth/callback',
+      provider,
+      client: state.client
+    });
+
+    // Return generic error message to client without exposing internal details
+    return NextResponse.json({
+      error: 'oauth_failed',
+      message: 'Authentication failed. Please try again.'
+    }, { status: 400 });
   }
 }
