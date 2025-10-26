@@ -137,18 +137,27 @@ export async function GET(req: NextRequest){
     res.cookies.set('bl1nk_refresh', refresh, { httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:14*24*60*60 });
     return res;
   }catch(e:any){
-    logger.error('OAuth callback failed', {
-      error: e?.message || 'Unknown error',
-      stack: e?.stack,
-      endpoint: 'oauth/callback',
-      provider,
-      client: state.client
-    });
+    // Log error without sensitive details; redact client identifier and truncate stack, and fall back to console if logger is not available
+    try {
+      const safeErrorMessage = e?.message || 'Unknown error';
+      const safeStack = typeof e?.stack === 'string' ? e.stack.split('\n')[0] : undefined;
+      const redactedClient = state?.client ? '[REDACTED]' : undefined;
+      (logger?.error ?? console.error)('OAuth callback failed', {
+        error: safeErrorMessage,
+        stack: safeStack,
+        endpoint: 'oauth/callback',
+        provider,
+        client: redactedClient
+      });
+    } catch (logErr) {
+      // ensure logging failures don't crash the handler
+      console.error('Logging failure in oauth callback error handler', logErr);
+    }
 
-    // Return generic error message to client without exposing internal details
+    // Return generic server error to client without exposing internal details
     return NextResponse.json({
       error: 'oauth_failed',
       message: 'Authentication failed. Please try again.'
-    }, { status: 400 });
+    }, { status: 500 });
   }
 }
