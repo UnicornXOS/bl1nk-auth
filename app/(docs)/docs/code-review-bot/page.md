@@ -27,9 +27,10 @@ npm install
 ### 2. ตั้งค่า Environment Variables
 
 ```env
-# GitHub Integration
-GITHUB_TOKEN=your_github_personal_access_token
-GITHUB_WEBHOOK_SECRET=your_github_webhook_secret
+# Copy this file to .env and fill values; do NOT commit real secrets to the repository.
+# GitHub Integration (use placeholders here)
+GITHUB_TOKEN=REPLACE_WITH_GITHUB_TOKEN
+GITHUB_WEBHOOK_SECRET=REPLACE_WITH_WEBHOOK_SECRET
 
 # Code Review Settings
 CODE_REVIEW_ENABLED=true
