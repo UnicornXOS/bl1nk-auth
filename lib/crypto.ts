@@ -1,5 +1,6 @@
 import { generateKeyPair, exportJWK, SignJWT, jwtVerify, importPKCS8, importSPKI } from 'jose';
 import type { KeyLike } from 'jose';
+
 let privateKey: KeyLike | null = null;
 let publicKey: KeyLike | null = null;
 let kid = 'dev-key-1';
@@ -15,8 +16,7 @@ async function ensureKeys() {
     return;
   }
   const { publicKey: pub, privateKey: prv } = await generateKeyPair('RS256');
-  publicKey = pub;
-  privateKey = prv;
+  
 }
 
 export async function jwks() {
