@@ -7,9 +7,11 @@ import {
   processCustomWebhook,
   processGithubWebhook,
   processNotionWebhook,
+  processSlackWebhook,
+  processCodeReviewWebhook,
 } from '@/lib/integrations';
 
-export type SupportedProvider = 'github' | 'notion' | 'custom';
+export type SupportedProvider = 'github' | 'notion' | 'custom' | 'slack' | 'code-review';
 
 export type WebhookJob = {
   provider: SupportedProvider;
@@ -18,13 +20,30 @@ export type WebhookJob = {
   timestamp: number;
 };
 
+export type CodeReviewJob = {
+  provider: 'code-review';
+  repository: string;
+  pullRequest: number;
+  author: string;
+  branch: string;
+  baseBranch: string;
+  changedFiles: Array<{
+    filename: string;
+    status: 'added' | 'modified' | 'deleted' | 'renamed';
+    additions: number;
+    deletions: number;
+    patch?: string;
+  }>;
+  timestamp: number;
+};
+
 function createRedisConnection(): IORedis {
-  if (!ENV.UPSTASH_REDIS_URL) {
-    throw new Error('UPSTASH_REDIS_URL environment variable is not set');
+  if (!ENV.UPSTASH_REDIS_URL || ENV.UPSTASH_REDIS_URL.includes('your_')) {
+    throw new Error('UPSTASH_REDIS_URL environment variable is not properly configured');
   }
 
-  if (!ENV.UPSTASH_REDIS_TOKEN) {
-    throw new Error('UPSTASH_REDIS_TOKEN environment variable is not set');
+  if (!ENV.UPSTASH_REDIS_TOKEN || ENV.UPSTASH_REDIS_TOKEN.includes('your_')) {
+    throw new Error('UPSTASH_REDIS_TOKEN environment variable is not properly configured');
   }
 
   return new IORedis(ENV.UPSTASH_REDIS_URL, {
@@ -45,8 +64,22 @@ export const webhookQueue = new Queue<WebhookJob>('webhook-queue', {
   },
 });
 
+export const codeReviewQueue = new Queue<CodeReviewJob>('code-review-queue', {
+  connection: createRedisConnection(),
+  defaultJobOptions: {
+    attempts: 2,
+    backoff: { type: 'exponential', delay: 5000 },
+    removeOnComplete: 50,
+    removeOnFail: 10,
+  },
+});
+
 export async function addWebhookToQueue(job: WebhookJob): Promise<void> {
   await webhookQueue.add('webhook-job', job);
+}
+
+export async function addCodeReviewToQueue(job: CodeReviewJob): Promise<void> {
+  await codeReviewQueue.add('code-review-job', job);
 }
 
 export function createWorker(): Worker<WebhookJob> {
@@ -68,6 +101,12 @@ export function createWorker(): Worker<WebhookJob> {
           break;
         case 'custom':
           await processCustomWebhook(job.data.payload);
+          break;
+        case 'slack':
+          await processSlackWebhook(job.data.payload);
+          break;
+        case 'code-review':
+          await processCodeReviewWebhook(job.data as unknown as CodeReviewJob);
           break;
         default:
           throw new Error(`Unsupported provider: ${job.data.provider}`);
@@ -108,6 +147,29 @@ export async function getQueueStats(): Promise<{
     webhookQueue.getActiveCount(),
     webhookQueue.getCompletedCount(),
     webhookQueue.getFailedCount(),
+  ]);
+
+  return {
+    waiting,
+    active,
+    completed,
+    failed,
+    total: waiting + active + completed + failed,
+  };
+}
+
+export async function getCodeReviewQueueStats(): Promise<{
+  waiting: number;
+  active: number;
+  completed: number;
+  failed: number;
+  total: number;
+}> {
+  const [waiting, active, completed, failed] = await Promise.all([
+    codeReviewQueue.getWaitingCount(),
+    codeReviewQueue.getActiveCount(),
+    codeReviewQueue.getCompletedCount(),
+    codeReviewQueue.getFailedCount(),
   ]);
 
   return {

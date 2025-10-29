@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ENV } from '@/lib/env';
 import { verifyJWT, signJWT } from '@/lib/crypto';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest){
   const refresh = req.cookies.get('bl1nk_refresh')?.value;
@@ -11,6 +12,16 @@ export async function POST(req: NextRequest){
     const jwt = await signJWT({ sub:String(payload.sub), scope:['profile:read','email:read','github:public_repo'] }, {aud: process.env.AUTH_AUDIENCE || 'bl1nk-note', iss: ENV.ISSUER, expSeconds: 30*60});
     return NextResponse.json({ jwt });
   }catch(e:any){
-    return NextResponse.json({error:'invalid_refresh', detail: e?.message},{status:401});
+    logger.error('Session refresh failed', {
+      error: e?.message || 'Unknown error',
+      stack: e?.stack,
+      endpoint: 'session/refresh'
+    });
+
+    // Return generic error message to client without exposing internal details
+    return NextResponse.json({
+      error: 'invalid_refresh',
+      message: 'Session refresh failed. Please log in again.'
+    }, { status: 401 });
   }
 }

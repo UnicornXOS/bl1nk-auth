@@ -1,5 +1,6 @@
 import { timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 
@@ -32,12 +33,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     secret = getSecret();
   } catch (error) {
-    console.error('[webhook] misconfiguration', error);
+    logger.error('Webhook misconfiguration', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      endpoint: 'webhooks'
+    });
     return NextResponse.json({ ok: false, error: 'misconfigured' }, { status: 500 });
   }
 
   const signature = req.headers.get('x-webhook-signature');
   if (!isValidSignature(signature, secret)) {
+    logger.warn('Invalid webhook signature', {
+      endpoint: 'webhooks',
+      hasSignature: !!signature
+    });
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
 
@@ -45,13 +53,21 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     event = await req.json();
   } catch (error) {
-    console.error('[webhook] invalid json payload', error);
+    logger.error('Invalid JSON payload in webhook', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      endpoint: 'webhooks'
+    });
     return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
   }
 
   const type = typeof (event as { type?: unknown }).type === 'string'
     ? (event as { type: string }).type
     : 'unknown';
-  console.info('[webhook] event received', { type });
+
+  logger.info('Webhook event received', {
+    type,
+    endpoint: 'webhooks'
+  });
+
   return NextResponse.json({ ok: true });
 }

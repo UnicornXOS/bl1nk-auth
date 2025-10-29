@@ -22,4 +22,8 @@ export default async function Dashboard(): Promise<JSX.Element> {
         <p style={{ fontSize: '18px', color: '#475569' }}>Hello {session.user?.name ?? 'friend'} 👋</p>
         <p style={{ marginTop: '16px', color: '#64748B' }}>
           คุณสามารถเรียก webhook และตรวจสอบเหตุการณ์ได้ที่นี่
-     
+        </p>
+      </div>
+    </div>
+  );
+}

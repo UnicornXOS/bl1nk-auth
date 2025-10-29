@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'edge';
 
@@ -7,7 +8,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     body = await req.json();
   } catch (error) {
-    console.error('[chat.ask] invalid json', error);
+    logger.error('Invalid JSON in chat request', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      endpoint: 'chat.ask'
+    });
     return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
   }
 

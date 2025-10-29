@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyJWT } from '@/lib/crypto';
 import { ENV } from '@/lib/env';
+import { logger } from '@/lib/logger';
 
 type JwtPayload = Record<string, unknown> & { sub?: string };
 
@@ -46,7 +47,10 @@ export async function auth(): Promise<Session | null> {
     }
     return mapPayloadToSession(payload as JwtPayload);
   } catch (error) {
-    console.error('[auth] failed to verify refresh token', error);
+    logger.error('Failed to verify refresh token', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      endpoint: 'auth'
+    });
     return null;
   }
 }
@@ -65,5 +69,7 @@ const postHandler: Handler = async () => {
 export const authHandlers = { GET: getHandler, POST: postHandler };
 
 export async function signOut(): Promise<void> {
-  console.warn('[auth] signOut is not implemented in this environment.');
+  logger.warn('signOut is not implemented in this environment', {
+    endpoint: 'auth'
+  });
 }

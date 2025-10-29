@@ -3,6 +3,7 @@ import { ENV } from '@/lib/env';
 import { signJWT } from '@/lib/crypto';
 import { getClient, isReturnAllowed } from '@/lib/clients';
 import { decode as base64urlDecode } from 'jose/base64url';
+import { logger } from '@/lib/logger';
 
 type Provider = 'github' | 'google';
 
@@ -136,6 +137,27 @@ export async function GET(req: NextRequest){
     res.cookies.set('bl1nk_refresh', refresh, { httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:14*24*60*60 });
     return res;
   }catch(e:any){
-    return NextResponse.json({error:'oauth_failed', detail: e?.message},{status:400});
+    // Log error without sensitive details; redact client identifier and truncate stack, and fall back to console if logger is not available
+    try {
+      const safeErrorMessage = e?.message || 'Unknown error';
+      const safeStack = typeof e?.stack === 'string' ? e.stack.split('\n')[0] : undefined;
+      const redactedClient = state?.client ? '[REDACTED]' : undefined;
+      (logger?.error ?? console.error)('OAuth callback failed', {
+        error: safeErrorMessage,
+        stack: safeStack,
+        endpoint: 'oauth/callback',
+        provider,
+        client: redactedClient
+      });
+    } catch (logErr) {
+      // ensure logging failures don't crash the handler
+      console.error('Logging failure in oauth callback error handler', logErr);
+    }
+
+    // Return generic server error to client without exposing internal details
+    return NextResponse.json({
+      error: 'oauth_failed',
+      message: 'Authentication failed. Please try again.'
+    }, { status: 500 });
   }
 }
