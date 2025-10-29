@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { createWorker } from '@/lib/queue';
+import type { Worker } from 'bullmq';
+
+import { createWorker, type WebhookJob } from '@/lib/queue';
 import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
@@ -16,7 +18,7 @@ export async function GET(): Promise<NextResponse> {
     worker = createWorker();
   } catch (err) {
     const error = err as Error;
-    logger.error('Unable to start worker - queue unavailable', { error: error.message });
+    logger.error('Unable to start worker - queue unavailable', { error: { message: error.message, stack: error.stack } });
     return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
   }
 
