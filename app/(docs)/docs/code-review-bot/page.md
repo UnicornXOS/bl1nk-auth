@@ -131,7 +131,7 @@ npm run format
 
 ## ความปลอดภัย
 
-- **Webhook Verification**: ตรวจสอบ signature ของ GitHub webhook
+- **Webhook Verification**: ตรวจสอบ header `X-Hub-Signature-256` โดยคำนวณ HMAC SHA256 ด้วยค่า `GITHUB_WEBHOOK_SECRET` แล้วเปรียบเทียบแบบ time-safe เพื่อป้องกันการปลอมแปลง
 - **Rate Limiting**: จำกัดจำนวน request ที่สามารถส่งได้
 - **Input Validation**: ตรวจสอบข้อมูลนำเข้าในทุก endpoint
 - **Error Handling**: จัดการข้อผิดพลาดอย่างปลอดภัย
