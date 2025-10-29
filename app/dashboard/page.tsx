@@ -92,11 +92,3 @@ export default async function DashboardPage() {
     </div>
   );
 }
-    <DashboardShell
-      userName={session.user?.name ?? 'ทีมของคุณ'}
-      userEmail={(session.user as User)?.email ?? undefined}
-      overview={overview}
-    />
-  );
-}
-

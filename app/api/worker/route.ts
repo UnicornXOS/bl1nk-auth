@@ -12,13 +12,13 @@ const MAX_PROCESSING_TIME = 9000;
 
 export async function GET(): Promise<NextResponse> {
   const start = Date.now();
-  let worker: Worker<WebhookJob> | null = null;
+  let worker: ReturnType<typeof createWorker> | null = null;
 
   try {
     worker = createWorker();
   } catch (err) {
     const error = err as Error;
-    logger.error('Unable to start worker - queue unavailable', { error: { message: error.message, stack: error.stack } });
+    logger.error('Unable to start worker - queue unavailable', { error: error.message });
     return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
   }
 
@@ -73,9 +73,9 @@ export async function GET(): Promise<NextResponse> {
     if (worker) {
       try {
         await worker.close();
-      } catch (err) {
-        const error = err as Error;
-        logger.error('Failed to close worker', { error: { message: error.message, stack: error.stack } });
+      } catch (closeErr) {
+        const message = closeErr instanceof Error ? closeErr.message : String(closeErr);
+        logger.error('Failed to close worker', { error: message });
       }
     }
   }
