@@ -22,14 +22,15 @@ function sanitizeIp(ip: string): string {
   // trim and remove surrounding quotes first
   let trimmed = ip.trim().replace(/^['"]+|['"]+$/g, '').trim();
 
-  // If bracketed IPv6 like [::1] or [::1]:1234, extract inside brackets and drop zone id
-  if (trimmed.startsWith('[')) {
-    const closingIndex = trimmed.indexOf(']');
-    if (closingIndex > 0) {
-      const inside = trimmed.slice(1, closingIndex).split('%')[0].trim();
-      return inside;
-    }
+  function stripWrappingCharacters(value: string): string {
+    let start = 0;
+    let end = value.length;
+    while (start < end && ['"', "'", '['].includes(value[start])) start += 1;
+    while (end > start && ['"', "'", ']'].includes(value[end - 1])) end -= 1;
+    return value.slice(start, end).trim();
   }
+
+  trimmed = stripWrappingCharacters(trimmed);
 
   // IPv4 with optional port (e.g. 1.2.3.4:5678) — validate octets <= 255
   const ipv4Match = trimmed.match(/^(\d{1,3}(?:\.\d{1,3}){3})(?::\d+)?$/);
@@ -57,7 +58,11 @@ function sanitizeIp(ip: string): string {
   trimmed = trimmed.split('%')[0];
 
   // Remove any remaining surrounding brackets and return
-  return trimmed.replace(/^\[|\]$/g, '').trim();
+  return trimmed.replace(/^
+
+\[|\]
+
+$/g, '').trim();
 }
 
 function firstHeaderValue(header: string | null): string | null {
