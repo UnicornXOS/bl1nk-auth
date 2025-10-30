@@ -73,8 +73,9 @@ export async function GET(): Promise<NextResponse> {
     if (worker) {
       try {
         await worker.close();
-      } catch (err) {
-        logger.error('Failed to close worker', { error: (err as Error).message });
+      } catch (closeErr) {
+        const message = closeErr instanceof Error ? closeErr.message : String(closeErr);
+        logger.error('Failed to close worker', { error: message });
       }
     }
   }

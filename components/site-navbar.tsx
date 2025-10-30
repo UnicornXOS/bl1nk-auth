@@ -3,31 +3,35 @@
 import Link from 'next/link';
 import type { JSX } from 'react';
 
-/**
- * Top navigation bar containing the brand, primary site links, and a login action.
- *
- * The bar is sticky to the top with a translucent background and backdrop blur. The
- * main navigation links are hidden on small screens and shown at medium screen sizes
- * and above.
- *
- * @returns A header element containing the site navigation and login action as JSX.
- */
+const navLinks = [
+  { label: 'Works', href: '/board' },
+  { label: 'Matrix', href: '/agent' },
+  { label: 'Docs', href: '/docs' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Blog', href: '/blog' }
+];
+
 export function SiteNavbar(): JSX.Element {
   return (
-    <header className="sticky top-0 z-50 bg-background/60 backdrop-blur border-b">
-      <div className="container flex h-14 items-center justify-between">
-        <Link href="/" className="font-semibold">YourBrand</Link>
-        <nav className="hidden md:flex items-center gap-4 text-sm">
-          <Link href="/quickstart">Quickstart</Link>
-          <Link href="/development">Development</Link>
-          <Link href="/docs">Docs</Link>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/changelog">Changelog</Link>
-          <Link href="/status">Status</Link>
-          <Link href="/blog">Blog</Link>
+    <header className="neon-navbar">
+      <div className="container neon-navbar__inner">
+        <Link href="/" className="neon-navbar__brand">
+          <span className="neon-navbar__logo">✶</span>
+          <span className="neon-navbar__wordmark">Blink</span>
+        </Link>
+
+        <nav className="neon-navbar__links">
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="neon-navbar__link">
+              {link.label}
+            </Link>
+          ))}
         </nav>
-        <div className="flex items-center gap-2">
-          <Link href="/login" className="px-3 py-2 rounded border">Log in</Link>
+
+        <div className="neon-navbar__cta">
+          <Link href="/login" className="neon-navbar__primary">
+            SSO Metrics
+          </Link>
         </div>
       </div>
     </header>

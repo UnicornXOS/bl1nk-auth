@@ -9,12 +9,12 @@ function createCorsResponse(body: any, status: number) {
   return response;
 }
 
-export async function POST(req: NextRequest){
+export async function POST(_req: NextRequest){
   const res = createCorsResponse({ ok:true }, 200);
   res.cookies.set('bl1nk_refresh','',{ httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:0 });
   return res;
 }
 
-export async function OPTIONS(req: NextRequest) {
+export async function OPTIONS(_req: NextRequest) {
   return createCorsResponse({}, 200);
 }

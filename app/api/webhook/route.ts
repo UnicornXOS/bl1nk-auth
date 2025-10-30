@@ -76,6 +76,52 @@ function sanitizeIp(ip: string): string {
   }
 
   return unwrapped;
+function sanitizeIp(ip: string): string {
+  if (!ip) return '';
+  // trim and remove surrounding quotes first
+  let trimmed = ip.trim().replace(/^['"]+|['"]+$/g, '').trim();
+
+  function stripWrappingCharacters(value: string): string {
+    let start = 0;
+    let end = value.length;
+    while (start < end && ['"', "'", '['].includes(value[start])) start += 1;
+    while (end > start && ['"', "'", ']'].includes(value[end - 1])) end -= 1;
+    return value.slice(start, end).trim();
+  }
+
+  trimmed = stripWrappingCharacters(trimmed);
+
+  // IPv4 with optional port (e.g. 1.2.3.4:5678) — validate octets <= 255
+  const ipv4Match = trimmed.match(/^(\d{1,3}(?:\.\d{1,3}){3})(?::\d+)?$/);
+  if (ipv4Match) {
+    const octets = ipv4Match[1].split('.').map(n => Number(n));
+    if (octets.length === 4 && octets.every(o => o >= 0 && o <= 255)) {
+      return octets.join('.');
+    }
+  }
+
+  // Strip a trailing numeric port for non-bracketed addresses when clearly present
+  const lastColon = trimmed.lastIndexOf(':');
+  if (lastColon > -1) {
+    const possiblePort = trimmed.slice(lastColon + 1);
+    // If possiblePort is purely digits and there is at least one other colon (likely IPv6) treat port removal carefully:
+    if (/^\d+$/.test(possiblePort) && trimmed.indexOf(':') !== lastColon) {
+      trimmed = trimmed.slice(0, lastColon);
+    } else if (/^\d+$/.test(possiblePort) && trimmed.indexOf(':') === lastColon) {
+      // non-colon separated (unlikely) but remove port if it appears to be appended to IPv4
+      trimmed = trimmed.slice(0, lastColon);
+    }
+  }
+
+  // Remove zone id if present (e.g. fe80::1%eth0)
+  trimmed = trimmed.split('%')[0];
+
+  // Remove any remaining surrounding brackets and return
+  return trimmed.replace(/^
+
+\[|\]
+
+$/g, '').trim();
 }
 
 function firstHeaderValue(header: string | null): string | null {
@@ -115,6 +161,11 @@ function parseForwarded(header: string | null): string | null {
       }
 
       const sanitized = sanitizeIp(rawValue);
+  const entries = header.split(',');
+  for (const entry of entries) {
+    const match = entry.match(/for=([^;]+)/i);
+    if (match?.[1]) {
+      const sanitized = sanitizeIp(match[1]);
       if (sanitized) {
         return sanitized;
       }
@@ -130,6 +181,18 @@ function resolveClientIp(request: NextRequest): string {
     () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
     () => firstHeaderValue(request.headers.get('x-real-ip')),
     () => firstHeaderValue(request.headers.get('x-client-ip')),
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  const forwarded = request.headers.get('forwarded');
+  const cfConnectingIp = request.headers.get('cf-connecting-ip');
+  const xRealIp = request.headers.get('x-real-ip');
+  const xClientIp = request.headers.get('x-client-ip');
+
+  const headerOrder: Array<() => string | null> = [
+    () => firstHeaderValue(xForwardedFor),
+    () => parseForwarded(forwarded),
+    () => firstHeaderValue(cfConnectingIp),
+    () => firstHeaderValue(xRealIp),
+    () => firstHeaderValue(xClientIp),
   ];
 
   for (const resolver of headerOrder) {

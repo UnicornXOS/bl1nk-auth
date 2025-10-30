@@ -5,6 +5,12 @@ const require = createRequire(import.meta.url);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'mdx'],
+  async rewrites() {
+    return [
+      // Map standard well-known JWKS endpoint to API route to avoid Windows path issues
+      { source: '/.well-known/jwks.json', destination: '/api/jwks' },
+    ];
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.mdx$/,
