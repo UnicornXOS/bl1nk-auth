@@ -12,7 +12,7 @@ const MAX_PROCESSING_TIME = 9000;
 
 export async function GET(): Promise<NextResponse> {
   const start = Date.now();
-  let worker: ReturnType<typeof createWorker> | null = null;
+  let worker: Worker<WebhookJob> | null = null;
 
   try {
     worker = createWorker();
