@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import type { JSX } from 'react';
 import type { LocaleCode } from '@/theme/tokens';
 import { designTokens, getLocalizedText } from '@/theme/tokens';
+import ThemeToggle from '@/components/ui/theme-toggle';
+import LiquidLogo from '@/components/ui/liquid-logo';
 
 type NavigationLink = {
   href: string;
@@ -76,10 +78,19 @@ function DualLineLabel({ label }: { label: NavigationLink['label'] }): JSX.Eleme
 export default function SiteNavbar(): JSX.Element {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // TODO: Implement search functionality
+      console.log('Searching for:', searchQuery);
+    }
+  };
 
   return (
     <header
@@ -90,9 +101,12 @@ export default function SiteNavbar(): JSX.Element {
       }}
     >
       <div className="container flex h-16 items-center justify-between gap-3">
-        <Link href="/" className="flex flex-col">
-          <span className="text-lg font-semibold text-white">{designTokens.brand.name}</span>
-          <span className="text-xs text-white/70">{designTokens.brand.tagline.th}</span>
+        <Link href="/" className="flex items-center gap-3">
+          <LiquidLogo size={32} />
+          <div className="flex flex-col">
+            <span className="text-lg font-semibold text-white">{designTokens.brand.name}</span>
+            <span className="text-xs text-white/70">{designTokens.brand.tagline.th}</span>
+          </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-5">
@@ -117,7 +131,32 @@ export default function SiteNavbar(): JSX.Element {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-4">
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="relative">
+            <input
+              type="text"
+              placeholder="ค้นหา..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-64 px-4 py-2 pl-10 text-sm bg-white/10 border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+            />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="w-4 h-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </form>
+
+          {/* Metrics Display */}
+          <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full backdrop-blur-sm">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-sm text-white/80">26.9K</span>
+          </div>
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
           <Link
             href={actionLinks.login.href}
             data-analytics-id={actionLinks.login.analyticsId}
