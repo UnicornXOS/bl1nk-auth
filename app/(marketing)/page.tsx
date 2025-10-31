@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import LiquidLogo from '@/components/ui/liquid-logo';
 import FeatureCard from '@/components/ui/feature-card';
@@ -24,44 +23,24 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="py-16 px-6 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-        >
+        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
           blinkOS - LLM IS EVERYTHING
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto"
-        >
+        <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
           แพลตฟอร์ม AI ขั้นสูงที่ผสมผสานเทคโนโลยีล่าสุดกับการออกแบบที่สวยงาม
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-        >
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <IOS26Button size="lg">
             เริ่มต้นใช้งานฟรี
           </IOS26Button>
           <IOS26Button variant="outline" size="lg">
             ดูการสาธิต
           </IOS26Button>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="ios26-grid max-w-6xl mx-auto"
-        >
+        <div className="ios26-grid max-w-6xl mx-auto">
           <FeatureCard
             title="AI Builder"
             icon="🤖"
@@ -80,21 +59,15 @@ export default function Home() {
             description="Analyze data with AI-powered insights"
             delay={1.2}
           />
-        </motion.div>
+        </div>
       </section>
 
       {/* Dynamic Widgets Section */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl font-bold text-center mb-12"
-          >
+          <h2 className="text-3xl font-bold text-center mb-12">
             ข้อมูลแบบเรียลไทม์
-          </motion.h2>
+          </h2>
 
           <div className="ios26-grid">
             <DynamicWidget title="สภาพอากาศ" updateInterval={300000}>

@@ -1,0 +1,40 @@
+name: Dependency Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for missing dependencies
+        run: |
+          npm install --package-lock-only
+          if git diff --exit-code package-lock.json; then
+            echo "Dependencies are in sync"
+          else
+            echo "Warning: package-lock.json is out of sync"
+            exit 1
+          fi

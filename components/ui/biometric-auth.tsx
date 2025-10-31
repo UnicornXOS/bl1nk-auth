@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 interface BiometricAuthProps {
@@ -68,42 +67,29 @@ const BiometricAuth = ({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className={`biometric-auth ${className}`}
-    >
-      <motion.div
+    <div className={`biometric-auth ${className}`}>
+      <div
         className="biometric-icon"
-        animate={status === 'authenticating' ? {
-          scale: [1, 1.1, 1],
-          rotate: [0, 360]
-        } : {}}
-        transition={{
-          duration: 2,
-          repeat: status === 'authenticating' ? Infinity : 0,
-          ease: "easeInOut"
-        }}
         onClick={handleBiometricAuth}
         style={{ cursor: isAuthenticating ? 'not-allowed' : 'pointer' }}
       >
         <span className="text-2xl" role="img" aria-label="biometric authentication">
           {getStatusIcon()}
         </span>
-      </motion.div>
+      </div>
 
       <p className="text-center text-sm text-muted-foreground">
         {getStatusText()}
       </p>
 
-      <IOS26Button
+      <button
         onClick={handleBiometricAuth}
         disabled={isAuthenticating}
-        className="w-full"
+        className="w-full ios26-button accessible-button"
       >
-        {isAuthenticating ? 'กำลังตรวจสอบ...' : 'ใช้การยืนยันตัวตนด้วยไบโอเมตริก'}
-      </IOS26Button>
-    </motion.div>
+        {isAuthenticating ? 'กำลังตรวจสอบ...' : 'ใช้การยืนยันตัวตนด้วยไบโอเมตริกส์'}
+      </button>
+    </div>
   );
 };
 
