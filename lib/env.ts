@@ -1,4 +1,9 @@
 function validateEnv() {
+  if (process.env.SKIP_ENV_VALIDATION === 'true') {
+    console.log('Skipping environment validation (build time)');
+    return;
+  }
+  
   const requiredVars = ['AUTH_PRIVATE_KEY_PEM', 'AUTH_PUBLIC_KEY_PEM'];
   const missing = requiredVars.filter(key => !process.env[key]);
   

@@ -32,6 +32,13 @@ const footerColumns: FooterColumn[] = [
       { href: 'mailto:support@bl1nk.site', label: { th: 'ติดต่อสนับสนุน', en: 'Support' } },
       { href: 'mailto:team@bl1nk.site', label: { th: 'ติดต่อทีมงาน', en: 'Team' } }
     ]
+  },
+  {
+    heading: { th: 'กฎหมาย', en: 'Legal' },
+    links: [
+      { href: '/privacy', label: { th: 'นโยบายความเป็นส่วนตัว', en: 'Privacy Policy' } },
+      { href: '/terms', label: { th: 'ข้อกำหนดการใช้บริการ', en: 'Terms of Service' } }
+    ]
   }
 ];
 
