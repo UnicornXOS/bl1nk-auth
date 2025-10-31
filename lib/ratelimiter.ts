@@ -31,11 +31,18 @@ export async function limit(identifier: string): Promise<RateLimitContext> {
     return { success: true, limit: 0, remaining: 0, reset: now };
   }
 
-  const result = await limiter.limit(identifier);
-  return {
-    success: result.success,
-    limit: result.limit,
-    remaining: result.remaining,
-    reset: result.reset,
-  };
+  try {
+    const result = await limiter.limit(identifier);
+    return {
+      success: result.success,
+      limit: result.limit,
+      remaining: result.remaining,
+      reset: result.reset,
+    };
+  } catch (error) {
+    logger.error('Rate limiter operation failed:', { identifier, error: error instanceof Error ? error.message : 'Unknown error' });
+    // Fail open - allow request if rate limiter fails
+    const now = Date.now();
+    return { success: true, limit: 0, remaining: 0, reset: now };
+  }
 }

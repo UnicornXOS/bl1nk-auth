@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { useState } from 'react';
 
 import FlowCanvas from '@/components/flow-canvas';
 import type { FlowEdge, FlowNode } from '@/components/flow-canvas';
@@ -21,6 +22,30 @@ const EDGES: FlowEdge[] = [
 ];
 
 export default function AgentPage(): JSX.Element {
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // TODO: Implement actual submission logic (e.g., API call)
+      console.log('Submitting message:', message);
+      // Simulate async operation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setMessage('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="page-shell">
       <header className="page-header">
@@ -52,7 +77,7 @@ export default function AgentPage(): JSX.Element {
         <div className="assistant-message">
           Hello! Describe the agent behaviour you need and I’ll suggest the nodes to add or change.
         </div>
-        <form className="assistant-form">
+        <form className="assistant-form" onSubmit={handleSubmit}>
           <input
             className="assistant-input"
             placeholder="E.g. add a fallback webhook that notifies Slack if retries exceed 3"
@@ -60,7 +85,15 @@ export default function AgentPage(): JSX.Element {
             type="text"
             name="agent-message"
             aria-label="Type a message for the agent assistant"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            disabled={isSubmitting}
           />
+          {error && (
+            <div className="error-message" role="alert">
+              {error}
+            </div>
+          )}
         </form>
       </section>
     </div>

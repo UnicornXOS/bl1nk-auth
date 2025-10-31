@@ -6,6 +6,7 @@ export const runtime = 'nodejs';
 function getSecret(): string {
   const secret = process.env.WEBHOOK_SECRET;
   if (!secret) {
+    console.error('[webhook] WEBHOOK_SECRET environment variable is not configured');
     throw new Error('WEBHOOK_SECRET is not configured');
   }
   return secret;
@@ -15,14 +16,16 @@ function isValidSignature(signature: string | null, secret: string): boolean {
   if (!signature) {
     return false;
   }
-  const expected = Buffer.from(secret);
-  const received = Buffer.from(signature);
-  if (expected.length !== received.length) {
-    return false;
-  }
+  
   try {
+    const expected = Buffer.from(secret);
+    const received = Buffer.from(signature);
+    if (expected.length !== received.length) {
+      return false;
+    }
     return timingSafeEqual(expected, received);
-  } catch {
+  } catch (error) {
+    console.error('[webhook] signature validation failed:', error instanceof Error ? error.message : 'Unknown error');
     return false;
   }
 }
@@ -32,7 +35,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     secret = getSecret();
   } catch (error) {
-    console.error('[webhook] misconfiguration', error);
+    console.error('[webhook] misconfiguration:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.json({ ok: false, error: 'misconfigured' }, { status: 500 });
   }
 
@@ -45,7 +48,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     event = await req.json();
   } catch (error) {
-    console.error('[webhook] invalid json payload', error);
+    console.error('[webhook] invalid json payload:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
   }
 

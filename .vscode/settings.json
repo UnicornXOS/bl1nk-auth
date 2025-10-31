@@ -1,0 +1,4 @@
+{
+    "editor.defaultFormatter": "amazonwebservices.amazon-q-vscode",
+    "editor.wordWrap": "wordWrapColumn"
+}

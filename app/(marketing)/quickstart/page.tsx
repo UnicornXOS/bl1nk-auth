@@ -1,4 +1,4 @@
-import { CodeSnippet } from '@/components/code-snippet';
+import CodeSnippet from '@/components/code-snippet';
 import type { JSX } from 'react';
 
 export default function Page(): JSX.Element {

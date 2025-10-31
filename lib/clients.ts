@@ -1,11 +1,31 @@
 import clients from '@/config/clients.json';
-export function getClient(client: string|undefined){
-  if(!client) return null;
-  return (clients as any[]).find(c=>c.client===client) || null;
+
+interface ClientConfig {
+  client: string;
+  returns: string[];
 }
-export function isReturnAllowed(clientCfg:any, ret:string){
-  try{
+
+export function getClient(client: string|undefined): ClientConfig | null {
+  if(!client) return null;
+  try {
+    return (clients as ClientConfig[]).find(c=>c.client===client) || null;
+  } catch (error) {
+    console.error('Failed to load client configuration:', error);
+    return null;
+  }
+}
+
+export function isReturnAllowed(clientCfg: ClientConfig | null, ret: string): boolean {
+  if (!clientCfg || !Array.isArray(clientCfg.returns)) {
+    console.error('Invalid client configuration or missing returns array');
+    return false;
+  }
+  
+  try {
     new URL(ret);
-    return clientCfg.returns.some((r:string)=> ret.startsWith(r));
-  }catch{ return false; }
+    return clientCfg.returns.some((r: string) => ret.startsWith(r));
+  } catch (error) {
+    console.error('Invalid return URL:', ret, error);
+    return false;
+  }
 }

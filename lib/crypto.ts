@@ -10,13 +10,20 @@ async function ensureKeys() {
   const privPem = process.env.AUTH_PRIVATE_KEY_PEM;
   const pubPem = process.env.AUTH_PUBLIC_KEY_PEM;
   kid = process.env.AUTH_KEY_KID || 'dev-key-1';
-  if (privPem && pubPem) {
-    privateKey = (await importPKCS8(privPem, 'RS256')) as unknown as CryptoKey;
-    publicKey = (await importSPKI(pubPem, 'RS256')) as unknown as CryptoKey;
-    return;
-  }
-  const { publicKey: pub, privateKey: prv } = await generateKeyPair('RS256');
   
+  try {
+    if (privPem && pubPem) {
+      privateKey = (await importPKCS8(privPem, 'RS256')) as unknown as CryptoKey;
+      publicKey = (await importSPKI(pubPem, 'RS256')) as unknown as CryptoKey;
+      return;
+    }
+    const { publicKey: pub, privateKey: prv } = await generateKeyPair('RS256');
+    privateKey = prv;
+    publicKey = pub;
+  } catch (error) {
+    console.error('Failed to initialize cryptographic keys:', error);
+    throw new Error('Cryptographic key initialization failed');
+  }
 }
 
 export async function jwks() {
@@ -27,20 +34,30 @@ export async function jwks() {
 }
 
 export async function signJWT(payload: Record<string, any>, {aud,iss,expSeconds=1800}:{aud:string,iss:string,expSeconds?:number}){
-  await ensureKeys();
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg:'RS256', kid })
-    .setIssuedAt()
-    .setIssuer(iss)
-    .setAudience(aud)
-    .setExpirationTime(`${expSeconds}s`)
-    .sign(privateKey!);
+  try {
+    await ensureKeys();
+    return await new SignJWT(payload)
+      .setProtectedHeader({ alg:'RS256', kid })
+      .setIssuedAt()
+      .setIssuer(iss)
+      .setAudience(aud)
+      .setExpirationTime(`${expSeconds}s`)
+      .sign(privateKey!);
+  } catch (error) {
+    console.error('JWT signing failed:', error);
+    throw new Error('Failed to sign JWT token');
+  }
 }
 
 export async function verifyJWT(token: string, {aud,iss}:{aud:string,iss:string}){
-  await ensureKeys();
-  const { payload } = await jwtVerify(token, publicKey!, { algorithms:['RS256'], audience:aud, issuer:iss });
-  return payload;
+  try {
+    await ensureKeys();
+    const { payload } = await jwtVerify(token, publicKey!, { algorithms:['RS256'], audience:aud, issuer:iss });
+    return payload;
+  } catch (error) {
+    console.error('JWT verification failed:', error);
+    throw new Error('Failed to verify JWT token');
+  }
 }
 
 

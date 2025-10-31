@@ -1,65 +1,83 @@
 # bl1nk-auth Project Structure
 
-## Root Directory Organization
+## Directory Organization
 
-### Core Application (`/app`)
-- **API Routes** (`/app/api/`): RESTful endpoints for authentication, webhooks, and session management
-  - `auth/[...nextauth]/`: NextAuth.js OAuth handlers
-  - `session/`: JWT exchange, refresh, and logout endpoints
-  - `webhook/`, `worker/`: Job queue processing system
-  - `dashboard/`: Queue statistics API
-  - `jwks/`: Public key distribution endpoint
-- **Pages** (`/app/(auth)`, `/app/(marketing)`, `/app/(docs)`): Route groups for different application sections
-- **Layout & Styling** (`/app/layout.tsx`, `/app/globals.css`): Global application structure
+### Core Application (`app/`)
+- **`(auth)/`** - Authentication-specific pages and layouts
+- **`(marketing)/`** - Marketing pages (blog, pricing, quickstart, status)
+- **`(docs)/`** - Documentation pages with dedicated layout
+- **`api/`** - API routes for authentication, webhooks, and dashboard
+- **`agent/`** - AI agent interface page
+- **`board/`** - Project board/dashboard page
+- **`chat/`** - Chat interface page
+- **`dashboard/`** - Main dashboard with loading states
 
-### Library Code (`/lib`)
-- **Integrations** (`/lib/integrations/`): External service connectors (GitHub, Notion, custom)
-- **Core Services**: Authentication (`crypto.ts`), queue management (`queue.ts`), rate limiting (`ratelimiter.ts`)
-- **Utilities**: Environment configuration (`env.ts`), logging (`logger.ts`), client management (`clients.ts`)
+### Component Architecture (`components/`)
+- **`marketing/`** - Landing page components (Hero, FeatureGrid, Testimonials, PricingPlans)
+- **`layout/`** - Site-wide layout components (SiteFooter, SiteNavbar)
+- **`ui/`** - Reusable UI components with accessibility and theming
+- **`docs/`** - Documentation-specific components
 
-### UI Components (`/src/components`, `/components`)
-- **UI Library** (`/src/components/ui/`): Reusable component system (buttons, forms, dialogs, etc.)
-- **Feature Components**: Dashboard widgets, authentication forms, documentation viewers
-- **Layout Components**: Site navigation, footers, shells
+### Source Components (`src/components/`)
+- **`dashboard/`** - Dashboard-specific components
+- **`ui/`** - Additional UI components (sidebar, drawer)
+- **Core components** - Dashboard, Login, Settings, Documentation viewers
 
-### Configuration & Scripts
-- **Config** (`/config/`): Client definitions, build configurations
-- **Scripts** (`/scripts/`): Key generation utilities, additional components
-- **Theme** (`/theme/`): Design system tokens and styling definitions
+### Library & Utilities (`lib/`)
+- **`integrations/`** - External service integrations (GitHub, Notion, Custom)
+- **Core utilities** - Analytics, clients, crypto, environment, logging, queue, rate limiting
+
+### Configuration & Setup
+- **`config/`** - Client configurations and MDX processing
+- **`theme/`** - Design tokens and theming
+- **`stubs/`** - TypeScript stubs for external libraries
+- **`.specify/`** - Project specification and templates
+
+### Development & Tooling
+- **`scripts/`** - Build scripts and key generation utilities
+- **`.codacy/`** - Code quality and analysis configurations
+- **`.github/`** - GitHub workflows and issue templates
+- **`test-app/`** - Separate test application
 
 ## Architectural Patterns
 
-### Next.js App Router Structure
-- Route groups for logical separation: `(auth)`, `(marketing)`, `(docs)`
-- API routes following RESTful conventions
-- Server and client component separation
-- Middleware for request processing
+### Route Organization
+- **Route Groups**: Uses Next.js route groups for logical separation
+- **API Routes**: RESTful API design with clear endpoint structure
+- **Layout Hierarchy**: Nested layouts for different application sections
 
-### Authentication Flow
-```
-Client → /api/login → OAuth Provider → /api/oauth/callback → JWT Generation → Client
-```
-
-### Webhook Processing Pipeline
-```
-External Service → /api/webhook → Rate Limit Check → Queue Job → Worker Processing → Integration APIs
-```
-
-### Component Architecture
-- **Atomic Design**: Base UI components in `/ui/` folder
-- **Feature Components**: Business logic components for specific features
-- **Layout Components**: Page structure and navigation
-- **Page Components**: Route-specific implementations
+### Component Patterns
+- **Composition**: Components built for reusability and composition
+- **Accessibility**: Built-in accessibility providers and settings
+- **Theming**: Consistent theme system across all components
+- **Responsive Design**: Mobile-first responsive components
 
 ### Data Flow
-- **Authentication**: OAuth → JWT → Session cookies
-- **Webhooks**: HTTP → Queue → Worker → External APIs
-- **Dashboard**: Real-time statistics via API endpoints
-- **Configuration**: Environment variables → Typed configuration objects
+- **Authentication Flow**: OAuth → JWT → Session management
+- **Webhook Processing**: Webhook → Rate limit → Queue → Worker
+- **State Management**: React state with Next.js server components
+
+### Integration Architecture
+- **External APIs**: Modular integration system for GitHub, Notion
+- **Queue System**: BullMQ for background job processing
+- **Caching**: Redis for rate limiting and session storage
+- **Monitoring**: Comprehensive logging and analytics
 
 ## Key Relationships
-- **API Routes** consume **Library Services** for business logic
-- **Components** use **UI Library** for consistent styling
-- **Webhook System** integrates with **External Services** via **Integration Layer**
-- **Authentication System** provides tokens for **All Protected Routes**
-- **Dashboard** monitors **Queue System** and **API Usage**
+
+### Authentication Flow
+1. User initiates login via `/api/login`
+2. OAuth callback handled by `/api/oauth/callback`
+3. Session exchange via `/api/session/exchange`
+4. JWT validation through JWKS endpoint
+
+### Marketing to Auth Integration
+- Marketing pages lead to authentication flows
+- Unified branding and user experience
+- Seamless transition between marketing and application
+
+### Webhook to Dashboard Pipeline
+- Webhooks received at `/api/webhook`
+- Jobs queued via BullMQ
+- Worker processes jobs via `/api/worker`
+- Dashboard displays statistics via `/api/dashboard`

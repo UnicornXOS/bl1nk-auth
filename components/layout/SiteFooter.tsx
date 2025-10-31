@@ -29,8 +29,8 @@ const footerColumns: FooterColumn[] = [
   {
     heading: { th: 'บริษัท', en: 'Company' },
     links: [
-      { href: '/contact', label: { th: 'ติดต่อทีมงาน', en: 'Contact' } },
-      { href: '/careers', label: { th: 'ร่วมงานกับเรา', en: 'Careers' } }
+      { href: 'mailto:support@bl1nk.site', label: { th: 'ติดต่อสนับสนุน', en: 'Support' } },
+      { href: 'mailto:team@bl1nk.site', label: { th: 'ติดต่อทีมงาน', en: 'Team' } }
     ]
   }
 ];
@@ -48,6 +48,10 @@ export default function SiteFooter(): JSX.Element {
           <p className="max-w-md text-xs uppercase tracking-wide text-white/60">
             {designTokens.brand.tagline.en}
           </p>
+          <div className="flex flex-col gap-1 text-xs text-white/60">
+            <a href="https://bl1nk.site" className="hover:text-white/80 transition-colors">bl1nk.site</a>
+            <a href="mailto:support@bl1nk.site" className="hover:text-white/80 transition-colors">support@bl1nk.site</a>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-6 text-sm md:grid-cols-3">
           {footerColumns.map((column) => (

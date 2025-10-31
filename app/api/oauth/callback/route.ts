@@ -41,47 +41,67 @@ function parseState(raw: string): OAuthState | null {
 }
 
 async function fetchGithubToken(code: string){
-  const res = await fetch('https://github.com/login/oauth/access_token',{
-    method:'POST',
-    headers:{'Accept':'application/json','Content-Type':'application/json'},
-    body: JSON.stringify({ client_id: ENV.GITHUB_ID, client_secret: ENV.GITHUB_SECRET, code, redirect_uri: CALLBACK_URL })
-  });
-  const json = await res.json();
-  if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
-  if(!json.access_token) throw new Error('no_token');
-  return json.access_token as string;
+  try {
+    const res = await fetch('https://github.com/login/oauth/access_token',{
+      method:'POST',
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify({ client_id: ENV.GITHUB_ID, client_secret: ENV.GITHUB_SECRET, code, redirect_uri: CALLBACK_URL })
+    });
+    const json = await res.json();
+    if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
+    if(!json.access_token) throw new Error('no_token');
+    return json.access_token as string;
+  } catch (error) {
+    console.error('GitHub token fetch failed:', error);
+    throw new Error('Failed to fetch GitHub token');
+  }
 }
 
 async function fetchGithubUser(token: string){
-  const res = await fetch('https://api.github.com/user',{ headers:{ Authorization:`Bearer ${token}`, 'User-Agent':'bl1nk-auth' } });
-  const json = await res.json();
-  if(!res.ok) throw new Error(json?.message || 'user_request_failed');
-  return json;
+  try {
+    const res = await fetch('https://api.github.com/user',{ headers:{ Authorization:`Bearer ${token}`, 'User-Agent':'bl1nk-auth' } });
+    const json = await res.json();
+    if(!res.ok) throw new Error(json?.message || 'user_request_failed');
+    return json;
+  } catch (error) {
+    console.error('GitHub user fetch failed:', error);
+    throw new Error('Failed to fetch GitHub user');
+  }
 }
 
 async function fetchGoogleToken(code: string){
-  const res = await fetch('https://oauth2.googleapis.com/token',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      client_id: ENV.GOOGLE_ID,
-      client_secret: ENV.GOOGLE_SECRET,
-      code,
-      redirect_uri: CALLBACK_URL,
-      grant_type: 'authorization_code'
-    })
-  });
-  const json = await res.json();
-  if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
-  if(!json.access_token) throw new Error('no_token');
-  return { accessToken: json.access_token as string };
+  try {
+    const res = await fetch('https://oauth2.googleapis.com/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        client_id: ENV.GOOGLE_ID,
+        client_secret: ENV.GOOGLE_SECRET,
+        code,
+        redirect_uri: CALLBACK_URL,
+        grant_type: 'authorization_code'
+      })
+    });
+    const json = await res.json();
+    if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
+    if(!json.access_token) throw new Error('no_token');
+    return { accessToken: json.access_token as string };
+  } catch (error) {
+    console.error('Google token fetch failed:', error);
+    throw new Error('Failed to fetch Google token');
+  }
 }
 
 async function fetchGoogleUser(token: string){
-  const res = await fetch('https://www.googleapis.com/oauth2/v2/userinfo',{ headers:{ Authorization:`Bearer ${token}` } });
-  const json = await res.json();
-  if(!res.ok) throw new Error(json?.error?.message || 'user_request_failed');
-  return json;
+  try {
+    const res = await fetch('https://www.googleapis.com/oauth2/v2/userinfo',{ headers:{ Authorization:`Bearer ${token}` } });
+    const json = await res.json();
+    if(!res.ok) throw new Error(json?.error?.message || 'user_request_failed');
+    return json;
+  } catch (error) {
+    console.error('Google user fetch failed:', error);
+    throw new Error('Failed to fetch Google user');
+  }
 }
 
 export async function GET(req: NextRequest){
@@ -129,13 +149,25 @@ export async function GET(req: NextRequest){
     const refresh = await signJWT(refreshPayload, {aud:'auth', iss: ENV.ISSUER, expSeconds: 14*24*60*60});
     const ott = await signJWT(ottPayload, {aud:'auth', iss: ENV.ISSUER, expSeconds: 60});
 
-    const redirectUrl = new URL(state.ret);
+    // Validate return URL to prevent open redirect
+    let redirectUrl: URL;
+    try {
+      redirectUrl = new URL(state.ret);
+      // Only allow HTTPS URLs or localhost for development
+      if (redirectUrl.protocol !== 'https:' && !redirectUrl.hostname.includes('localhost')) {
+        throw new Error('Invalid redirect URL protocol');
+      }
+    } catch (error) {
+      console.error('Invalid redirect URL:', state.ret, error);
+      return NextResponse.json({error:'invalid_redirect_url'},{status:400});
+    }
     redirectUrl.searchParams.set('ott', ott);
 
     const res = NextResponse.redirect(redirectUrl);
     res.cookies.set('bl1nk_refresh', refresh, { httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:14*24*60*60 });
     return res;
   }catch(e:any){
-    return NextResponse.json({error:'oauth_failed', detail: e?.message},{status:400});
+    console.error('OAuth callback failed:', e);
+    return NextResponse.json({error:'oauth_failed', detail: e?.message || 'Unknown error'},{status:400});
   }
 }

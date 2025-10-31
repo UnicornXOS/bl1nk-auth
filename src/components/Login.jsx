@@ -226,16 +226,8 @@ const Login = ({ onLogin, isDark = false }) => {
 
               <div className={`p-4 rounded-lg ${isDark ? 'bg-gray-700' : 'bg-gray-50'}`}>
                 <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-2`}>
-                  Try the demo with any email and password (6+ characters):
+                  Try the demo with any valid email and password (6+ characters)
                 </p>
-                <div className="space-y-1 text-xs font-mono">
-                  <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>
-                    Email: demo@blinkos.com
-                  </p>
-                  <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>
-                    Password: demo123
-                  </p>
-                </div>
               </div>
             </div>
           </CardContent>

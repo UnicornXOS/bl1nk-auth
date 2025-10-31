@@ -3,6 +3,12 @@
 
 set -e +o pipefail
 
+# Error handling function
+fatal() {
+    echo "$1" >&2
+    exit 1
+}
+
 # Set up paths first
 bin_name="codacy-cli-v2"
 
@@ -49,13 +55,14 @@ get_version_from_yaml() {
 get_latest_version() {
     local response
     if [ -n "$GH_TOKEN" ]; then
-        response=$(curl -Lq --header "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/codacy/codacy-cli-v2/releases/latest" 2>/dev/null)
+        response=$(curl -Lq --header "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/codacy/codacy-cli-v2/releases/latest" 2>/dev/null) || fatal "Error: Failed to fetch latest version from GitHub API"
     else
-        response=$(curl -Lq "https://api.github.com/repos/codacy/codacy-cli-v2/releases/latest" 2>/dev/null)
+        response=$(curl -Lq "https://api.github.com/repos/codacy/codacy-cli-v2/releases/latest" 2>/dev/null) || fatal "Error: Failed to fetch latest version from GitHub API"
     fi
 
     handle_rate_limit "$response"
     local version=$(echo "$response" | grep -m 1 tag_name | cut -d'"' -f4)
+    [ -n "$version" ] || fatal "Error: Could not parse version from GitHub API response"
     echo "$version"
 }
 
@@ -71,9 +78,9 @@ download_file() {
 
     echo "Downloading from URL: ${url}"
     if command -v curl > /dev/null 2>&1; then
-        curl -# -LS "$url" -O
+        curl -# -LS "$url" -O || fatal "Error: Failed to download file using curl"
     elif command -v wget > /dev/null 2>&1; then
-        wget "$url"
+        wget "$url" || fatal "Error: Failed to download file using wget"
     else
         fatal "Error: Could not find curl or wget, please install one."
     fi
@@ -83,7 +90,7 @@ download() {
     local url="$1"
     local output_folder="$2"
 
-    ( cd "$output_folder" && download_file "$url" )
+    ( cd "$output_folder" && download_file "$url" ) || fatal "Error: Failed to download from $url"
 }
 
 download_cli() {

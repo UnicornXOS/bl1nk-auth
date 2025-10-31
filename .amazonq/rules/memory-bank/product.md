@@ -1,51 +1,58 @@
 # bl1nk-auth Product Overview
 
-## Purpose
-bl1nk-auth is a centralized OAuth gateway that provides authentication services for multiple applications. It serves as a single sign-on (SSO) solution that issues JWT tokens, refresh tokens, and provides JWKS (JSON Web Key Set) endpoints for token verification.
+## Project Purpose
+bl1nk-auth is a centralized OAuth gateway that serves as a unified authentication hub for multiple applications. It provides JWT token generation, refresh token management, and JWKS (JSON Web Key Set) endpoints, combined with a comprehensive marketing system.
 
-## Key Features
+## Core Value Proposition
+- **Centralized Authentication**: Single sign-on solution for multiple client applications
+- **JWT Token Management**: Secure token generation, validation, and refresh capabilities
+- **Marketing Integration**: Built-in landing pages and product showcase functionality
+- **Developer-Friendly**: Complete webhook system with queue management and dashboard monitoring
 
-### Authentication & Authorization
+## Key Features & Capabilities
+
+### Authentication System
 - Multi-provider OAuth support (GitHub, Google)
-- JWT token generation and validation
-- Refresh token management with secure cookie storage
-- JWKS endpoint for public key distribution
-- Session management with logout functionality
+- JWT token generation with configurable audiences
+- Refresh token rotation and management
+- JWKS endpoint for token verification
+- Session management with secure cookie handling
 
-### Webhook Processing System
-- Rate-limited webhook endpoint with secret validation
-- BullMQ-based job queue for asynchronous processing
-- Worker API for processing queued jobs (Cloudflare Cron compatible)
-- Dashboard UI for monitoring queue statistics and errors
-- Integration with Notion, GitHub, and custom providers
+### Marketing System
+- Landing page with hero sections and feature grids
+- Customer testimonials and pricing plans
+- Product showcase and call-to-action banners
+- Responsive design with theme support
 
-### Dashboard & Monitoring
-- Real-time queue statistics and job monitoring
-- Error tracking and debugging interface
-- API usage analytics and cost savings metrics
-- Settings management interface
+### Webhook & Queue Management
+- Rate-limited webhook endpoints with secret validation
+- BullMQ integration for background job processing
+- Worker system with Cloudflare Cron compatibility
+- Real-time dashboard for queue monitoring and statistics
 
 ### Developer Experience
-- Comprehensive documentation pages
-- Marketing pages with pricing and features
-- Chat interface for support
-- Agent-based assistance panel
+- TypeScript-first development
+- Next.js 15 with App Router
+- Comprehensive API routes
+- Built-in development tools and key generation scripts
 
-## Target Users
+## Target Users & Use Cases
 
 ### Primary Users
-- **Development Teams**: Need centralized authentication for multiple applications
-- **System Administrators**: Require webhook processing and job queue management
-- **Product Teams**: Want analytics and monitoring capabilities
+- **Development Teams**: Need centralized authentication for microservices
+- **Product Companies**: Require marketing pages with integrated auth flows
+- **SaaS Providers**: Want unified login experience across multiple products
 
 ### Use Cases
-- **Multi-application SSO**: Single authentication point for multiple services
-- **Webhook Processing**: Automated handling of external service notifications
-- **API Gateway**: Centralized token validation and user session management
-- **Development Workflow**: Integration with GitHub and Notion for project management
+- Single sign-on for multiple applications
+- Marketing website with integrated authentication
+- Webhook processing for external integrations
+- JWT-based API authentication
+- Multi-tenant authentication scenarios
 
-## Value Proposition
-- **Simplified Authentication**: One system handles all OAuth flows and token management
-- **Scalable Webhook Processing**: Reliable job queue system with monitoring
-- **Developer-Friendly**: Comprehensive APIs and documentation
-- **Production-Ready**: Built with Next.js 15, TypeScript, and enterprise-grade dependencies
+## Technical Highlights
+- Built on Next.js 15 with TypeScript
+- Redis-based rate limiting and queue management
+- Notion and GitHub integrations
+- Vercel/Cloudflare deployment ready
+- Comprehensive logging and monitoring

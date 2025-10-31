@@ -2,181 +2,115 @@
 
 ## Code Quality Standards
 
-### File Extensions and Language Usage
-- **TypeScript**: Use `.ts` for server-side logic, API routes, and utilities
-- **JSX/TSX**: Use `.jsx` for React components, `.tsx` when TypeScript is needed
-- **Consistent Extension Strategy**: API routes use `.ts`, UI components use `.jsx` unless requiring TypeScript features
+### File Organization & Naming
+- **Component Files**: Use PascalCase for React components (`Dashboard.jsx`, `AccessibilityProvider.tsx`)
+- **Utility Files**: Use kebab-case for utilities and configurations (`route.ts`, `drawer.jsx`)
+- **Directory Structure**: Group related components in logical directories (`ui/`, `marketing/`, `api/`)
+- **File Extensions**: Use `.tsx` for TypeScript React components, `.ts` for TypeScript utilities, `.jsx` for JavaScript React components
 
-### Import and Module Patterns
-- **Path Aliases**: Always use `@/` prefix for internal imports (`@/lib/utils`, `@/components/ui/button`)
-- **External Dependencies**: Import from package names directly (`import { NextRequest } from 'next/server'`)
-- **Destructured Imports**: Prefer destructuring for multiple exports (`import { cn } from "@/lib/utils"`)
-- **React Imports**: Use `import * as React from "react"` for comprehensive React usage
+### Import Conventions
+- **Absolute Imports**: Use `@/` path alias consistently for internal imports
+- **External Libraries**: Import external libraries first, followed by internal imports
+- **Destructuring**: Use destructured imports for React hooks and utilities
+- **Type Imports**: Separate type imports when using TypeScript
 
-### Component Architecture Standards
+### Code Formatting Patterns
+- **String Literals**: Use single quotes for JSX attributes, double quotes for regular strings
+- **Template Literals**: Use template literals for dynamic strings and multi-line content
+- **Semicolons**: Consistently use semicolons at statement ends
+- **Trailing Commas**: Include trailing commas in multi-line objects and arrays
 
-#### UI Component Structure (5/5 files follow this pattern)
-```javascript
-// 1. Client directive when needed
-"use client";
+## Component Architecture Standards
 
-// 2. External imports
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
+### React Component Patterns
+- **Functional Components**: Use functional components with hooks exclusively
+- **Props Destructuring**: Destructure props in function parameters with default values
+- **Component Composition**: Build reusable components through composition patterns
+- **Forward Refs**: Use `React.forwardRef` for components that need ref forwarding
 
-// 3. Internal imports with @/ alias
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+### State Management
+- **Local State**: Use `useState` for component-local state management
+- **Effect Hooks**: Use `useEffect` for side effects with proper dependency arrays
+- **Custom Hooks**: Extract reusable logic into custom hooks (e.g., `useIsMobile`, `useAccessibility`)
+- **Context Providers**: Use React Context for cross-component state sharing
 
-// 4. Component implementation with data-slot attributes
-function ComponentName({ className, ...props }) {
-  return (
-    <div
-      data-slot="component-name"
-      className={cn("base-classes", className)}
-      {...props}
-    />
-  );
-}
+### Styling Conventions
+- **Tailwind CSS**: Use Tailwind utility classes for styling
+- **Conditional Classes**: Use `cn()` utility function for conditional class application
+- **CSS Variables**: Use CSS custom properties for dynamic styling (e.g., `--sidebar-width`)
+- **Responsive Design**: Apply mobile-first responsive design patterns
 
-// 5. Named exports at bottom
-export { ComponentName }
-```
+## TypeScript Implementation
 
-#### API Route Structure (2/2 API files follow this pattern)
-```typescript
-// 1. Next.js imports
-import { NextRequest, NextResponse } from 'next/server';
+### Type Definitions
+- **Interface Naming**: Use descriptive interface names ending with `Type` or `Props`
+- **Optional Properties**: Use optional properties (`?`) appropriately in interfaces
+- **Generic Types**: Use generic types for reusable component patterns
+- **Type Guards**: Implement proper type checking and validation
 
-// 2. Internal library imports
-import { ENV } from '@/lib/env';
-import { logger } from '@/lib/logger';
+### Error Handling
+- **Try-Catch Blocks**: Wrap async operations in try-catch blocks
+- **Error Typing**: Type errors as `Error` and access properties safely
+- **Validation**: Use runtime validation with libraries like Zod
+- **Fallback Values**: Provide sensible fallback values for optional data
 
-// 3. Runtime configuration
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+## API Route Patterns
 
-// 4. Helper functions before main handler
-function helperFunction() { /* implementation */ }
+### Request Handling
+- **Runtime Configuration**: Export `runtime` and `dynamic` configurations for API routes
+- **HTTP Methods**: Use appropriate HTTP methods (GET, POST, PUT, DELETE)
+- **Request Validation**: Validate request headers, body, and parameters
+- **Response Formatting**: Return consistent JSON response structures
 
-// 5. Main handler with comprehensive error handling
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  // Implementation with proper error responses
-}
-```
+### Security Practices
+- **Rate Limiting**: Implement rate limiting for public endpoints
+- **Authentication**: Validate authentication tokens and secrets
+- **Input Sanitization**: Sanitize and validate all user inputs
+- **IP Resolution**: Properly resolve client IP addresses from headers
 
-### Styling and CSS Conventions
+### Error Responses
+- **Status Codes**: Use appropriate HTTP status codes (200, 400, 401, 429, 500)
+- **Error Objects**: Return structured error objects with descriptive messages
+- **Logging**: Log errors with contextual information for debugging
 
-#### Tailwind CSS Usage (5/5 files demonstrate)
-- **Conditional Classes**: Use template literals for dynamic styling
-  ```javascript
-  className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-  ```
-- **Class Merging**: Always use `cn()` utility for combining classes
-  ```javascript
-  className={cn("base-classes", conditionalClasses, className)}
-  ```
-- **Responsive Design**: Use responsive prefixes (`md:grid-cols-2`, `sm:max-w-sm`)
-- **Dark Mode**: Implement theme-aware styling with conditional classes
+## Accessibility Implementation
 
-#### Component Styling Patterns
-- **Data Attributes**: Use `data-slot`, `data-sidebar`, `data-state` for component identification
-- **CSS Variables**: Leverage CSS custom properties (`--sidebar-width`, `--skeleton-width`)
-- **Variant Systems**: Use `class-variance-authority` for component variants
+### ARIA Standards
+- **Semantic HTML**: Use semantic HTML elements where appropriate
+- **ARIA Labels**: Provide `aria-label` attributes for interactive elements
+- **Screen Reader Support**: Include screen reader only content with `sr-only` classes
+- **Focus Management**: Implement proper focus management for interactive components
 
-### State Management Patterns
+### User Preferences
+- **System Preferences**: Respect system preferences (reduced motion, high contrast)
+- **Local Storage**: Persist accessibility preferences in localStorage
+- **Dynamic Classes**: Apply accessibility classes dynamically based on user settings
+- **Voice Navigation**: Implement voice navigation features with speech synthesis
 
-#### React Hooks Usage (4/5 files demonstrate)
-- **useState**: For local component state with descriptive names
-- **useEffect**: For side effects with proper cleanup
-- **useCallback**: For memoized functions, especially event handlers
-- **useMemo**: For expensive computations and object creation
-- **Custom Hooks**: Extract reusable logic (`useIsMobile`, `useSidebar`)
+## Performance Optimization
 
-#### Context Pattern (1/1 context file follows)
-```javascript
-const SidebarContext = React.createContext(null)
+### Component Optimization
+- **Memoization**: Use `React.useMemo` and `React.useCallback` for expensive computations
+- **Lazy Loading**: Implement lazy loading for large components and routes
+- **Code Splitting**: Split code at route and component boundaries
+- **Bundle Optimization**: Optimize bundle size through proper imports
 
-function useSidebar() {
-  const context = React.useContext(SidebarContext)
-  if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider.")
-  }
-  return context
-}
-```
+### Data Handling
+- **Efficient Updates**: Minimize re-renders through proper dependency management
+- **Caching**: Implement appropriate caching strategies for API responses
+- **Background Processing**: Use queue systems for background job processing
+- **Resource Management**: Properly clean up resources in useEffect cleanup functions
 
-### Error Handling and Validation
+## Testing & Quality Assurance
 
-#### API Error Responses (2/2 API files implement)
-- **Consistent Error Format**: Always return JSON with `error` field
-- **HTTP Status Codes**: Use appropriate codes (400, 401, 429, 500, 503)
-- **Rate Limiting**: Include rate limit headers in responses
-- **Logging**: Use structured logging with context information
+### Code Validation
+- **TypeScript Strict Mode**: Use strict TypeScript configuration
+- **ESLint Rules**: Follow ESLint configuration for code quality
+- **Type Safety**: Ensure comprehensive type coverage
+- **Runtime Validation**: Validate data at runtime boundaries
 
-#### Input Validation and Sanitization (1/1 webhook file demonstrates)
-- **Type Guards**: Implement runtime type checking functions
-- **Input Sanitization**: Clean and validate user inputs before processing
-- **Header Validation**: Verify required headers and authentication tokens
-
-### TypeScript Patterns
-
-#### Type Definitions (1/1 TypeScript file demonstrates)
-- **Interface Definitions**: Use interfaces for object shapes
-- **Union Types**: Define allowed values (`type LocaleCode = 'th' | 'en'`)
-- **Generic Functions**: Implement reusable type-safe functions
-- **Record Types**: Use `Record<K, V>` for key-value mappings
-
-#### Type Safety Practices
-- **Strict Configuration**: Enable strict mode in tsconfig.json
-- **Explicit Return Types**: Define return types for functions
-- **Optional Properties**: Use `?` for optional interface properties
-- **Type Guards**: Implement runtime type checking
-
-### Performance Optimization
-
-#### Component Optimization (3/5 files implement)
-- **React.memo**: Memoize components to prevent unnecessary re-renders
-- **useMemo/useCallback**: Memoize expensive computations and functions
-- **Lazy Loading**: Use dynamic imports for code splitting
-- **Animation Libraries**: Use Framer Motion for smooth animations
-
-#### Bundle Optimization
-- **Tree Shaking**: Import only needed functions from libraries
-- **Code Splitting**: Separate routes and components appropriately
-- **Asset Optimization**: Optimize images and static assets
-
-### Accessibility Standards
-
-#### Semantic HTML (4/5 files demonstrate)
-- **Proper Elements**: Use semantic HTML elements (`main`, `nav`, `button`)
-- **ARIA Labels**: Include `aria-label` and `aria-disabled` attributes
-- **Screen Reader Support**: Add `sr-only` classes for screen reader text
-- **Keyboard Navigation**: Support keyboard interactions and focus management
-
-#### Focus Management
-- **Focus Indicators**: Implement visible focus states
-- **Tab Index**: Use `tabIndex={-1}` for programmatic focus
-- **Focus Trapping**: Implement focus trapping in modals and drawers
-
-### Internationalization
-
-#### Multi-language Support (1/1 theme file implements)
-- **Locale Types**: Define supported locales as union types
-- **Localized Content**: Store translations in structured objects
-- **Fallback Strategy**: Implement fallback to default language
-- **Helper Functions**: Create utilities for accessing localized text
-
-### Development Workflow
-
-#### File Organization
-- **Feature-based Structure**: Group related components and utilities
-- **Consistent Naming**: Use descriptive, consistent file and function names
-- **Export Patterns**: Use named exports at file bottom
-- **Import Organization**: Group imports by type (external, internal, relative)
-
-#### Code Documentation
-- **Inline Comments**: Explain complex logic and business rules
-- **Function Documentation**: Document parameters and return values
-- **Component Props**: Define clear prop interfaces
-- **README Files**: Maintain comprehensive project documentation
+### Documentation Standards
+- **Component Documentation**: Document component props and usage patterns
+- **API Documentation**: Document API endpoints with request/response examples
+- **Code Comments**: Use comments sparingly for complex business logic
+- **README Files**: Maintain comprehensive README documentation

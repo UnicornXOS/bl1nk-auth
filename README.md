@@ -26,14 +26,14 @@
 
 ## รันในเครื่อง
 ```bash
-pnpm i
-pnpm dev -p 8787
+npm install
+npm run dev
 ```
 - เปิด `http://localhost:8787` เพื่อดูหน้า Marketing
 - เปิด `http://localhost:8787/login` เพื่อทดสอบระบบ Authentication
 - ใช้สคริปต์สร้างกุญแจ:
 ```
-pnpm gen:key  # นำค่า PEM ไปใส่ใน .env.local
+npm run gen:key  # นำค่า PEM ไปใส่ใน .env.local
 ```
 
 ## ตั้งค่า .env.local

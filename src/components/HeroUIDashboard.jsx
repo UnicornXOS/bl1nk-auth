@@ -1,3 +1,12 @@
+/**
+ * HeroUIDashboard Component
+ * 
+ * SECURITY NOTE: This component handles API key display for demonstration purposes.
+ * - API keys are masked for display (showing only last 4 characters)
+ * - Actual API keys should be stored securely server-side with proper encryption
+ * - Environment variables are used for configuration, not hardcoded credentials
+ * - Client-side storage of API keys should be avoided in production
+ */
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -25,9 +34,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const HeroUIDashboard = ({ isDark = false }) => {
   const [apiKeys, setApiKeys] = useState([
-    { id: 1, name: 'OpenAI GPT-4', key: 'sk-...abc123', status: 'active', usage: 85 },
-    { id: 2, name: 'Anthropic Claude', key: 'sk-...def456', status: 'active', usage: 62 },
-    { id: 3, name: 'Google Gemini', key: 'sk-...ghi789', status: 'inactive', usage: 0 }
+    { id: 1, name: 'OpenAI GPT-4', key: process.env.REACT_APP_OPENAI_KEY ? '****' + process.env.REACT_APP_OPENAI_KEY.slice(-4) : 'Not configured', status: 'active', usage: 85 },
+    { id: 2, name: 'Anthropic Claude', key: process.env.REACT_APP_ANTHROPIC_KEY ? '****' + process.env.REACT_APP_ANTHROPIC_KEY.slice(-4) : 'Not configured', status: 'active', usage: 62 },
+    { id: 3, name: 'Google Gemini', key: process.env.REACT_APP_GOOGLE_KEY ? '****' + process.env.REACT_APP_GOOGLE_KEY.slice(-4) : 'Not configured', status: 'inactive', usage: 0 }
   ])
   const [newApiKey, setNewApiKey] = useState({ name: '', key: '' })
   const [showAddForm, setShowAddForm] = useState(false)
@@ -58,13 +67,17 @@ const HeroUIDashboard = ({ isDark = false }) => {
 
   const handleAddApiKey = () => {
     if (newApiKey.name && newApiKey.key) {
+      // Store only masked version for display, actual key should be stored securely server-side
+      const maskedKey = newApiKey.key.length > 4 ? '****' + newApiKey.key.slice(-4) : '****'
       setApiKeys([...apiKeys, {
         id: Date.now(),
         name: newApiKey.name,
-        key: newApiKey.key,
+        key: maskedKey,
         status: 'active',
         usage: 0
       }])
+      // TODO: Send actual key to secure server endpoint for storage
+      // await storeApiKeySecurely(newApiKey.name, newApiKey.key)
       setNewApiKey({ name: '', key: '' })
       setShowAddForm(false)
     }
@@ -354,9 +367,10 @@ const HeroUIDashboard = ({ isDark = false }) => {
                   <Input
                     id="apiKey"
                     type="password"
-                    placeholder="sk-..."
+                    placeholder="Enter your API key"
                     value={newApiKey.key}
                     onChange={(e) => setNewApiKey({...newApiKey, key: e.target.value})}
+                    autoComplete="off"
                   />
                 </div>
               </div>

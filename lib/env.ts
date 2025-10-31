@@ -1,3 +1,17 @@
+function validateEnv() {
+  const requiredVars = ['AUTH_PRIVATE_KEY_PEM', 'AUTH_PUBLIC_KEY_PEM'];
+  const missing = requiredVars.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    console.error(`Missing required environment variables: ${missing.join(', ')}`);
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+    }
+  }
+}
+
+validateEnv();
+
 export const ENV = {
   ISSUER: process.env.AUTH_ISSUER ?? 'http://localhost:8787',
   AUD: process.env.AUTH_AUDIENCE ?? 'bl1nk-note',
