@@ -1,7 +1,7 @@
 // New component for documentation page
 import React from "react";
-import { Tabs, Tab, Card, CardBody, Divider } from "@heroui/react";
-import { Icon } from "@iconify/react";
+// import { Tabs, Tab, Card, CardBody, Divider } from "@heroui/react";
+// import { Icon } from "@iconify/react";
 import { TopBar } from "../components/top-bar";
 import { Footer } from "../components/footer";
 import { ChatBox } from "../components/chat-box";
@@ -14,8 +14,8 @@ export function DocumentationPage() {
       <div className="flex-1 container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-64 shrink-0">
-            <Card className="sticky top-8">
-              <CardBody className="p-0">
+            <div className="sticky top-8 bg-card rounded-lg border">
+              <div className="p-0">
                 <div className="p-4 bg-gray-50 border-b border-gray-200">
                   <h2 className="text-lg font-semibold">Documentation</h2>
                 </div>
@@ -27,7 +27,7 @@ export function DocumentationPage() {
                         href="#introduction" 
                         className="flex items-center px-3 py-2 text-sm rounded-md bg-blue-50 text-blue-700"
                       >
-                        <Icon icon="lucide:book-open" className="w-4 h-4 mr-2" />
+                        📖
                         Introduction
                       </a>
                     </li>
@@ -36,7 +36,7 @@ export function DocumentationPage() {
                         href="#getting-started" 
                         className="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
                       >
-                        <Icon icon="lucide:play" className="w-4 h-4 mr-2" />
+                        ▶️
                         Getting Started
                       </a>
                     </li>
@@ -45,7 +45,7 @@ export function DocumentationPage() {
                         href="#api-reference" 
                         className="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
                       >
-                        <Icon icon="lucide:code" className="w-4 h-4 mr-2" />
+                        💻
                         API Reference
                       </a>
                     </li>
@@ -54,7 +54,7 @@ export function DocumentationPage() {
                         href="#examples" 
                         className="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
                       >
-                        <Icon icon="lucide:layout" className="w-4 h-4 mr-2" />
+                        📋
                         Examples
                       </a>
                     </li>
@@ -63,7 +63,7 @@ export function DocumentationPage() {
                         href="#tutorials" 
                         className="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
                       >
-                        <Icon icon="lucide:graduation-cap" className="w-4 h-4 mr-2" />
+                        🎓
                         Tutorials
                       </a>
                     </li>
@@ -72,14 +72,14 @@ export function DocumentationPage() {
                         href="#faq" 
                         className="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
                       >
-                        <Icon icon="lucide:help-circle" className="w-4 h-4 mr-2" />
+                        ❓
                         FAQ
                       </a>
                     </li>
                   </ul>
                 </div>
-              </CardBody>
-            </Card>
+              </div>
+            </div>
           </div>
           
           <div className="flex-1">
@@ -89,8 +89,8 @@ export function DocumentationPage() {
                 Welcome to the BLinkOS documentation. Here you'll find comprehensive guides and documentation to help you start working with BLinkOS as quickly as possible.
               </p>
               
-              <Tabs aria-label="Documentation tabs" color="primary" variant="underlined">
-                <Tab key="overview" title="Overview">
+              <div className="tabs">
+                <div className="tab-content">
                   <div className="py-4">
                     <h2>What is BLinkOS?</h2>
                     <p>
@@ -150,8 +150,8 @@ export function DocumentationPage() {
                       </pre>
                     </div>
                   </div>
-                </Tab>
-                <Tab key="quickstart" title="Quick Start">
+                </div>
+                <div className="tab-content">
                   <div className="py-4">
                     <h2>Quick Start Guide</h2>
                     <p>
@@ -212,8 +212,8 @@ const response = await blinkos.complete({
                       </pre>
                     </div>
                   </div>
-                </Tab>
-                <Tab key="api" title="API Reference">
+                </div>
+                <div className="tab-content">
                   <div className="py-4">
                     <h2>API Reference</h2>
                     <p>
@@ -243,10 +243,10 @@ const response = await blinkos.complete({
                       </div>
                     </div>
                   </div>
-                </Tab>
-              </Tabs>
+                </div>
+              </div>
               
-              <Divider className="my-8" />
+              <hr className="my-8 border-border" />
               
               <h2 id="getting-started">Getting Started</h2>
               <p>
