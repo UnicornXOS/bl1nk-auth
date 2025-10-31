@@ -68,15 +68,6 @@ function extractIpv4(candidate: string): string | null {
 }
 
 function sanitizeIp(ip: string): string {
-  const trimmed = ip.trim();
-  const unwrapped = stripWrappingCharacters(trimmed);
-  const ipv4 = extractIpv4(unwrapped);
-  if (ipv4) {
-    return ipv4;
-  }
-
-  return unwrapped;
-function sanitizeIp(ip: string): string {
   if (!ip) return '';
   // trim and remove surrounding quotes first
   let trimmed = ip.trim().replace(/^['"]+|['"]+$/g, '').trim();
@@ -117,11 +108,7 @@ function sanitizeIp(ip: string): string {
   trimmed = trimmed.split('%')[0];
 
   // Remove any remaining surrounding brackets and return
-  return trimmed.replace(/^
-
-\[|\]
-
-$/g, '').trim();
+  return trimmed.replace(/^[\[\]]+|[\[\]]+$/g, '').trim();
 }
 
 function firstHeaderValue(header: string | null): string | null {
@@ -140,27 +127,6 @@ function firstHeaderValue(header: string | null): string | null {
 
 function parseForwarded(header: string | null): string | null {
   if (!header) return null;
-  for (const entry of header.split(',')) {
-    const trimmedEntry = entry.trim();
-    if (!trimmedEntry) continue;
-
-    for (const part of trimmedEntry.split(';')) {
-      const separatorIndex = part.indexOf('=');
-      if (separatorIndex === -1) {
-        continue;
-      }
-
-      const key = part.slice(0, separatorIndex).trim().toLowerCase();
-      if (key !== 'for') {
-        continue;
-      }
-
-      const rawValue = part.slice(separatorIndex + 1).trim();
-      if (!rawValue) {
-        continue;
-      }
-
-      const sanitized = sanitizeIp(rawValue);
   const entries = header.split(',');
   for (const entry of entries) {
     const match = entry.match(/for=([^;]+)/i);
@@ -175,12 +141,6 @@ function parseForwarded(header: string | null): string | null {
 }
 
 function resolveClientIp(request: NextRequest): string {
-  const headerOrder = [
-    () => firstHeaderValue(request.headers.get('x-forwarded-for')),
-    () => parseForwarded(request.headers.get('forwarded')),
-    () => firstHeaderValue(request.headers.get('cf-connecting-ip')),
-    () => firstHeaderValue(request.headers.get('x-real-ip')),
-    () => firstHeaderValue(request.headers.get('x-client-ip')),
   const xForwardedFor = request.headers.get('x-forwarded-for');
   const forwarded = request.headers.get('forwarded');
   const cfConnectingIp = request.headers.get('cf-connecting-ip');

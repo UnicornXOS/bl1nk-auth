@@ -1,13 +1,36 @@
 # bl1nk-auth (OAuth Gateway)
 
-ศูนย์ล็อกอินกลางสำหรับหลายงาน ออก JWT + Refresh และ JWKS
+ศูนย์ล็อกอินกลางสำหรับหลายงาน ออก JWT + Refresh และ JWKS พร้อมระบบ Marketing
+
+## ระบบหลัก
+- **ระบบ Authentication**: ระบบล็อกอินกลางที่รองรับหลาย provider
+- **ระบบ Marketing**: หน้าแนะนำผลิตภัณฑ์และบริการ
+
+## โครงสร้างไดเรกทอรี
+- `app/(auth)` - ส่วนของระบบ Authentication
+- `app/(marketing)` - ส่วนของระบบ Marketing
+- `components/marketing` - คอมโพเนนต์สำหรับหน้า Marketing
+
+### Marketing Components
+- `Hero.tsx` - ส่วนหัวหลักของ landing page
+- `FeatureGrid.tsx` - แสดงคุณสมบัติหลักแบบ grid
+- `Testimonials.tsx` - แสดงคำแนะนำจากลูกค้า
+- `PricingPlans.tsx` - แสดงแผนราคาต่างๆ
+
+## หน้า Homepage (/)
+หน้าแรกของเว็บไซต์แสดงข้อมูลแนะนำผลิตภัณฑ์และบริการ ประกอบด้วย:
+- ส่วน Hero แสดงข้อความหลักและ call-to-action
+- ส่วนแสดงคุณสมบัติหลักของผลิตภัณฑ์
+- ส่วนแสดงคำแนะนำจากลูกค้า
+- ส่วนแสดงแผนราคาต่างๆ
 
 ## รันในเครื่อง
 ```bash
 pnpm i
 pnpm dev -p 8787
 ```
-- เปิด `http://localhost:8787/login` เพื่อทดสอบ
+- เปิด `http://localhost:8787` เพื่อดูหน้า Marketing
+- เปิด `http://localhost:8787/login` เพื่อทดสอบระบบ Authentication
 - ใช้สคริปต์สร้างกุญแจ:
 ```
 pnpm gen:key  # นำค่า PEM ไปใส่ใน .env.local
