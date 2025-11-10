@@ -1,8 +1,5 @@
 name: Dependency Check
 
-permissions:
-  contents: read
-
 on:
   push:
     branches: [main]
@@ -17,8 +14,10 @@ on:
 
 jobs:
   audit:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,4 +39,3 @@ jobs:
           else
             echo "Warning: package-lock.json is out of sync"
             exit 1
-          fi
