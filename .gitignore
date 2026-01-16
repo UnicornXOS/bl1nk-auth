@@ -20,3 +20,10 @@ yarn-error.log*
 .github\instructions\codacy.instructions.md
 .kilocode/mcp.json
 .vscode/extensions.json
+.env.production
+
+# Files with secrets
+GOOGLE_OAUTH_CREDENTIALS.md
+VERCEL_DEPLOY_READY.md
+*_CREDENTIALS.md
+*_READY.md

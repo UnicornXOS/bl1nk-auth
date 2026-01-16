@@ -1,4 +1,5 @@
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { AccessibilityProvider } from '@/components/ui/accessibility-provider';
 import PageTransition from '@/components/ui/page-transition';
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }): JSX.E
             <SiteFooter />
           </AccessibilityProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
