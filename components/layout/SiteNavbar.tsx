@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import type { JSX } from 'react';
 import type { LocaleCode } from '@/lib/theme/tokens';
 import { designTokens, getLocalizedText } from '@/lib/theme/tokens';
-import ThemeToggle from '@/components/ui/theme-toggle';
-import LiquidLogo from '@/components/ui/liquid-logo';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import LiquidLogo from '@/components/ui/LiquidLogo';
 
 type NavigationLink = {
   href: string;

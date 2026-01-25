@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import IOS26Button from '@/components/ui/ios26-button';
-import LiquidLogo from '@/components/ui/liquid-logo';
+import IOS26Button from '@/components/ui/IOS26Button';
+import LiquidLogo from '@/components/ui/LiquidLogo';
 
 /**
  * Hero component for the landing page with iOS 26 style
