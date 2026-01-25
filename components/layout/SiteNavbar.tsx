@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { JSX } from 'react';
-import type { LocaleCode } from '@/theme/tokens';
-import { designTokens, getLocalizedText } from '@/theme/tokens';
+import type { LocaleCode } from '@/lib/theme/tokens';
+import { designTokens, getLocalizedText } from '@/lib/theme/tokens';
 import ThemeToggle from '@/components/ui/theme-toggle';
 import LiquidLogo from '@/components/ui/liquid-logo';
 

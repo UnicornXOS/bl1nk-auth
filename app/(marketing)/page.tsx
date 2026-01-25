@@ -1,9 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import LiquidLogo from '@/components/ui/liquid-logo';
-import FeatureCard from '@/components/ui/feature-card';
-import IOS26Button from '@/components/ui/ios26-button';
 import DynamicWidget from '@/components/ui/dynamic-widget';
 
 export default function Home() {
@@ -12,7 +9,9 @@ export default function Home() {
       {/* Header แบบ Liquid Glass */}
       <header className="p-6 backdrop-blur-sm border-b border-blue-500/20">
         <div className="flex justify-between items-center">
-          <LiquidLogo />
+          <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            bl1nk
+          </div>
           <nav className="flex space-x-6">
             <Link href="#" className="hover:text-blue-300 transition-colors">Home</Link>
             <Link href="#" className="hover:text-blue-300 transition-colors">Features</Link>
@@ -32,33 +31,30 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <IOS26Button size="lg">
+          <Link href="/login" className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg font-semibold hover:opacity-90 transition-opacity text-center">
             เริ่มต้นใช้งานฟรี
-          </IOS26Button>
-          <IOS26Button variant="outline" size="lg">
+          </Link>
+          <Link href="#demo" className="px-8 py-3 border border-blue-500/50 rounded-lg font-semibold hover:bg-blue-500/10 transition-colors text-center">
             ดูการสาธิต
-          </IOS26Button>
+          </Link>
         </div>
 
         <div className="ios26-grid max-w-6xl mx-auto">
-          <FeatureCard
-            title="AI Builder"
-            icon="🤖"
-            description="Create AI models with Liquid Glass UI"
-            delay={0.8}
-          />
-          <FeatureCard
-            title="AI Chat"
-            icon="💬"
-            description="Chat with advanced AI assistants"
-            delay={1.0}
-          />
-          <FeatureCard
-            title="AI Analytics"
-            icon="📊"
-            description="Analyze data with AI-powered insights"
-            delay={1.2}
-          />
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10">
+            <div className="text-4xl mb-4">🤖</div>
+            <h3 className="text-xl font-bold mb-2">AI Builder</h3>
+            <p className="text-gray-400">Create AI models with Liquid Glass UI</p>
+          </div>
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10">
+            <div className="text-4xl mb-4">💬</div>
+            <h3 className="text-xl font-bold mb-2">AI Chat</h3>
+            <p className="text-gray-400">Chat with advanced AI assistants</p>
+          </div>
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-bold mb-2">AI Analytics</h3>
+            <p className="text-gray-400">Analyze data with AI-powered insights</p>
+          </div>
         </div>
       </section>
 

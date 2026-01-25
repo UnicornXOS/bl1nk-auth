@@ -8,14 +8,6 @@ type ChatLine = {
   text: string;
 };
 
-/**
- * Renders a floating chat assistant UI with a toggle button and message panel.
- *
- * The component initializes the conversation with a Thai assistant greeting, accepts user input,
- * posts messages to /api/chat/ask, and appends assistant replies or error messages to the chat history.
- *
- * @returns The chat assistant UI as a JSX element
- */
 export function ChatFloating(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<ChatLine[]>([]);
@@ -38,25 +30,29 @@ export function ChatFloating(): JSX.Element {
       return;
     }
     form.reset();
-    setLines((current) => [...current, { role: 'you', text: message }]);
+    setLines((current: any) => [...current, { role: 'you', text: message }]);
 
     try {
-      const response = await fetch('/api/chat/ask', {
+      const endpoint = process.env.NEXT_PUBLIC_CONTEXT_BASE
+        ? `${process.env.NEXT_PUBLIC_CONTEXT_BASE}/chat`
+        : '/api/chat-proxy';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({
+          userId: 'web',
+          provider: 'openrouter',
+          messages: [{ role: 'user', content: message }]
+        })
       });
-      if (!response.ok) {
-        throw new Error(`request failed: ${response.status}`);
-      }
-      const payload = (await response.json()) as { reply?: string };
-      setLines((current) => [
+      const payload = (await response.json()) as { answer?: string };
+      setLines((current: any) => [
         ...current,
-        { role: 'assistant', text: payload.reply ?? '(no answer)' }
+        { role: 'assistant', text: payload.answer ?? '(no answer)' }
       ]);
     } catch (error) {
       const text = error instanceof Error ? error.message : 'unknown error';
-      setLines((current) => [...current, { role: 'error', text: `เกิดข้อผิดพลาด: ${text}` }]);
+      setLines((current: any) => [...current, { role: 'error', text: `เกิดข้อผิดพลาด: ${text}` }]);
     }
   };
 
@@ -64,7 +60,7 @@ export function ChatFloating(): JSX.Element {
     <div className="fixed bottom-5 right-5">
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setOpen((value: any) => !value)}
         className="w-10 h-10 rounded-full shadow-lg bg-primary text-primary-foreground"
         aria-expanded={open}
         aria-label="Toggle chat assistant"
@@ -76,7 +72,7 @@ export function ChatFloating(): JSX.Element {
           <div className="flex h-full flex-col">
             <header className="p-3 border-b text-sm font-semibold">Assistant</header>
             <div className="flex-1 p-3 overflow-auto text-sm space-y-2">
-              {lines.map((line, index) => (
+              {lines.map((line: { role: any; text: any; }, index: any) => (
                 <div key={index} className="leading-relaxed">
                   <span className="font-medium capitalize">{line.role}:</span>{' '}
                   <span>{line.text}</span>

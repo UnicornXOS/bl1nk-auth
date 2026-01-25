@@ -1,4 +1,5 @@
 {
     "editor.defaultFormatter": "amazonwebservices.amazon-q-vscode",
-    "editor.wordWrap": "wordWrapColumn"
+    "editor.wordWrap": "wordWrapColumn",
+    "terminal.integrated.defaultProfile.windows": "PowerShell"
 }

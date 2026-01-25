@@ -1,18 +1,21 @@
-import type { JSX } from 'react';
+import type { CSSProperties, JSX, ReactNode } from 'react';
+
+const NODE_WIDTH = 160;
+const NODE_HEIGHT = 56;
 
 export interface FlowNode {
   id: string;
-  label: string;
+  label: ReactNode;
   x: number;
   y: number;
-  type?: 'input' | 'output' | 'default';
+  type?: 'input' | 'default';
 }
 
 export interface FlowEdge {
   id: string;
   source: string;
   target: string;
-  label?: string;
+  label?: ReactNode;
 }
 
 interface FlowCanvasProps {
@@ -21,83 +24,55 @@ interface FlowCanvasProps {
 }
 
 export default function FlowCanvas({ nodes, edges }: FlowCanvasProps): JSX.Element {
+  const nodeMap = new Map(nodes.map((node) => [node.id, node] as const));
+
   return (
-    <div className="w-full h-full relative bg-gray-50">
-      <svg className="w-full h-full" viewBox="0 0 500 400">
-        {/* Render edges */}
+    <div className="flow-canvas">
+      <svg className="flow-canvas__edges" aria-hidden="true">
         {edges.map((edge) => {
-          const sourceNode = nodes.find(n => n.id === edge.source);
-          const targetNode = nodes.find(n => n.id === edge.target);
+          const source = nodeMap.get(edge.source);
+          const target = nodeMap.get(edge.target);
 
-          if (!sourceNode || !targetNode) return null;
+          if (!source || !target) {
+            return null;
+          }
 
-          const sourceX = sourceNode.x + 80; // Approximate node width
-          const sourceY = sourceNode.y + 25; // Approximate node height
-          const targetX = targetNode.x;
-          const targetY = targetNode.y + 25;
+          const startX = source.x + NODE_WIDTH;
+          const startY = source.y + NODE_HEIGHT / 2;
+          const endX = target.x;
+          const endY = target.y + NODE_HEIGHT / 2;
+          const controlOffset = Math.max(80, Math.abs(endX - startX) / 2);
+          const path = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${endX - controlOffset} ${endY}, ${endX} ${endY}`;
+          const labelX = (startX + endX) / 2;
+          const labelY = (startY + endY) / 2 - 8;
 
           return (
             <g key={edge.id}>
-              <line
-                x1={sourceX}
-                y1={sourceY}
-                x2={targetX}
-                y2={targetY}
-                stroke="#6366f1"
-                strokeWidth="2"
-                markerEnd="url(#arrowhead)"
-              />
-              {edge.label && (
-                <text
-                  x={(sourceX + targetX) / 2}
-                  y={(sourceY + targetY) / 2 - 5}
-                  textAnchor="middle"
-                  className="text-xs fill-gray-600"
-                >
+              <path d={path} className="flow-edge" />
+              {edge.label ? (
+                <text x={labelX} y={labelY} className="flow-edge__label">
                   {edge.label}
                 </text>
-              )}
+              ) : null}
             </g>
           );
         })}
-
-        {/* Arrow marker definition */}
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="7"
-            refX="9"
-            refY="3.5"
-            orient="auto"
-          >
-            <polygon
-              points="0 0, 10 3.5, 0 7"
-              fill="#6366f1"
-            />
-          </marker>
-        </defs>
       </svg>
+      {nodes.map((node) => {
+        const style: CSSProperties = {
+          transform: `translate(${node.x}px, ${node.y}px)`,
+        };
 
-      {/* Render nodes */}
-      {nodes.map((node) => (
-        <div
-          key={node.id}
-          className={`absolute px-4 py-2 rounded-lg border-2 text-sm font-medium cursor-pointer transition-colors ${
-            node.type === 'input'
-              ? 'bg-green-100 border-green-300 text-green-800'
-              : node.type === 'output'
-              ? 'bg-red-100 border-red-300 text-red-800'
-              : 'bg-blue-100 border-blue-300 text-blue-800'
-          }`}
-          style={{
-            left: node.x,
-            top: node.y,
-          }}
-        >
-          {node.label}
-        </div>
-      ))}
+        return (
+          <div
+            key={node.id}
+            className={`flow-node${node.type === 'input' ? ' flow-node--input' : ''}`}
+            style={style}
+          >
+            {node.label}
+          </div>
+        );
+      })}
     </div>
   );
 }

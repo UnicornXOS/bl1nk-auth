@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { JSX } from 'react';
-import type { LocaleCode } from '@/theme/tokens';
-import { designTokens } from '@/theme/tokens';
+import type { LocaleCode } from '@/lib/theme/tokens';
+import { designTokens } from '@/lib/theme/tokens';
 
 type FooterColumn = {
   heading: Record<LocaleCode, string>;

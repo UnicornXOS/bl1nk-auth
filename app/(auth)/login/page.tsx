@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { JSX } from 'react';
 import clients from '@/config/clients.json';
-import { designTokens } from '@/theme/tokens';
+import { designTokens } from '@/lib/theme/tokens';
 
 type ProviderId = 'github' | 'google';
 
@@ -29,21 +29,21 @@ const oauthProviders: Array<{
   helper: string;
   icon: string;
 }> = [
-  {
-    id: 'github',
-    labelTh: 'เข้าสู่ระบบด้วย GitHub',
-    labelEn: 'Continue with GitHub',
-    helper: 'สำหรับนักพัฒนาและทีมเทคนิค',
-    icon: '🐙'
-  },
-  {
-    id: 'google',
-    labelTh: 'เข้าสู่ระบบด้วย Google Workspace',
-    labelEn: 'Sign in with Google',
-    helper: 'รองรับบัญชีองค์กรและการยืนยันแบบ 2FA',
-    icon: '🛡️'
-  }
-];
+    {
+      id: 'github',
+      labelTh: 'เข้าสู่ระบบด้วย GitHub',
+      labelEn: 'Continue with GitHub',
+      helper: 'สำหรับนักพัฒนาและทีมเทคนิค',
+      icon: '🐙'
+    },
+    {
+      id: 'google',
+      labelTh: 'เข้าสู่ระบบด้วย Google Workspace',
+      labelEn: 'Sign in with Google',
+      helper: 'รองรับบัญชีองค์กรและการยืนยันแบบ 2FA',
+      icon: '🛡️'
+    }
+  ];
 
 const errorMessages: Record<Exclude<ErrorCode, null>, { th: string; en: string }> = {
   unsupported_provider: {
