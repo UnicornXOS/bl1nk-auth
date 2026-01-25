@@ -39,17 +39,7 @@ Configure Vercel project settings through `vercel.json` for production-ready Nex
 
 ### Health Check Endpoint
 
-Always include deployment checks:
-
-```json
-{
-  "checks": {
-    "paths": [{ "path": "/api/health", "status": 200 }]
-  }
-}
-```
-
-Create the health endpoint at `app/api/health/route.ts`:
+Create a health endpoint for monitoring:
 
 ```typescript
 import { NextResponse } from 'next/server';
