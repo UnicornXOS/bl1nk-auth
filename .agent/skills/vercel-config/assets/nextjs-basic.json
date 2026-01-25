@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "checks": {
+    "paths": [
+      {
+        "path": "/api/health",
+        "status": 200
+      }
+    ]
+  }
+}
