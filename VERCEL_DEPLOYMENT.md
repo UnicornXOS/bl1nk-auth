@@ -3,6 +3,7 @@
 ## Environment Variables ที่จำเป็นสำหรับ Vercel
 
 ### 🔴 Critical (จำเป็นต้องมี)
+
 ```bash
 # Authentication Keys (สร้างด้วย npm run gen:key)
 AUTH_PRIVATE_KEY_PEM="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
@@ -21,6 +22,7 @@ AUTH_AUDIENCE="bl1nk-note"
 ```
 
 ### 🟡 Optional (สำหรับ features เพิ่มเติม)
+
 ```bash
 # Webhook System
 WEBHOOK_SECRET="your-webhook-secret"
@@ -39,14 +41,17 @@ LOGTAIL_TOKEN="your_logtail_token"
 ## ขั้นตอนการ Deploy
 
 ### 1. สร้าง Cryptographic Keys
+
 ```bash
 npm run gen:key
 ```
+
 คัดลอกค่า PEM ที่ได้ไปใส่ใน Vercel Environment Variables
 
 ### 2. ตั้งค่า OAuth Apps
 
 #### GitHub OAuth App
+
 1. ไปที่ GitHub Settings > Developer settings > OAuth Apps
 2. สร้าง New OAuth App:
    - Application name: `bl1nk-auth`
@@ -54,11 +59,13 @@ npm run gen:key
    - Authorization callback URL: `https://your-app.vercel.app/api/oauth/callback`
 
 #### Google OAuth App
+
 1. ไปที่ Google Cloud Console
 2. สร้าง OAuth 2.0 Client ID:
    - Authorized redirect URIs: `https://your-app.vercel.app/api/oauth/callback`
 
 ### 3. Deploy ไป Vercel
+
 ```bash
 # ติดตั้ง Vercel CLI
 npm i -g vercel
@@ -68,12 +75,14 @@ vercel --prod
 ```
 
 ### 4. ตั้งค่า Environment Variables ใน Vercel Dashboard
+
 1. ไปที่ Vercel Dashboard > Project Settings > Environment Variables
 2. เพิ่มตัวแปรทั้งหมดจาก section Critical ข้างต้น
 
 ## การพัฒนาต่อ
 
 ### Phase 1: Core Functionality ✅
+
 - [x] OAuth Authentication (GitHub, Google)
 - [x] JWT Token Generation
 - [x] JWKS Endpoint
@@ -81,6 +90,7 @@ vercel --prod
 - [x] Basic Dashboard
 
 ### Phase 2: Enhanced Features 🚧
+
 - [ ] User Management Dashboard
 - [ ] API Key Management
 - [ ] Rate Limiting Dashboard
@@ -88,6 +98,7 @@ vercel --prod
 - [ ] Analytics & Monitoring
 
 ### Phase 3: Advanced Features 📋
+
 - [ ] Multi-tenant Support
 - [ ] Custom OAuth Providers
 - [ ] Advanced Security Features
@@ -97,6 +108,7 @@ vercel --prod
 ## Recommended Next Steps
 
 ### 1. ปรับปรุง Security
+
 ```typescript
 // เพิ่ม CORS configuration
 // เพิ่ม rate limiting ทุก endpoint
@@ -104,6 +116,7 @@ vercel --prod
 ```
 
 ### 2. เพิ่ม Monitoring
+
 ```typescript
 // เพิ่ม error tracking (Sentry)
 // เพิ่ม performance monitoring
@@ -111,6 +124,7 @@ vercel --prod
 ```
 
 ### 3. ปรับปรุง UX
+
 ```typescript
 // เพิ่ม loading states
 // เพิ่ม error boundaries
@@ -118,6 +132,7 @@ vercel --prod
 ```
 
 ### 4. Database Integration
+
 ```typescript
 // เพิ่ม user persistence
 // เพิ่ม session management
@@ -125,6 +140,7 @@ vercel --prod
 ```
 
 ## Testing URLs
+
 - Production: `https://your-app.vercel.app`
 - Login: `https://your-app.vercel.app/login`
 - JWKS: `https://your-app.vercel.app/.well-known/jwks.json`
@@ -133,6 +149,7 @@ vercel --prod
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Keys not working**: ตรวจสอบ PEM format ใน environment variables
 2. **OAuth errors**: ตรวจสอบ callback URLs ใน OAuth apps
 3. **CORS errors**: ตรวจสอบ domain configuration

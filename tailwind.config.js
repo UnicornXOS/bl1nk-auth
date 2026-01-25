@@ -1,3 +1,6 @@
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -16,6 +19,11 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', ...fontFamily.sans],
+        mono: ['"Roboto Mono"', ...fontFamily.mono],
+        display: ['"Orbitron"', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -50,20 +58,43 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Neon Palette
+        'user-terminal': 'rgb(var(--color-user-terminal) / <alpha-value>)',
+        'gemini-cyan': 'rgb(var(--color-gemini-cyan) / <alpha-value>)',
+        'claude-amber': 'rgb(var(--color-claude-amber) / <alpha-value>)',
+        'system-violet': 'rgb(var(--color-system-violet) / <alpha-value>)',
+        'accent-light': 'rgb(var(--color-accent-light) / <alpha-value>)',
+        'carbon-fiber': 'var(--bg-carbon-fiber)',
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: "100%",
-          },
+      backgroundColor: {
+        'glass': 'var(--glass-background)',
+      },
+      borderColor: {
+        'glass': 'var(--glass-border-color)',
+      },
+      boxShadow: {
+        'rim-light': '0 0 0 1px var(--glass-rim-light)',
+      },
+      animation: {
+        'radar-sweep': 'radar-sweep 4s linear infinite',
+        'pulse-glow': 'pulse-glow 2s infinite ease-in-out',
+      },
+      keyframes: {
+        'radar-sweep': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 5px rgba(var(--color-user-terminal), 0.5)' },
+          '50%': { opacity: '0.8', boxShadow: '0 0 20px rgba(var(--color-user-terminal), 0.8)' },
         },
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 }

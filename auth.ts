@@ -65,5 +65,6 @@ const postHandler: Handler = async () => {
 export const authHandlers = { GET: getHandler, POST: postHandler };
 
 export async function signOut(): Promise<void> {
-  console.warn('[auth] signOut is not implemented in this environment.');
+  const cookieStore = await cookies();
+  cookieStore.delete('bl1nk_refresh');
 }
