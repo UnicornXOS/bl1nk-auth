@@ -1,0 +1,49 @@
+import { createElement } from "react";
+
+export const metadata = { title: "Getting Started" };
+
+export default function GettingStarted() {
+  return createElement(
+    "article",
+    { className: "space-y-6 max-w-xl" },
+    createElement(
+      "header",
+      { className: "space-y-2" },
+      createElement(
+        "h1",
+        { className: "text-2xl font-semibold" },
+        "Getting Started",
+      ),
+      createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
+        "Install dependencies and ping the webhook endpoint.",
+      ),
+    ),
+    createElement(
+      "section",
+      { className: "space-y-2" },
+      createElement("h2", { className: "text-xl font-semibold" }, "Install"),
+      createElement(
+        "pre",
+        { className: "p-4 rounded-lg bg-card border text-sm overflow-auto" },
+        "npm install\n",
+        "npm run dev",
+      ),
+    ),
+    createElement(
+      "section",
+      { className: "space-y-2" },
+      createElement(
+        "h2",
+        { className: "text-xl font-semibold" },
+        "Webhook Test",
+      ),
+      createElement(
+        "pre",
+        { className: "p-4 rounded-lg bg-card border text-sm overflow-auto" },
+        'curl -X POST https://<domain>/api/webhook \\\n  -H "x-webhook-secret: <WEBHOOK_SECRET>" \\\n  -H "content-type: application/json" \\\n  -d \'{ "type":"ping","data":{"ok":true}}\'',
+      ),
+    ),
+  );
+}

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import type { JSX } from 'react';
+import { useState } from "react";
+import type { JSX } from "react";
 
 export function CodeSnippet({ code }: { code: string }): JSX.Element {
   const [copying, setCopying] = useState(false);
@@ -23,7 +23,7 @@ export function CodeSnippet({ code }: { code: string }): JSX.Element {
           }
         }}
       >
-        {copying ? 'Copying…' : 'Copy'}
+        {copying ? "Copying…" : "Copy"}
       </button>
     </div>
   );

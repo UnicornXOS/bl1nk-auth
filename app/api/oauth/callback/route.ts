@@ -1,173 +1,118 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { ENV } from '@/lib/env';
-import { signJWT } from '@/lib/crypto';
-import { getClient, isReturnAllowed } from '@/lib/clients';
-import { decode as base64urlDecode } from 'jose/base64url';
+import { NextRequest, NextResponse } from "next/server";
+import { ENV } from "@/lib/utils/env";
+import { signJWT } from "@/lib/utils/crypto";
+import { PrismaClient } from "@prisma/client";
 
-type Provider = 'github' | 'google';
+const prisma = new PrismaClient();
 
-type OAuthState = {
-  client: string;
-  ret: string;
-  provider?: Provider;
-  ts?: number;
-};
+export const runtime = "nodejs";
 
-const CALLBACK_URL = `${ENV.ISSUER.replace(/\/$/, '')}/api/oauth/callback`;
-const STATE_MAX_AGE_MS = 10 * 60 * 1000;
-const textDecoder = new TextDecoder();
+export async function GET(req: NextRequest) {
+    const url = new URL(req.url);
+    const code = url.searchParams.get("code");
+    const stateEncoded = url.searchParams.get("state");
 
-function parseState(raw: string): OAuthState | null {
-  try {
-    const decodedJson = textDecoder.decode(base64urlDecode(raw));
-    const decoded = JSON.parse(decodedJson);
-    if (!decoded || typeof decoded !== 'object') return null;
-    const client = (decoded as any).client;
-    const ret = (decoded as any).ret;
-    const provider = (decoded as any).provider;
-    const ts = (decoded as any).ts;
-    if (typeof client !== 'string' || typeof ret !== 'string') return null;
-    const state: OAuthState = { client, ret };
-    if (provider === 'google' || provider === 'github') {
-      state.provider = provider;
-    }
-    if (typeof ts === 'number') {
-      state.ts = ts;
-    }
-    return state;
-  } catch {
-    return null;
-  }
-}
-
-async function fetchGithubToken(code: string){
-  try {
-    const res = await fetch('https://github.com/login/oauth/access_token',{
-      method:'POST',
-      headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body: JSON.stringify({ client_id: ENV.GITHUB_ID, client_secret: ENV.GITHUB_SECRET, code, redirect_uri: CALLBACK_URL })
-    });
-    const json = await res.json();
-    if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
-    if(!json.access_token) throw new Error('no_token');
-    return json.access_token as string;
-  } catch (error) {
-    console.error('GitHub token fetch failed:', error);
-    throw new Error('Failed to fetch GitHub token');
-  }
-}
-
-async function fetchGithubUser(token: string){
-  try {
-    const res = await fetch('https://api.github.com/user',{ headers:{ Authorization:`Bearer ${token}`, 'User-Agent':'bl1nk-auth' } });
-    const json = await res.json();
-    if(!res.ok) throw new Error(json?.message || 'user_request_failed');
-    return json;
-  } catch (error) {
-    console.error('GitHub user fetch failed:', error);
-    throw new Error('Failed to fetch GitHub user');
-  }
-}
-
-async function fetchGoogleToken(code: string){
-  try {
-    const res = await fetch('https://oauth2.googleapis.com/token',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        client_id: ENV.GOOGLE_ID,
-        client_secret: ENV.GOOGLE_SECRET,
-        code,
-        redirect_uri: CALLBACK_URL,
-        grant_type: 'authorization_code'
-      })
-    });
-    const json = await res.json();
-    if(!res.ok) throw new Error(json?.error_description || json?.error || 'token_request_failed');
-    if(!json.access_token) throw new Error('no_token');
-    return { accessToken: json.access_token as string };
-  } catch (error) {
-    console.error('Google token fetch failed:', error);
-    throw new Error('Failed to fetch Google token');
-  }
-}
-
-async function fetchGoogleUser(token: string){
-  try {
-    const res = await fetch('https://www.googleapis.com/oauth2/v2/userinfo',{ headers:{ Authorization:`Bearer ${token}` } });
-    const json = await res.json();
-    if(!res.ok) throw new Error(json?.error?.message || 'user_request_failed');
-    return json;
-  } catch (error) {
-    console.error('Google user fetch failed:', error);
-    throw new Error('Failed to fetch Google user');
-  }
-}
-
-export async function GET(req: NextRequest){
-  const url = new URL(req.url);
-  const code = url.searchParams.get('code');
-  const stateParam = url.searchParams.get('state');
-  if(!code || !stateParam) return NextResponse.json({error:'invalid_code_or_state'},{status:400});
-
-  const state = parseState(stateParam);
-  if(!state) return NextResponse.json({error:'invalid_state'},{status:400});
-
-  if(!state.ts || Date.now() - state.ts > STATE_MAX_AGE_MS){
-    return NextResponse.json({error:'expired_state'},{status:400});
-  }
-
-  const provider: Provider = state.provider ?? 'github';
-  const clientCfg = getClient(state.client);
-  if(!clientCfg || !isReturnAllowed(clientCfg, state.ret)) {
-    return NextResponse.json({error:'invalid_client_or_return'},{status:400});
-  }
-
-  try{
-    let subject: string;
-
-    if(provider === 'github'){
-      if (!ENV.GITHUB_ID || !ENV.GITHUB_SECRET) throw new Error('provider_not_configured');
-      const ghToken = await fetchGithubToken(code);
-      const user = await fetchGithubUser(ghToken);
-      const id = user?.id ?? user?.node_id;
-      if(!id) throw new Error('missing_user_id');
-      subject = String(id);
-    }else{
-      if (!ENV.GOOGLE_ID || !ENV.GOOGLE_SECRET) throw new Error('provider_not_configured');
-      const googleToken = await fetchGoogleToken(code);
-      const user = await fetchGoogleUser(googleToken.accessToken);
-      const id = user?.id ?? user?.sub;
-      if(!id) throw new Error('missing_user_id');
-      subject = String(id);
+    if (!code || !stateEncoded) {
+        return NextResponse.json({ error: "missing_code_or_state" }, { status: 400 });
     }
 
-    const refreshPayload: Record<string, any> = { sub: subject, type:'refresh', provider };
-    if(provider === 'github') refreshPayload.gh = true;
-
-    const ottPayload: Record<string, any> = { sub: subject, type:'ott', client: state.client, provider };
-    const refresh = await signJWT(refreshPayload, {aud:'auth', iss: ENV.ISSUER, expSeconds: 14*24*60*60});
-    const ott = await signJWT(ottPayload, {aud:'auth', iss: ENV.ISSUER, expSeconds: 60});
-
-    // Validate return URL to prevent open redirect
-    let redirectUrl: URL;
     try {
-      redirectUrl = new URL(state.ret);
-      // Only allow HTTPS URLs or localhost for development
-      if (redirectUrl.protocol !== 'https:' && !redirectUrl.hostname.includes('localhost')) {
-        throw new Error('Invalid redirect URL protocol');
-      }
-    } catch (error) {
-      console.error('Invalid redirect URL:', state.ret, error);
-      return NextResponse.json({error:'invalid_redirect_url'},{status:400});
-    }
-    redirectUrl.searchParams.set('ott', ott);
+        const stateString = Buffer.from(stateEncoded, "base64url").toString("utf8");
+        const state = JSON.parse(stateString);
 
-    const res = NextResponse.redirect(redirectUrl);
-    res.cookies.set('bl1nk_refresh', refresh, { httpOnly:true, secure:true, sameSite:'lax', path:'/', maxAge:14*24*60*60 });
-    return res;
-  }catch(e:any){
-    console.error('OAuth callback failed:', e);
-    return NextResponse.json({error:'oauth_failed', detail: e?.message || 'Unknown error'},{status:400});
-  }
+        let profile: { id: string; email: string; name: string; image?: string };
+
+        if (state.provider === "github") {
+            const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({
+                    client_id: ENV.GITHUB_ID,
+                    client_secret: process.env.GITHUB_CLIENT_SECRET,
+                    code,
+                }),
+            });
+            const tokenData = await tokenRes.json();
+            if (!tokenData.access_token) throw new Error("github_token_exchange_failed");
+
+            const userRes = await fetch("https://api.github.com/user", {
+                headers: { Authorization: `Bearer ${tokenData.access_token}` },
+            });
+            const userData = await userRes.json();
+            profile = {
+                id: String(userData.id),
+                email: userData.email,
+                name: userData.name || userData.login,
+                image: userData.avatar_url,
+            };
+        } else if (state.provider === "google") {
+            const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    client_id: ENV.GOOGLE_ID,
+                    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                    code,
+                    grant_type: "authorization_code",
+                    redirect_uri: `${ENV.ISSUER.replace(/\/$/, "")}/api/oauth/callback`,
+                }),
+            });
+            const tokenData = await tokenRes.json();
+            if (!tokenData.access_token) throw new Error("google_token_exchange_failed");
+
+            const userRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: { Authorization: `Bearer ${tokenData.access_token}` },
+            });
+            const userData = await userRes.json();
+            profile = {
+                id: userData.sub,
+                email: userData.email,
+                name: userData.name,
+                image: userData.picture,
+            };
+        } else {
+            throw new Error("unsupported_provider");
+        }
+
+        // Sync User with Database
+        const user = await prisma.user.upsert({
+            where: { email: profile.email },
+            update: {
+                name: profile.name,
+                image: profile.image,
+            },
+            create: {
+                email: profile.email,
+                name: profile.name,
+                image: profile.image,
+            },
+        });
+
+        // Create OTT (One Time Token)
+        const ott = await signJWT(
+            {
+                sub: user.id,
+                email: user.email ?? "",
+                type: "ott" as any,
+            },
+            ENV.PRIV,
+            {
+                iss: ENV.ISSUER,
+                aud: "auth",
+                expiresIn: "1m",
+            }
+        );
+
+        const redirectUrl = new URL(state.ret);
+        redirectUrl.searchParams.set("ott", ott);
+
+        return NextResponse.redirect(redirectUrl.toString());
+
+    } catch (error: any) {
+        console.error("[OAuth Callback] Error:", error.message);
+        return NextResponse.json({ error: "authentication_failed", detail: error.message }, { status: 500 });
+    }
 }

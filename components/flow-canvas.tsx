@@ -1,4 +1,4 @@
-import type { CSSProperties, JSX, ReactNode } from 'react';
+import type { CSSProperties, JSX, ReactNode } from "react";
 
 const NODE_WIDTH = 160;
 const NODE_HEIGHT = 56;
@@ -8,7 +8,7 @@ export interface FlowNode {
   label: ReactNode;
   x: number;
   y: number;
-  type?: 'input' | 'default';
+  type?: "input" | "default";
 }
 
 export interface FlowEdge {
@@ -23,7 +23,10 @@ interface FlowCanvasProps {
   edges: FlowEdge[];
 }
 
-export default function FlowCanvas({ nodes, edges }: FlowCanvasProps): JSX.Element {
+export default function FlowCanvas({
+  nodes,
+  edges,
+}: FlowCanvasProps): JSX.Element {
   const nodeMap = new Map(nodes.map((node) => [node.id, node] as const));
 
   return (
@@ -66,7 +69,7 @@ export default function FlowCanvas({ nodes, edges }: FlowCanvasProps): JSX.Eleme
         return (
           <div
             key={node.id}
-            className={`flow-node${node.type === 'input' ? ' flow-node--input' : ''}`}
+            className={`flow-node${node.type === "input" ? " flow-node--input" : ""}`}
             style={style}
           >
             {node.label}

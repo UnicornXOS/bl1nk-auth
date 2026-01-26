@@ -1,5 +1,5 @@
 {
-    "editor.defaultFormatter": "amazonwebservices.amazon-q-vscode",
-    "editor.wordWrap": "wordWrapColumn",
-    "terminal.integrated.defaultProfile.windows": "PowerShell"
+  "editor.defaultFormatter": "amazonwebservices.amazon-q-vscode",
+  "editor.wordWrap": "wordWrapColumn",
+  "terminal.integrated.defaultProfile.windows": "PowerShell"
 }

@@ -57,10 +57,12 @@ Allow-list local image paths:
 ```json
 {
   "images": {
-    "localPatterns": [{
-      "pathname": "^/assets/.*$",
-      "search": ""
-    }]
+    "localPatterns": [
+      {
+        "pathname": "^/assets/.*$",
+        "search": ""
+      }
+    ]
   }
 }
 ```
@@ -72,13 +74,15 @@ Allow-list external domains:
 ```json
 {
   "images": {
-    "remotePatterns": [{
-      "protocol": "https",
-      "hostname": "cdn.example.com",
-      "port": "",
-      "pathname": "^/images/.*$",
-      "search": ""
-    }]
+    "remotePatterns": [
+      {
+        "protocol": "https",
+        "hostname": "cdn.example.com",
+        "port": "",
+        "pathname": "^/images/.*$",
+        "search": ""
+      }
+    ]
   }
 }
 ```
@@ -140,15 +144,19 @@ Values:
     "sizes": [256, 640, 1080, 2048, 3840],
     "qualities": [50, 75, 90],
     "formats": ["image/avif", "image/webp"],
-    "localPatterns": [{
-      "pathname": "^/assets/.*$",
-      "search": ""
-    }],
-    "remotePatterns": [{
-      "protocol": "https",
-      "hostname": "cdn.example.com",
-      "pathname": "^/images/.*$"
-    }],
+    "localPatterns": [
+      {
+        "pathname": "^/assets/.*$",
+        "search": ""
+      }
+    ],
+    "remotePatterns": [
+      {
+        "protocol": "https",
+        "hostname": "cdn.example.com",
+        "pathname": "^/images/.*$"
+      }
+    ],
     "minimumCacheTTL": 86400,
     "dangerouslyAllowSVG": false,
     "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",

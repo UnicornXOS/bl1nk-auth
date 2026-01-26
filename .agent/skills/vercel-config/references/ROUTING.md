@@ -10,11 +10,13 @@ Redirect users from one path to another with status codes.
 
 ```json
 {
-  "redirects": [{
-    "source": "/old-blog/:slug",
-    "destination": "/blog/:slug",
-    "permanent": true
-  }]
+  "redirects": [
+    {
+      "source": "/old-blog/:slug",
+      "destination": "/blog/:slug",
+      "permanent": true
+    }
+  ]
 }
 ```
 
@@ -22,11 +24,13 @@ Redirect users from one path to another with status codes.
 
 ```json
 {
-  "redirects": [{
-    "source": "/maintenance",
-    "destination": "/",
-    "permanent": false
-  }]
+  "redirects": [
+    {
+      "source": "/maintenance",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
 }
 ```
 
@@ -34,11 +38,13 @@ Redirect users from one path to another with status codes.
 
 ```json
 {
-  "redirects": [{
-    "source": "/moved",
-    "destination": "/new-location",
-    "statusCode": 301
-  }]
+  "redirects": [
+    {
+      "source": "/moved",
+      "destination": "/new-location",
+      "statusCode": 301
+    }
+  ]
 }
 ```
 
@@ -46,16 +52,20 @@ Redirect users from one path to another with status codes.
 
 ```json
 {
-  "redirects": [{
-    "source": "/:path((?!uk/).*)",
-    "has": [{
-      "type": "header",
-      "key": "x-vercel-ip-country",
-      "value": "GB"
-    }],
-    "destination": "/uk/:path*",
-    "permanent": false
-  }]
+  "redirects": [
+    {
+      "source": "/:path((?!uk/).*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-vercel-ip-country",
+          "value": "GB"
+        }
+      ],
+      "destination": "/uk/:path*",
+      "permanent": false
+    }
+  ]
 }
 ```
 
@@ -67,10 +77,12 @@ Proxy requests to different paths or external URLs without changing the browser 
 
 ```json
 {
-  "rewrites": [{
-    "source": "/blog/:slug",
-    "destination": "/news/:slug"
-  }]
+  "rewrites": [
+    {
+      "source": "/blog/:slug",
+      "destination": "/news/:slug"
+    }
+  ]
 }
 ```
 
@@ -78,10 +90,12 @@ Proxy requests to different paths or external URLs without changing the browser 
 
 ```json
 {
-  "rewrites": [{
-    "source": "/api/:path*",
-    "destination": "https://api.example.com/:path*"
-  }]
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://api.example.com/:path*"
+    }
+  ]
 }
 ```
 
@@ -89,10 +103,12 @@ Proxy requests to different paths or external URLs without changing the browser 
 
 ```json
 {
-  "rewrites": [{
-    "source": "/(.*)",
-    "destination": "/index.html"
-  }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
 ```
 
@@ -100,14 +116,18 @@ Proxy requests to different paths or external URLs without changing the browser 
 
 ```json
 {
-  "rewrites": [{
-    "source": "/dashboard",
-    "missing": [{
-      "type": "cookie",
-      "key": "auth_token"
-    }],
-    "destination": "/login"
-  }]
+  "rewrites": [
+    {
+      "source": "/dashboard",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "auth_token"
+        }
+      ],
+      "destination": "/login"
+    }
+  ]
 }
 ```
 
@@ -191,11 +211,13 @@ Match when properties are present:
 
 ```json
 {
-  "has": [{
-    "type": "header",
-    "key": "x-authorized",
-    "value": "true"
-  }]
+  "has": [
+    {
+      "type": "header",
+      "key": "x-authorized",
+      "value": "true"
+    }
+  ]
 }
 ```
 
@@ -205,10 +227,12 @@ Match when properties are absent:
 
 ```json
 {
-  "missing": [{
-    "type": "cookie",
-    "key": "session"
-  }]
+  "missing": [
+    {
+      "type": "cookie",
+      "key": "session"
+    }
+  ]
 }
 ```
 
@@ -216,14 +240,16 @@ Match when properties are absent:
 
 ```json
 {
-  "has": [{
-    "type": "header",
-    "key": "X-Custom-Header",
-    "value": {
-      "pre": "valid",
-      "suf": "value"
+  "has": [
+    {
+      "type": "header",
+      "key": "X-Custom-Header",
+      "value": {
+        "pre": "valid",
+        "suf": "value"
+      }
     }
-  }]
+  ]
 }
 ```
 

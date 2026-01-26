@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import type { Worker } from 'bullmq';
+import type { Worker } from "bullmq";
 
-import { createWorker, type WebhookJob } from '@/lib/queue';
-import { logger } from '@/lib/logger';
+import { createWorker, type WebhookJob } from "@/lib/webhook/queue";
+import { logger } from "@/lib/utils/logger";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const MAX_PROCESSING_TIME = 9000;
 
@@ -18,17 +18,19 @@ export async function GET(): Promise<NextResponse> {
     worker = createWorker();
   } catch (err) {
     const error = err as Error;
-    logger.error('Unable to start worker - queue unavailable', { error: { message: error.message, stack: error.stack } });
-    return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
+    logger.error("Unable to start worker - queue unavailable", {
+      error: { message: error.message, stack: error.stack },
+    });
+    return NextResponse.json({ error: "queue_unavailable" }, { status: 503 });
   }
 
   if (!worker) {
-    return NextResponse.json({ error: 'queue_unavailable' }, { status: 503 });
+    return NextResponse.json({ error: "queue_unavailable" }, { status: 503 });
   }
 
   let processed = 0;
 
-  worker.on('completed', () => {
+  worker.on("completed", () => {
     processed += 1;
   });
 
@@ -36,7 +38,7 @@ export async function GET(): Promise<NextResponse> {
     await new Promise<void>((resolve) => {
       const timer = setTimeout(resolve, MAX_PROCESSING_TIME);
 
-      worker.on('drained', () => {
+      worker.on("drained", () => {
         clearTimeout(timer);
         resolve();
       });
@@ -48,18 +50,20 @@ export async function GET(): Promise<NextResponse> {
           resolve();
         })
         .catch((err) => {
-          logger.error('Worker runtime error', { error: (err as Error).message });
+          logger.error("Worker runtime error", {
+            error: (err as Error).message,
+          });
           clearTimeout(timer);
           resolve();
         });
     });
 
     const duration = Date.now() - start;
-    logger.info('Worker processed jobs', { processed, duration });
+    logger.info("Worker processed jobs", { processed, duration });
 
     return NextResponse.json(
       {
-        status: 'success',
+        status: "success",
         processed,
         duration,
       },
@@ -67,15 +71,16 @@ export async function GET(): Promise<NextResponse> {
     );
   } catch (err) {
     const error = err as Error;
-    logger.error('Worker processing failed', { error: error.message });
-    return NextResponse.json({ error: 'worker_failed' }, { status: 500 });
+    logger.error("Worker processing failed", { error: error.message });
+    return NextResponse.json({ error: "worker_failed" }, { status: 500 });
   } finally {
     if (worker) {
       try {
         await worker.close();
       } catch (closeErr) {
-        const message = closeErr instanceof Error ? closeErr.message : String(closeErr);
-        logger.error('Failed to close worker', { error: message });
+        const message =
+          closeErr instanceof Error ? closeErr.message : String(closeErr);
+        logger.error("Failed to close worker", { error: message });
       }
     }
   }

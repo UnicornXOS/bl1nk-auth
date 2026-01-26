@@ -42,10 +42,10 @@ Configure Vercel project settings through `vercel.json` for production-ready Nex
 Create a health endpoint for monitoring:
 
 ```typescript
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  return NextResponse.json({ status: 'healthy' }, { status: 200 });
+  return NextResponse.json({ status: "healthy" }, { status: 200 });
 }
 ```
 
@@ -53,14 +53,16 @@ export async function GET() {
 
 ```json
 {
-  "headers": [{
-    "source": "/(.*)",
-    "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "X-Frame-Options", "value": "DENY" },
-      { "key": "X-XSS-Protection", "value": "1; mode=block" }
-    ]
-  }]
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    }
+  ]
 }
 ```
 
@@ -87,10 +89,12 @@ For detailed configuration options, see:
 
 ```json
 {
-  "rewrites": [{
-    "source": "/api/:path*",
-    "destination": "https://backend.example.com/:path*"
-  }]
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://backend.example.com/:path*"
+    }
+  ]
 }
 ```
 
@@ -98,11 +102,15 @@ For detailed configuration options, see:
 
 ```json
 {
-  "redirects": [{
-    "source": "/:path((?!uk/).*)",
-    "has": [{ "type": "header", "key": "x-vercel-ip-country", "value": "GB" }],
-    "destination": "/uk/:path*"
-  }]
+  "redirects": [
+    {
+      "source": "/:path((?!uk/).*)",
+      "has": [
+        { "type": "header", "key": "x-vercel-ip-country", "value": "GB" }
+      ],
+      "destination": "/uk/:path*"
+    }
+  ]
 }
 ```
 

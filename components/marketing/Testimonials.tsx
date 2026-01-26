@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 /**
  * Testimonial item type definition
@@ -21,25 +21,28 @@ const Testimonials = () => {
   // Testimonial items data
   const testimonials: TestimonialItem[] = [
     {
-      quote: 'แพลตฟอร์มนี้ช่วยให้เราเพิ่มประสิทธิภาพการทำงานได้อย่างมาก ทีมของเรามีผลิตภาพเพิ่มขึ้น 40% ตั้งแต่เริ่มใช้งาน',
-      author: 'สมชาย ใจดี',
-      role: 'ผู้จัดการฝ่ายปฏิบัติการ',
-      company: 'บริษัท ไทยเทค จำกัด',
-      avatarSrc: '/images/avatars/avatar-1.webp',
+      quote:
+        "แพลตฟอร์มนี้ช่วยให้เราเพิ่มประสิทธิภาพการทำงานได้อย่างมาก ทีมของเรามีผลิตภาพเพิ่มขึ้น 40% ตั้งแต่เริ่มใช้งาน",
+      author: "สมชาย ใจดี",
+      role: "ผู้จัดการฝ่ายปฏิบัติการ",
+      company: "บริษัท ไทยเทค จำกัด",
+      avatarSrc: "/images/avatars/avatar-1.webp",
     },
     {
-      quote: 'การวิเคราะห์ข้อมูลที่ละเอียดช่วยให้เราตัดสินใจได้ดีขึ้น และเพิ่มยอดขายได้ถึง 30% ในไตรมาสแรกที่ใช้งาน',
-      author: 'สมหญิง รักดี',
-      role: 'ผู้อำนวยการฝ่ายการตลาด',
-      company: 'บริษัท มาร์เก็ตโปร จำกัด',
-      avatarSrc: '/images/avatars/avatar-2.webp',
+      quote:
+        "การวิเคราะห์ข้อมูลที่ละเอียดช่วยให้เราตัดสินใจได้ดีขึ้น และเพิ่มยอดขายได้ถึง 30% ในไตรมาสแรกที่ใช้งาน",
+      author: "สมหญิง รักดี",
+      role: "ผู้อำนวยการฝ่ายการตลาด",
+      company: "บริษัท มาร์เก็ตโปร จำกัด",
+      avatarSrc: "/images/avatars/avatar-2.webp",
     },
     {
-      quote: 'ระบบความปลอดภัยที่แข็งแกร่งทำให้เรามั่นใจในการจัดการข้อมูลลูกค้า ซึ่งเป็นสิ่งสำคัญที่สุดสำหรับธุรกิจของเรา',
-      author: 'วิชัย มั่นคง',
-      role: 'ประธานเจ้าหน้าที่บริหาร',
-      company: 'บริษัท ซีเคียวเนท จำกัด',
-      avatarSrc: '/images/avatars/avatar-3.webp',
+      quote:
+        "ระบบความปลอดภัยที่แข็งแกร่งทำให้เรามั่นใจในการจัดการข้อมูลลูกค้า ซึ่งเป็นสิ่งสำคัญที่สุดสำหรับธุรกิจของเรา",
+      author: "วิชัย มั่นคง",
+      role: "ประธานเจ้าหน้าที่บริหาร",
+      company: "บริษัท ซีเคียวเนท จำกัด",
+      avatarSrc: "/images/avatars/avatar-3.webp",
     },
   ];
 
@@ -49,7 +52,9 @@ const Testimonials = () => {
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <div className="space-y-2">
             <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-              <span className="text-blue-600 dark:text-blue-400">ลูกค้าของเรา</span>
+              <span className="text-blue-600 dark:text-blue-400">
+                ลูกค้าของเรา
+              </span>
             </div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-900 dark:text-gray-50">
               เสียงจากลูกค้าที่ไว้วางใจเรา
@@ -107,7 +112,11 @@ const Testimonials = () => {
         <div className="flex justify-center mt-12">
           <div className="flex items-center space-x-8 md:space-x-12 lg:space-x-16 grayscale opacity-70">
             <div className="flex items-center justify-center">
-              <svg className="h-8 md:h-10 lg:h-12 w-auto" viewBox="0 0 100 30" fill="currentColor">
+              <svg
+                className="h-8 md:h-10 lg:h-12 w-auto"
+                viewBox="0 0 100 30"
+                fill="currentColor"
+              >
                 <path d="M10 30c-5.514 0-10-4.486-10-10s4.486-10 10-10 10 4.486 10 10-4.486 10-10 10zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8z" />
                 <path d="M35 30c-5.514 0-10-4.486-10-10s4.486-10 10-10 10 4.486 10 10-4.486 10-10 10zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8z" />
                 <path d="M60 30c-5.514 0-10-4.486-10-10s4.486-10 10-10 10 4.486 10 10-4.486 10-10 10zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8z" />
@@ -115,17 +124,29 @@ const Testimonials = () => {
               </svg>
             </div>
             <div className="flex items-center justify-center">
-              <svg className="h-8 md:h-10 lg:h-12 w-auto" viewBox="0 0 100 30" fill="currentColor">
+              <svg
+                className="h-8 md:h-10 lg:h-12 w-auto"
+                viewBox="0 0 100 30"
+                fill="currentColor"
+              >
                 <path d="M20 5h60v20H20z" />
               </svg>
             </div>
             <div className="flex items-center justify-center">
-              <svg className="h-8 md:h-10 lg:h-12 w-auto" viewBox="0 0 100 30" fill="currentColor">
+              <svg
+                className="h-8 md:h-10 lg:h-12 w-auto"
+                viewBox="0 0 100 30"
+                fill="currentColor"
+              >
                 <path d="M50 5L20 25h60L50 5z" />
               </svg>
             </div>
             <div className="flex items-center justify-center">
-              <svg className="h-8 md:h-10 lg:h-12 w-auto" viewBox="0 0 100 30" fill="currentColor">
+              <svg
+                className="h-8 md:h-10 lg:h-12 w-auto"
+                viewBox="0 0 100 30"
+                fill="currentColor"
+              >
                 <circle cx="50" cy="15" r="10" />
               </svg>
             </div>

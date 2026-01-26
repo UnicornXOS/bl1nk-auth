@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { CheckIcon } from '@heroicons/react/24/outline';
+import { useState } from "react";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 /**
  * Plan feature type definition
@@ -31,66 +31,68 @@ interface Plan {
  * Displays pricing plans with toggle between monthly and yearly billing
  */
 const PricingPlans = () => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+    "monthly",
+  );
 
   // Plans data
   const plans: Plan[] = [
     {
-      name: 'ฟรี',
-      description: 'สำหรับผู้ใช้งานทั่วไปและโปรเจกต์ขนาดเล็ก',
+      name: "ฟรี",
+      description: "สำหรับผู้ใช้งานทั่วไปและโปรเจกต์ขนาดเล็ก",
       price: {
         monthly: 0,
         yearly: 0,
       },
       features: [
-        { name: 'ผู้ใช้งาน 1 คน', included: true },
-        { name: 'โปรเจกต์ไม่จำกัด', included: true },
-        { name: 'พื้นที่เก็บข้อมูล 5GB', included: true },
-        { name: 'การวิเคราะห์พื้นฐาน', included: true },
-        { name: 'การสนับสนุนทางอีเมล', included: false },
-        { name: 'การบูรณาการขั้นสูง', included: false },
-        { name: 'การสำรองข้อมูลอัตโนมัติ', included: false },
+        { name: "ผู้ใช้งาน 1 คน", included: true },
+        { name: "โปรเจกต์ไม่จำกัด", included: true },
+        { name: "พื้นที่เก็บข้อมูล 5GB", included: true },
+        { name: "การวิเคราะห์พื้นฐาน", included: true },
+        { name: "การสนับสนุนทางอีเมล", included: false },
+        { name: "การบูรณาการขั้นสูง", included: false },
+        { name: "การสำรองข้อมูลอัตโนมัติ", included: false },
       ],
       highlighted: false,
-      buttonText: 'เริ่มต้นใช้งานฟรี',
+      buttonText: "เริ่มต้นใช้งานฟรี",
     },
     {
-      name: 'มืออาชีพ',
-      description: 'สำหรับทีมขนาดเล็กและธุรกิจที่กำลังเติบโต',
+      name: "มืออาชีพ",
+      description: "สำหรับทีมขนาดเล็กและธุรกิจที่กำลังเติบโต",
       price: {
         monthly: 29,
         yearly: 290,
       },
       features: [
-        { name: 'ผู้ใช้งาน 5 คน', included: true },
-        { name: 'โปรเจกต์ไม่จำกัด', included: true },
-        { name: 'พื้นที่เก็บข้อมูล 50GB', included: true },
-        { name: 'การวิเคราะห์ขั้นสูง', included: true },
-        { name: 'การสนับสนุนทางอีเมลและแชท', included: true },
-        { name: 'การบูรณาการขั้นสูง', included: true },
-        { name: 'การสำรองข้อมูลอัตโนมัติ', included: false },
+        { name: "ผู้ใช้งาน 5 คน", included: true },
+        { name: "โปรเจกต์ไม่จำกัด", included: true },
+        { name: "พื้นที่เก็บข้อมูล 50GB", included: true },
+        { name: "การวิเคราะห์ขั้นสูง", included: true },
+        { name: "การสนับสนุนทางอีเมลและแชท", included: true },
+        { name: "การบูรณาการขั้นสูง", included: true },
+        { name: "การสำรองข้อมูลอัตโนมัติ", included: false },
       ],
       highlighted: true,
-      buttonText: 'เริ่มต้นใช้งาน',
+      buttonText: "เริ่มต้นใช้งาน",
     },
     {
-      name: 'องค์กร',
-      description: 'สำหรับองค์กรขนาดใหญ่ที่ต้องการความปลอดภัยสูงสุด',
+      name: "องค์กร",
+      description: "สำหรับองค์กรขนาดใหญ่ที่ต้องการความปลอดภัยสูงสุด",
       price: {
         monthly: 99,
         yearly: 990,
       },
       features: [
-        { name: 'ผู้ใช้งานไม่จำกัด', included: true },
-        { name: 'โปรเจกต์ไม่จำกัด', included: true },
-        { name: 'พื้นที่เก็บข้อมูล 500GB', included: true },
-        { name: 'การวิเคราะห์ขั้นสูงพร้อมรายงาน', included: true },
-        { name: 'การสนับสนุนตลอด 24/7', included: true },
-        { name: 'การบูรณาการขั้นสูงและ API', included: true },
-        { name: 'การสำรองข้อมูลอัตโนมัติ', included: true },
+        { name: "ผู้ใช้งานไม่จำกัด", included: true },
+        { name: "โปรเจกต์ไม่จำกัด", included: true },
+        { name: "พื้นที่เก็บข้อมูล 500GB", included: true },
+        { name: "การวิเคราะห์ขั้นสูงพร้อมรายงาน", included: true },
+        { name: "การสนับสนุนตลอด 24/7", included: true },
+        { name: "การบูรณาการขั้นสูงและ API", included: true },
+        { name: "การสำรองข้อมูลอัตโนมัติ", included: true },
       ],
       highlighted: false,
-      buttonText: 'ติดต่อฝ่ายขาย',
+      buttonText: "ติดต่อฝ่ายขาย",
     },
   ];
 
@@ -112,24 +114,24 @@ const PricingPlans = () => {
         <div className="flex justify-center mb-12">
           <div className="relative flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-full">
             <button
-              onClick={() => setBillingCycle('monthly')}
+              onClick={() => setBillingCycle("monthly")}
               className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                billingCycle === 'monthly'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-50 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400'
+                billingCycle === "monthly"
+                  ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-50 shadow-sm"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
               รายเดือน
             </button>
             <button
-              onClick={() => setBillingCycle('yearly')}
+              onClick={() => setBillingCycle("yearly")}
               className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                billingCycle === 'yearly'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-50 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400'
+                billingCycle === "yearly"
+                  ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-50 shadow-sm"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
             >
-              รายปี{' '}
+              รายปี{" "}
               <span className="absolute -top-2 -right-2 px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-full">
                 ประหยัด 20%
               </span>
@@ -144,8 +146,8 @@ const PricingPlans = () => {
               key={index}
               className={`flex flex-col p-6 ${
                 plan.highlighted
-                  ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 ring-2 ring-blue-500 dark:ring-blue-400'
-                  : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                  ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 ring-2 ring-blue-500 dark:ring-blue-400"
+                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
               } border rounded-xl shadow-sm relative`}
             >
               {plan.highlighted && (
@@ -154,22 +156,31 @@ const PricingPlans = () => {
                 </div>
               )}
               <div className="mb-5">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">{plan.name}</h3>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">{plan.description}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">
+                  {plan.name}
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                  {plan.description}
+                </p>
               </div>
               <div className="mb-5">
                 <div className="flex items-baseline">
-                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-50">฿</span>
+                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+                    ฿
+                  </span>
                   <span className="text-5xl font-bold text-gray-900 dark:text-gray-50">
-                    {billingCycle === 'monthly' ? plan.price.monthly : plan.price.yearly}
+                    {billingCycle === "monthly"
+                      ? plan.price.monthly
+                      : plan.price.yearly}
                   </span>
                   <span className="ml-1 text-gray-500 dark:text-gray-400">
-                    /{billingCycle === 'monthly' ? 'เดือน' : 'ปี'}
+                    /{billingCycle === "monthly" ? "เดือน" : "ปี"}
                   </span>
                 </div>
-                {billingCycle === 'yearly' && plan.price.yearly > 0 && (
+                {billingCycle === "yearly" && plan.price.yearly > 0 && (
                   <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                    ประหยัด ฿{plan.price.monthly * 12 - plan.price.yearly} เมื่อชำระรายปี
+                    ประหยัด ฿{plan.price.monthly * 12 - plan.price.yearly}{" "}
+                    เมื่อชำระรายปี
                   </p>
                 )}
               </div>
@@ -184,8 +195,8 @@ const PricingPlans = () => {
                     <span
                       className={`text-sm ${
                         feature.included
-                          ? 'text-gray-700 dark:text-gray-300'
-                          : 'text-gray-400 dark:text-gray-500'
+                          ? "text-gray-700 dark:text-gray-300"
+                          : "text-gray-400 dark:text-gray-500"
                       }`}
                     >
                       {feature.name}
@@ -196,10 +207,12 @@ const PricingPlans = () => {
               <button
                 className={`mt-auto w-full py-3 px-4 rounded-lg font-medium ${
                   plan.highlighted
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-50'
+                    ? "bg-blue-600 hover:bg-blue-700 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-50"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                  plan.highlighted ? 'focus:ring-blue-500' : 'focus:ring-gray-500'
+                  plan.highlighted
+                    ? "focus:ring-blue-500"
+                    : "focus:ring-gray-500"
                 }`}
               >
                 {plan.buttonText}
@@ -211,8 +224,11 @@ const PricingPlans = () => {
         {/* FAQ section */}
         <div className="mt-16 text-center">
           <p className="text-gray-500 dark:text-gray-400">
-            มีคำถาม?{' '}
-            <a href="/contact" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+            มีคำถาม?{" "}
+            <a
+              href="/contact"
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
               ติดต่อทีมงานของเรา
             </a>
           </p>

@@ -6,10 +6,12 @@ Schedule functions to run at specific times.
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/daily",
-    "schedule": "0 0 * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/daily",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }
 ```
 
@@ -43,10 +45,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/every-minute",
-    "schedule": "* * * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/every-minute",
+      "schedule": "* * * * *"
+    }
+  ]
 }
 ```
 
@@ -54,10 +58,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/hourly",
-    "schedule": "0 * * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/hourly",
+      "schedule": "0 * * * *"
+    }
+  ]
 }
 ```
 
@@ -65,10 +71,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/daily",
-    "schedule": "0 0 * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/daily",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }
 ```
 
@@ -76,10 +84,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/weekly",
-    "schedule": "0 9 * * 1"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/weekly",
+      "schedule": "0 9 * * 1"
+    }
+  ]
 }
 ```
 
@@ -87,10 +97,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/monthly",
-    "schedule": "0 0 1 * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/monthly",
+      "schedule": "0 0 1 * *"
+    }
+  ]
 }
 ```
 
@@ -98,10 +110,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/quarter-hour",
-    "schedule": "*/15 * * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/quarter-hour",
+      "schedule": "*/15 * * * *"
+    }
+  ]
 }
 ```
 
@@ -109,10 +123,12 @@ Format: `minute hour day month weekday`
 
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/business-hours",
-    "schedule": "0 9-17 * * 1-5"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/business-hours",
+      "schedule": "0 9-17 * * 1-5"
+    }
+  ]
 }
 ```
 
@@ -143,17 +159,17 @@ Create the API route that will be invoked:
 
 ```typescript
 // app/api/cron/daily/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   // Verify the request is from Vercel Cron
-  const authHeader = request.headers.get('authorization');
+  const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Your cron logic here
-  console.log('Daily cron job executed');
+  console.log("Daily cron job executed");
 
   return NextResponse.json({ success: true });
 }

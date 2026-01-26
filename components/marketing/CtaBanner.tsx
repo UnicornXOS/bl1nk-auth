@@ -1,5 +1,5 @@
-import type { JSX } from 'react';
-import Link from 'next/link';
+import type { JSX } from "react";
+import Link from "next/link";
 
 export default function CtaBanner(): JSX.Element {
   return (
@@ -9,7 +9,8 @@ export default function CtaBanner(): JSX.Element {
           เริ่มต้นใช้งานวันนี้
         </h2>
         <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-          เข้าร่วมกับธุรกิจอื่นๆ ที่ใช้แพลตฟอร์มของเราเพื่อเติบโตและประสบความสำเร็จ
+          เข้าร่วมกับธุรกิจอื่นๆ
+          ที่ใช้แพลตฟอร์มของเราเพื่อเติบโตและประสบความสำเร็จ
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

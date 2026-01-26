@@ -31,7 +31,7 @@
 
 ![Dashboard Preview](https://via.placeholder.com/800x450/0A0A0A/00D9FF?text=Dashboard+Preview)
 
-*Modern dashboard with real-time widgets and glassmorphism design*
+_Modern dashboard with real-time widgets and glassmorphism design_
 
 ## 🚀 Quick Start
 
@@ -87,9 +87,7 @@ Edit `config/clients.json` to add your allowed clients:
   {
     "client": "your-app",
     "aud": "https://your-app.com",
-    "returns": [
-      "https://your-app.com/auth/callback"
-    ]
+    "returns": ["https://your-app.com/auth/callback"]
   }
 ]
 ```

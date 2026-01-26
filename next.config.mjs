@@ -1,4 +1,5 @@
 const nextConfig = {
+  output: 'standalone',
   experimental: {
     optimizeCss: false,
   },
@@ -11,6 +12,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

@@ -1,18 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap");
 
 @theme inline {
   /* Neon Palette */
   --color-user-terminal: 29 252 130; /* #1dfc82 - Bright Terminal Green */
-  --color-gemini-cyan: 0 255 255;    /* #00ffff - Electric Cyan */
-  --color-claude-amber: 255 191 0;   /* #ffbf00 - Muted Amber/Gold */
-  --color-system-violet: 191 0 255;  /* #bf00ff - Cyberpunk Violet */
+  --color-gemini-cyan: 0 255 255; /* #00ffff - Electric Cyan */
+  --color-claude-amber: 255 191 0; /* #ffbf00 - Muted Amber/Gold */
+  --color-system-violet: 191 0 255; /* #bf00ff - Cyberpunk Violet */
   --color-accent-light: 230 240 255; /* #e6f0ff - Off-white for highlights */
 
   /* Background & Glass Materials */
-  --bg-carbon-fiber: #0A0A0A;
+  --bg-carbon-fiber: #0a0a0a;
   --glass-background: rgba(20, 22, 28, 0.6);
   --glass-border-color: rgba(138, 148, 166, 0.2);
   --glass-rim-light: rgba(230, 240, 255, 0.1);
@@ -28,7 +28,7 @@
     --color-accent-light: 230 240 255;
 
     /* Background & Glass Materials */
-    --bg-carbon-fiber: #0A0A0A;
+    --bg-carbon-fiber: #0a0a0a;
     --glass-background: rgba(20, 22, 28, 0.6);
     --glass-border-color: rgba(138, 148, 166, 0.2);
     --glass-rim-light: rgba(230, 240, 255, 0.1);
@@ -36,12 +36,17 @@
 
   body {
     @apply bg-carbon-fiber text-gray-300 font-mono;
-    background-image: url('/assets/textures/carbon-noise.png');
+    background-image: url("/assets/textures/carbon-noise.png");
     background-color: var(--bg-carbon-fiber);
     color: rgb(var(--color-accent-light));
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-wider;
   }
 }
@@ -52,15 +57,25 @@
     @apply bg-glass border border-glass rounded-md shadow-lg;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 0 0 1px var(--glass-rim-light), 0 4px 30px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 0 0 1px var(--glass-rim-light),
+      0 4px 30px rgba(0, 0, 0, 0.2);
   }
 
-  .accent-line-gemini { @apply border-l-2 border-gemini-cyan; }
-  .accent-line-claude { @apply border-l-2 border-claude-amber; }
-  .accent-line-system { @apply border-l-2 border-system-violet; }
+  .accent-line-gemini {
+    @apply border-l-2 border-gemini-cyan;
+  }
+  .accent-line-claude {
+    @apply border-l-2 border-claude-amber;
+  }
+  .accent-line-system {
+    @apply border-l-2 border-system-violet;
+  }
 
   .neon-text-terminal {
     @apply text-user-terminal;
-    text-shadow: 0 0 5px rgba(var(--color-user-terminal), 0.7), 0 0 10px rgba(var(--color-user-terminal), 0.5);
+    text-shadow:
+      0 0 5px rgba(var(--color-user-terminal), 0.7),
+      0 0 10px rgba(var(--color-user-terminal), 0.5);
   }
 }

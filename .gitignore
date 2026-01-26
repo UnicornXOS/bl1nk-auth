@@ -1,26 +1,41 @@
 # Node / Next.js build artifacts
-.next/
 node_modules/
+.next/
+out/
+.next-env.d.ts
+tsconfig.tsbuildinfo
 
 # Environment files
-.env.local
 .env
+.env.local
+.env.production
+.env.*.local
+
+# Prisma
+/prisma/migrations/
+*.db
+*.db-journal
 
 # Logs and temp
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
+.turbo/
 
-# Misc
+# Misc / OS
 .DS_Store
+Thumbs.db
 
-
-#Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
+# VS Code / AI / Agents
+.vscode/
+!.vscode/settings.json
+.github/instructions/codacy.instructions.md
 .kilocode/mcp.json
-.vscode/extensions.json
-.env.production
+.agent/
+.claude/
+.specify/
 
 # Files with secrets
 GOOGLE_OAUTH_CREDENTIALS.md

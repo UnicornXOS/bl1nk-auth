@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import type { JSX } from 'react';
+import { useState } from "react";
+import type { JSX } from "react";
 
-type TabId = 'Chat' | 'Planning' | 'Agent';
+type TabId = "Chat" | "Planning" | "Agent";
 
 interface TabProps {
   id: TabId;
@@ -17,7 +17,7 @@ function Tab({ id, active, onSelect }: TabProps): JSX.Element {
     <button
       type="button"
       onClick={() => onSelect(id)}
-      className={`assistant-tab${isActive ? ' assistant-tab--active' : ''}`}
+      className={`assistant-tab${isActive ? " assistant-tab--active" : ""}`}
     >
       {id}
     </button>
@@ -25,7 +25,7 @@ function Tab({ id, active, onSelect }: TabProps): JSX.Element {
 }
 
 export default function AssistantPanel(): JSX.Element {
-  const [tab, setTab] = useState<TabId>('Chat');
+  const [tab, setTab] = useState<TabId>("Chat");
 
   return (
     <section className="surface-panel">
@@ -37,7 +37,8 @@ export default function AssistantPanel(): JSX.Element {
       <div className="assistant-content">
         <div className="token">Read the project files?</div>
         <div className="assistant-message">
-          I’ve indexed the repository context—ask anything about auth flows, webhooks, or deployment steps.
+          I’ve indexed the repository context—ask anything about auth flows,
+          webhooks, or deployment steps.
         </div>
         <form className="assistant-form">
           <input
