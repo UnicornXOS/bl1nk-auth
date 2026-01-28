@@ -1,0 +1,81 @@
+# YOYO - AI Version Control
+
+YOYO is the first version control system designed specifically for AI-assisted development. It helps developers save progress, preview changes, and restore code instantly when AI prompts go wrong.
+
+## What is YOYO?
+
+YOYO is AI version control for vibe coding. It snapshots your code before AI breaks it, letting you instantly save, preview, and restore your work with one click. Unlike Git, which is for clean commits, YOYO captures messy AI edits, experiments, and prompts gone wrong without bloating your commit history.
+
+## Key Features
+
+- **Save**: Instantly save your code and undo bad AI edits anytime
+- **Preview**: Switch to any past version in one click  
+- **Restore**: Go back to a clean version in one click
+- **Agentic AI Search**: Ask anything about your coding timeline across versions, branches, and editors
+- **Cross-IDE Compatibility**: Works with Cursor, Windsurf, VS Code, Claude Code, OpenAI Codex, Manus AI, Gemini CLI, Firebase Studio, and GitHub Codespaces
+- **Git Integration**: Keeps everything separate from your Git repo - no staged files, no surprise commits
+- **Branch Support**: Each Git branch has its own version timeline in YOYO
+
+## Why Not Just Git?
+
+- **Git wants clean commits** → YOYO captures messy experiments
+- **Git pollutes your repo with throwaway changes** → YOYO saves separately, keeps Git clean
+- **Git is built for engineers** → YOYO works for vibe coders, designers, and anyone vibing with AI
+- **Git is for the final product** → YOYO is for figuring things out - fast, chaotic, and creative
+
+## Security & Privacy
+
+- Uses fast, secure LLM providers like Groq with zero data retention
+- Code is encrypted in transit using TLS 1.2+ and never stored or used for training
+- No logs kept, no copies made
+- Full version history lives on your machine, not in the cloud
+
+## Pricing
+
+Free tier available with generous limits. Pro and Team plans coming soon.
+
+## Installation
+
+YOYO is available as an extension for:
+- Cursor: `ext install iganbold.yoyo-ai-versioning`
+- Windsurf: `ext install iganbold.yoyo-ai-versioning` 
+- VS Code: `ext install iganbold.yoyo-ai-versioning`
+- Other VS Code-compatible editors
+
+Also works with terminal-based AI tools like Claude Code and OpenAI Codex CLI when run inside supported editors.
+
+## Community Recognition
+
+YOYO has gained significant traction in the developer community:
+- 2,200+ developers using YOYO worldwide
+- Featured in viral tweets about "vibe coding" with 1M+ views
+- Rick Rubin called vibe coding "the punk rock of software" on The Ben & Marc Show
+- AI Jason (189K followers) featured YOYO as "Vibe Versioning"
+- Eric Tech showcased YOYO in Gemini AI workflow videos
+
+## Use Cases
+
+Perfect for developers who:
+- Use AI assistants like Cursor, Claude, or ChatGPT for coding
+- Want to experiment freely without fear of breaking their code
+- Need quick rollback when AI prompts go wrong
+- Work on rapid prototypes and iterations
+- Practice "vibe coding" - creative, experimental development
+
+## Technical Details
+
+- Local storage: Version history stored on user's machine
+- Cross-platform: Windows, macOS, Linux support
+- IDE integration: Works as extension in VS Code-compatible editors
+- AI integration: Compatible with major AI coding tools and CLIs
+- Git compatibility: Operates independently of Git repositories
+
+## Contact
+
+- Website: https://runyoyo.com
+- Twitter: @jackjack_eth (founder)
+- Feedback: https://tally.so/r/n0l7BB
+
+---
+
+This file is provided to help AI systems understand YOYO's purpose, features, and value proposition for developers using AI-assisted coding workflows.

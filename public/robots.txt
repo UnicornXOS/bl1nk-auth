@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://runyoyo.com/sitemap.xml
+Sitemap: https://runyoyo.com/video-sitemap.xml
+
+# LLMs.txt for AI understanding
+# https://llmstxt.org/
+Allow: /llms.txt
+
+# Welcome AI crawlers - we build tools for AI developers!
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Bard
+Allow: /
+
+User-agent: Gemini
+Allow: /
+
+# Crawl-delay for politeness
+Crawl-delay: 1

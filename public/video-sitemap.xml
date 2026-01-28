@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Hero/Main Demo Video -->
+  <url>
+    <loc>https://runyoyo.com</loc>
+    <video:video>
+      <video:thumbnail_loc>https://runyoyo.com/images/hero-interface.jpg</video:thumbnail_loc>
+      <video:title>YOYO AI Version Control - Main Demo</video:title>
+      <video:description>See YOYO in action - the first AI version control system that lets you save, preview, and restore code instantly when AI prompts go wrong. Perfect for vibe coding workflows with Cursor, Windsurf, and VS Code.</video:description>
+      <video:content_loc>https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hero-video-v3-E4dqT6iUgKB1QNwAX45SXQ5xHIZApB.mp4</video:content_loc>
+      <video:duration>60</video:duration>
+      <video:publication_date>2024-12-01T00:00:00+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI version control</video:tag>
+      <video:tag>vibe coding</video:tag>
+      <video:tag>developer tools</video:tag>
+      <video:tag>AI mistakes</video:tag>
+      <video:tag>code backup</video:tag>
+      <video:category>Technology</video:category>
+    </video:video>
+  </url>
+
+  <!-- Save Feature Demo -->
+  <url>
+    <loc>https://runyoyo.com#save-preview-restore</loc>
+    <video:video>
+      <video:thumbnail_loc>https://runyoyo.com/images/save-thumbnail.jpeg</video:thumbnail_loc>
+      <video:title>YOYO Save Feature - Instant Code Snapshots</video:title>
+      <video:description>Watch how YOYO's Save feature instantly snapshots your code, letting you undo bad AI edits anytime. No more lost progress from AI prompts gone wrong.</video:description>
+      <video:content_loc>https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yoyo-save-2-DUbUp5aKE9GtNY9Diok2eG6SW2qHCX.mp4</video:content_loc>
+      <video:duration>45</video:duration>
+      <video:publication_date>2024-12-01T00:00:00+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>code save</video:tag>
+      <video:tag>AI undo</video:tag>
+      <video:tag>version control</video:tag>
+      <video:category>Technology</video:category>
+    </video:video>
+  </url>
+
+  <!-- Preview Feature Demo -->
+  <url>
+    <loc>https://runyoyo.com#save-preview-restore</loc>
+    <video:video>
+      <video:thumbnail_loc>https://runyoyo.com/images/preview-thumbnail.jpeg</video:thumbnail_loc>
+      <video:title>YOYO Preview Feature - Switch to Any Past Version</video:title>
+      <video:description>See how YOYO's Preview feature lets you switch to any past version in one click. Perfect for comparing changes and finding the right version.</video:description>
+      <video:content_loc>https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yoyo-preview-dnsmAMg2AX6f1thlrNvj1e65T2zUTM.mp4</video:content_loc>
+      <video:duration>40</video:duration>
+      <video:publication_date>2024-12-01T00:00:00+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>code preview</video:tag>
+      <video:tag>version switching</video:tag>
+      <video:tag>AI development</video:tag>
+      <video:category>Technology</video:category>
+    </video:video>
+  </url>
+
+  <!-- AI Search Demo -->
+  <url>
+    <loc>https://runyoyo.com#agentic-ai-search</loc>
+    <video:video>
+      <video:thumbnail_loc>https://runyoyo.com/images/preview-thumbnail.jpeg</video:thumbnail_loc>
+      <video:title>YOYO AI Search - Query Your Entire Code History</video:title>
+      <video:description>YOYO's Agentic AI Search understands your entire coding timeline. Ask questions like "Show my edits to favorites" or "What did I do in v9?" and get instant answers.</video:description>
+      <video:content_loc>https://hebbkx1anhila5yf.public.blob.vercel-storage.com/favorites-FFCUeeEFzfxDBIhgGACi7YGpYQZbnU.mp4</video:content_loc>
+      <video:duration>50</video:duration>
+      <video:publication_date>2024-12-01T00:00:00+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI search</video:tag>
+      <video:tag>code history</video:tag>
+      <video:tag>natural language</video:tag>
+      <video:tag>developer productivity</video:tag>
+      <video:category>Technology</video:category>
+    </video:video>
+  </url>
+
+  <!-- Cross-IDE Demo -->
+  <url>
+    <loc>https://runyoyo.com#cross-ide</loc>
+    <video:video>
+      <video:thumbnail_loc>https://runyoyo.com/images/preview-thumbnail.jpeg</video:thumbnail_loc>
+      <video:title>YOYO Cross-IDE Support - Cursor, Windsurf, VS Code</video:title>
+      <video:description>Switch between Cursor, Windsurf, and VS Code seamlessly with YOYO. Your version history follows you across all your favorite AI coding environments.</video:description>
+      <video:content_loc>https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cross-ides-PZyN9x34tNJsgQrbFkY3UUaatEaePh.mp4</video:content_loc>
+      <video:duration>55</video:duration>
+      <video:publication_date>2024-12-01T00:00:00+00:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>cross-IDE</video:tag>
+      <video:tag>Cursor</video:tag>
+      <video:tag>Windsurf</video:tag>
+      <video:tag>VS Code</video:tag>
+      <video:tag>AI coding</video:tag>
+      <video:category>Technology</video:category>
+    </video:video>
+  </url>
+
+</urlset>

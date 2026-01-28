@@ -1,81 +1,286 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap");
+/* shadcn/ui light mode colors */
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222.2 84% 4.9%);
 
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 84% 4.9%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222.2 84% 4.9%);
+
+  --primary: hsl(222.2 47.4% 11.2%);
+  --primary-foreground: hsl(210 40% 98%);
+
+  --secondary: hsl(210 40% 96.1%);
+  --secondary-foreground: hsl(222.2 47.4% 11.2%);
+
+  --muted: hsl(210 40% 96.1%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+
+  --accent: hsl(210 40% 96.1%);
+  --accent-foreground: hsl(222.2 47.4% 11.2%);
+
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(210 40% 98%);
+
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --ring: hsl(222.2 84% 4.9%);
+
+  --radius: 0.5rem;
+}
+
+/* shadcn/ui dark mode colors */
+.dark {
+  --background: hsl(222.2 84% 4.9%);
+  --foreground: hsl(210 40% 98%);
+
+  --card: hsl(222.2 84% 4.9%);
+  --card-foreground: hsl(210 40% 98%);
+
+  --popover: hsl(222.2 84% 4.9%);
+  --popover-foreground: hsl(210 40% 98%);
+
+  --primary: hsl(210 40% 98%);
+  --primary-foreground: hsl(222.2 47.4% 11.2%);
+
+  --secondary: hsl(217.2 32.6% 17.5%);
+  --secondary-foreground: hsl(210 40% 98%);
+
+  --muted: hsl(217.2 32.6% 17.5%);
+  --muted-foreground: hsl(215 20.2% 65.1%);
+
+  --accent: hsl(217.2 32.6% 17.5%);
+  --accent-foreground: hsl(210 40% 98%);
+
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(210 40% 98%);
+
+  --border: hsl(217.2 32.6% 17.5%);
+  --input: hsl(217.2 32.6% 17.5%);
+  --ring: hsl(212.7 26.8% 83.9%);
+}
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+/* Tailwind v4 Theme Configuration */
 @theme inline {
-  /* Neon Palette */
-  --color-user-terminal: 29 252 130; /* #1dfc82 - Bright Terminal Green */
-  --color-gemini-cyan: 0 255 255; /* #00ffff - Electric Cyan */
-  --color-claude-amber: 255 191 0; /* #ffbf00 - Muted Amber/Gold */
-  --color-system-violet: 191 0 255; /* #bf00ff - Cyberpunk Violet */
-  --color-accent-light: 230 240 255; /* #e6f0ff - Off-white for highlights */
-
-  /* Background & Glass Materials */
-  --bg-carbon-fiber: #0a0a0a;
-  --glass-background: rgba(20, 22, 28, 0.6);
-  --glass-border-color: rgba(138, 148, 166, 0.2);
-  --glass-rim-light: rgba(230, 240, 255, 0.1);
+  /* optional: --font-sans, --font-serif, --font-mono if they are applied in the layout.tsx */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
-  :root {
-    /* Color Palette (The Neon) - keeping these for reference if needed by inline theme */
-    --color-user-terminal: 29 252 130;
-    --color-gemini-cyan: 0 255 255;
-    --color-claude-amber: 255 191 0;
-    --color-system-violet: 191 0 255;
-    --color-accent-light: 230 240 255;
-
-    /* Background & Glass Materials */
-    --bg-carbon-fiber: #0a0a0a;
-    --glass-background: rgba(20, 22, 28, 0.6);
-    --glass-border-color: rgba(138, 148, 166, 0.2);
-    --glass-rim-light: rgba(230, 240, 255, 0.1);
+  * {
+    @apply border-border outline-ring/50;
   }
-
   body {
-    @apply bg-carbon-fiber text-gray-300 font-mono;
-    background-image: url("/assets/textures/carbon-noise.png");
-    background-color: var(--bg-carbon-fiber);
-    color: rgb(var(--color-accent-light));
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-display tracking-wider;
+    @apply bg-background text-foreground;
   }
 }
 
-/* Custom Component Styles */
-@layer components {
-  .deep-glass {
-    @apply bg-glass border border-glass rounded-md shadow-lg;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-      0 0 0 1px var(--glass-rim-light),
-      0 4px 30px rgba(0, 0, 0, 0.2);
-  }
+/* Base styles */
+* {
+  border-color: var(--border);
+}
 
-  .accent-line-gemini {
-    @apply border-l-2 border-gemini-cyan;
-  }
-  .accent-line-claude {
-    @apply border-l-2 border-claude-amber;
-  }
-  .accent-line-system {
-    @apply border-l-2 border-system-violet;
-  }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
 
-  .neon-text-terminal {
-    @apply text-user-terminal;
-    text-shadow:
-      0 0 5px rgba(var(--color-user-terminal), 0.7),
-      0 0 10px rgba(var(--color-user-terminal), 0.5);
-  }
+.font-geist {
+  font-family: var(--font-geist-sans, "GeistSans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+/* Custom selection styles */
+p[style*="--selection-text-color"]::selection {
+  color: var(--selection-text-color);
+  background-color: var(--selection-background-color);
+}
+
+p[style*="--selection-text-color"]::-moz-selection {
+  color: var(--selection-text-color);
+  background-color: var(--selection-background-color);
+}
+
+/* Heading selection styles */
+.heading-with-selection::selection {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+.heading-with-selection::-moz-selection {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+/* Logo text selection styles */
+.logo-text::selection {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+.logo-text::-moz-selection {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+.noise-texture {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/noise.webp");
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  mix-blend-mode: multiply;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.gradient-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.gradient-yellow-red {
+  background: linear-gradient(90deg, #22d3ee 0%, #ff5c28 50%, #ff5c9d 100%);
+}
+
+.gradient-yellow-red-diagonal {
+  background: linear-gradient(135deg, #22d3ee 0%, #ff5c28 50%, #ff5c9d 100%);
+}
+
+.gradient-blue-red {
+  background: linear-gradient(90deg, #22d3ee 0%, #ff5c28 50%, #ff5c9d 100%);
+}
+
+.gradient-teal-red {
+  background: linear-gradient(90deg, #22d3ee 0%, #ff5c28 50%, #ff5c9d 100%);
+}
+
+/* Hide scrollbar but allow scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Add this to ensure rounded corners on all devices */
+.rounded-all-devices {
+  border-radius: 16px !important;
+  -webkit-border-radius: 16px !important;
+  overflow: hidden;
 }

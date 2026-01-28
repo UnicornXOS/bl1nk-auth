@@ -1,44 +1,27 @@
-# Node / Next.js build artifacts
-node_modules/
-.next/
-out/
-.next-env.d.ts
-tsconfig.tsbuildinfo
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Environment files
-.env
-.env.local
-.env.production
-.env.*.local
+# dependencies
+/node_modules
 
-# Prisma
-/prisma/migrations/
-*.db
-*.db-journal
+# next.js
+/.next/
+/out/
 
-# Logs and temp
-*.log
+# production
+/build
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-.turbo/
 
-# Misc / OS
-.DS_Store
-Thumbs.db
+# env files
+.env*
 
-# VS Code / AI / Agents
-.vscode/
-!.vscode/settings.json
-.github/instructions/codacy.instructions.md
-.kilocode/mcp.json
-.agent/
-.claude/
-.specify/
+# vercel
+.vercel
 
-# Files with secrets
-GOOGLE_OAUTH_CREDENTIALS.md
-VERCEL_DEPLOY_READY.md
-*_CREDENTIALS.md
-*_READY.md
+# typescript
+*.tsbuildinfo
+next-env.d.ts
