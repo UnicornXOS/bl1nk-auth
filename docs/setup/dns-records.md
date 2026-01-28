@@ -13,52 +13,52 @@
 
 **ถ้า Vercel แสดง CNAME:**
 
-```
+\`\`\`
 Type: CNAME
 Name: auth
 Value: cname.vercel-dns.com
 TTL: 300
-```
+\`\`\`
 
 **ถ้า Vercel แสดง A Record:**
 
-```
+\`\`\`
 Type: A
 Name: auth
 Value: 76.76.19.61
 TTL: 300
-```
+\`\`\`
 
 ### 2. สำหรับ API Gateway (อนาคต)
 
-```
+\`\`\`
 Type: CNAME
 Name: api
 Value: cname.vercel-dns.com
 TTL: 300
-```
+\`\`\`
 
 ### 3. สำหรับ Dashboard (อนาคต)
 
-```
+\`\`\`
 Type: CNAME
 Name: dashboard
 Value: cname.vercel-dns.com
 TTL: 300
-```
+\`\`\`
 
 ### 4. สำหรับ Documentation (อนาคต)
 
-```
+\`\`\`
 Type: CNAME
 Name: docs
 Value: cname.vercel-dns.com
 TTL: 300
-```
+\`\`\`
 
 ### 5. Email Records (MX Records)
 
-```
+\`\`\`
 Type: MX
 Name: @
 Value: mx1.forwardemail.net
@@ -70,34 +70,34 @@ Name: @
 Value: mx2.forwardemail.net
 Priority: 20
 TTL: 300
-```
+\`\`\`
 
 ### 6. Email Forwarding (TXT Records)
 
-```
+\`\`\`
 Type: TXT
 Name: @
 Value: "forward-email=support@bl1nk.site:your-actual-email@gmail.com,team@bl1nk.site:your-team-email@gmail.com"
 TTL: 300
-```
+\`\`\`
 
 ### 7. SPF Record (Email Security)
 
-```
+\`\`\`
 Type: TXT
 Name: @
 Value: "v=spf1 include:_spf.forwardemail.net ~all"
 TTL: 300
-```
+\`\`\`
 
 ### 8. DMARC Record (Email Security)
 
-```
+\`\`\`
 Type: TXT
 Name: _dmarc
 Value: "v=DMARC1; p=quarantine; rua=mailto:security@bl1nk.site"
 TTL: 300
-```
+\`\`\`
 
 ## 📋 ขั้นตอนการตั้งค่า
 
@@ -109,7 +109,7 @@ TTL: 300
 
 ### ขั้นตอนที่ 2: ตรวจสอบ DNS
 
-```bash
+\`\`\`bash
 # ตรวจสอบ CNAME record
 nslookup auth.bl1nk.site
 
@@ -118,7 +118,7 @@ nslookup -type=MX bl1nk.site
 
 # ตรวจสอบ TXT record
 nslookup -type=TXT bl1nk.site
-```
+\`\`\`
 
 ### ขั้นตอนที่ 3: รอ DNS Propagation
 
@@ -129,11 +129,11 @@ nslookup -type=TXT bl1nk.site
 
 **เพิ่มทันที:**
 
-```
+\`\`\`
 Type: CNAME
 Name: auth
 Value: cname.vercel-dns.com
-```
+\`\`\`
 
 **เพิ่มทีหลัง (เมื่อพร้อม deploy):**
 

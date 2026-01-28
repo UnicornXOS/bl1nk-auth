@@ -11,13 +11,13 @@
 
 ### ขั้นตอนที่ 2: กรอกข้อมูล DNS Record
 
-```
+\`\`\`
 Type: CNAME
 Name: auth
 Target: cname.vercel-dns.com
 Proxy status: DNS only (สีเทา) ⚠️ สำคัญ!
 TTL: Auto
-```
+\`\`\`
 
 ### 🚨 สำคัญ: ปิด Cloudflare Proxy
 
@@ -57,13 +57,13 @@ TTL: Auto
 
 ลองใช้ A Record แทน:
 
-```
+\`\`\`
 Type: A
 Name: auth
 IPv4 address: 76.76.19.61
 Proxy status: DNS only (สีเทา)
 TTL: Auto
-```
+\`\`\`
 
 ## ✅ เมื่อเสร็จแล้ว
 

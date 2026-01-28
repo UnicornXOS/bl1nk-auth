@@ -4,7 +4,7 @@
 
 ### 🔴 Critical (จำเป็นต้องมี)
 
-```bash
+\`\`\`bash
 # Authentication Keys (สร้างด้วย npm run gen:key)
 AUTH_PRIVATE_KEY_PEM="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
 AUTH_PUBLIC_KEY_PEM="-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----"
@@ -19,11 +19,11 @@ GOOGLE_CLIENT_SECRET="your_google_client_secret"
 # Base Configuration
 AUTH_ISSUER="https://your-app.vercel.app"
 AUTH_AUDIENCE="bl1nk-note"
-```
+\`\`\`
 
 ### 🟡 Optional (สำหรับ features เพิ่มเติม)
 
-```bash
+\`\`\`bash
 # Webhook System
 WEBHOOK_SECRET="your-webhook-secret"
 
@@ -36,15 +36,15 @@ NOTION_API_KEY="secret_..."
 NOTION_TASKS_DB_ID="database_id"
 GITHUB_TOKEN="ghp_..."
 LOGTAIL_TOKEN="your_logtail_token"
-```
+\`\`\`
 
 ## ขั้นตอนการ Deploy
 
 ### 1. สร้าง Cryptographic Keys
 
-```bash
+\`\`\`bash
 npm run gen:key
-```
+\`\`\`
 
 คัดลอกค่า PEM ที่ได้ไปใส่ใน Vercel Environment Variables
 
@@ -66,13 +66,13 @@ npm run gen:key
 
 ### 3. Deploy ไป Vercel
 
-```bash
+\`\`\`bash
 # ติดตั้ง Vercel CLI
 npm i -g vercel
 
 # Deploy
 vercel --prod
-```
+\`\`\`
 
 ### 4. ตั้งค่า Environment Variables ใน Vercel Dashboard
 
@@ -109,35 +109,35 @@ vercel --prod
 
 ### 1. ปรับปรุง Security
 
-```typescript
+\`\`\`typescript
 // เพิ่ม CORS configuration
 // เพิ่ม rate limiting ทุก endpoint
 // เพิ่ม input validation middleware
-```
+\`\`\`
 
 ### 2. เพิ่ม Monitoring
 
-```typescript
+\`\`\`typescript
 // เพิ่ม error tracking (Sentry)
 // เพิ่ม performance monitoring
 // เพิ่ม health check endpoints
-```
+\`\`\`
 
 ### 3. ปรับปรุง UX
 
-```typescript
+\`\`\`typescript
 // เพิ่ม loading states
 // เพิ่ม error boundaries
 // เพิ่ม responsive design
-```
+\`\`\`
 
 ### 4. Database Integration
 
-```typescript
+\`\`\`typescript
 // เพิ่ม user persistence
 // เพิ่ม session management
 // เพิ่ม audit logs
-```
+\`\`\`
 
 ## Testing URLs
 

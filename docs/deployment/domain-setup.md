@@ -32,58 +32,58 @@
 
 2. **ตั้งค่า DNS records ใน domain provider**:
 
-   ```
+   \`\`\`
    Type: CNAME
    Name: auth
    Value: [ค่าที่ Vercel แสดงให้] เช่น cname.vercel-dns.com
-   ```
+   \`\`\`
 
    **หรือถ้า Vercel แสดง A record:**
 
-   ```
+   \`\`\`
    Type: A
    Name: auth
    Value: [IP ที่ Vercel แสดงให้] เช่น 76.76.19.61
-   ```
+   \`\`\`
 
 ### Environment Variables Update
 
-```bash
+\`\`\`bash
 # Production
 AUTH_ISSUER=https://auth.bl1nk.site
 NEXTAUTH_URL=https://auth.bl1nk.site
-```
+\`\`\`
 
 ## 🔐 OAuth Configuration Update
 
 ### GitHub OAuth App (Production)
 
-```
+\`\`\`
 Application name: bl1nk-auth-prod
 Homepage URL: https://bl1nk.site
 Authorization callback URL: https://auth.bl1nk.site/api/oauth/callback
-```
+\`\`\`
 
 ### Google OAuth App (Production)
 
-```
+\`\`\`
 Application type: Web application
 Name: bl1nk-auth-prod
 Authorized redirect URIs: https://auth.bl1nk.site/api/oauth/callback
-```
+\`\`\`
 
 ## 📧 Email Configuration
 
 ### SMTP Settings (for notifications)
 
-```bash
+\`\`\`bash
 SMTP_HOST=smtp.resend.com
 SMTP_PORT=587
 SMTP_USER=resend
 SMTP_PASS=your_resend_api_key
 FROM_EMAIL=noreply@bl1nk.site
 SUPPORT_EMAIL=support@bl1nk.site
-```
+\`\`\`
 
 ## 🚀 Deployment Checklist
 

@@ -1,8 +1,8 @@
 import prisma from "@/lib/db/prisma";
 import { auth } from "@/lib/auth/middleware";
-import { AdminStats } from "@/components/dashboard/admin-stats";
-import { WebhookMonitor } from "@/components/dashboard/webhook-monitor";
-import { EventLog } from "@/components/dashboard/event-log";
+import { AdminStats } from "@/components/features/dashboard/admin-stats";
+import { WebhookMonitor } from "@/components/features/dashboard/webhook-monitor";
+import { EventLog } from "@/components/features/dashboard/event-log";
 
 export default async function AdminPage() {
     const session = await auth();

@@ -43,7 +43,7 @@
 
 # โปรเจ็กต์ Webhook แบบครบวงจรสำหรับ Vercel - พร้อมใช้งานทันที
 
-```
+\`\`\`
 ├── app/
 │   ├── api/
 │   │   ├── webhook/
@@ -66,13 +66,13 @@
 ├── .env.example
 ├── package.json
 └── vercel.json
-```
+\`\`\`
 
 ## 1. ตั้งค่าพื้นฐาน
 
 ### `.env.example` (คัดลอกเป็น `.env.local` แล้วกรอกข้อมูลจริง)
 
-```env
+\`\`\`env
 # จำเป็นต้องตั้งค่าใน Vercel Dashboard หลัง deploy
 WEBHOOK_SECRET=your_strong_secret_here
 UPSTASH_REDIS_URL=your_upstash_redis_url
@@ -80,11 +80,11 @@ UPSTASH_REDIS_TOKEN=your_upstash_redis_token
 NOTION_API_KEY=secret_...
 GITHUB_TOKEN=ghp_...
 LOGTAIL_TOKEN=your_logtail_token
-```
+\`\`\`
 
 ### `package.json`
 
-```json
+\`\`\`json
 {
   "name": "webhook-system",
   "version": "1.0.0",
@@ -106,13 +106,13 @@ LOGTAIL_TOKEN=your_logtail_token
     "winston": "^3.10.0"
   }
 }
-```
+\`\`\`
 
 ## 2. ระบบ Rate Limiting แบบใช้งานได้จริง
 
 ### `lib/ratelimiter.js`
 
-```javascript
+\`\`\`javascript
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
@@ -126,13 +126,13 @@ export const ratelimit = new Ratelimit({
   analytics: true,
   prefix: "@webhook/ratelimit",
 });
-```
+\`\`\`
 
 ## 3. Webhook Handler หลัก
 
 ### `app/api/webhook/route.js`
 
-```javascript
+\`\`\`javascript
 import { ratelimit } from "@/lib/ratelimiter";
 import { addWebhookToQueue } from "@/lib/queue";
 import { logger } from "@/lib/logger";
@@ -242,13 +242,13 @@ export async function POST(req) {
     );
   }
 }
-```
+\`\`\`
 
 ## 4. ระบบคิวแบบ Serverless ที่ทำงานได้จริงกับ Vercel
 
 ### `lib/queue.js`
 
-```javascript
+\`\`\`javascript
 import { Queue, Worker } from "bullmq";
 import { Redis } from "@upstash/redis";
 import { logger } from "./logger";
@@ -346,13 +346,13 @@ export async function getQueueStats() {
     total: waiting + active + completed + failed,
   };
 }
-```
+\`\`\`
 
 ## 5. Worker สำหรับประมวลผลคิว (แบบ Serverless)
 
 ### `app/api/worker/route.js`
 
-```javascript
+\`\`\`javascript
 import { createWorker } from "@/lib/queue";
 import { logger } from "@/lib/logger";
 
@@ -416,13 +416,13 @@ export async function GET() {
     await worker.close();
   }
 }
-```
+\`\`\`
 
 ## 6. การบูรณาการกับบริการต่างๆ
 
 ### `lib/integrations/github.js`
 
-```javascript
+\`\`\`javascript
 import { Octokit } from "@octokit/rest";
 import { logger } from "../logger";
 
@@ -461,11 +461,11 @@ export async function processGithubWebhook(payload) {
     throw error;
   }
 }
-```
+\`\`\`
 
 ### `lib/integrations/notion.js`
 
-```javascript
+\`\`\`javascript
 import { Client } from "@notionhq/client";
 import { logger } from "../logger";
 
@@ -516,13 +516,13 @@ export async function processNotionWebhook(payload) {
     throw error;
   }
 }
-```
+\`\`\`
 
 ## 7. ระบบ Logging แบบละเอียด
 
 ### `lib/logger.js`
 
-```javascript
+\`\`\`javascript
 import { createLogger, format, transports } from "winston";
 import { Logtail } from "@logtail/node";
 
@@ -578,13 +578,13 @@ if (process.env.LOGTAIL_TOKEN) {
 }
 
 export { logger };
-```
+\`\`\`
 
 ## 8. Dashboard สำหรับตรวจสอบสถานะ
 
 ### `app/dashboard/page.js`
 
-```javascript
+\`\`\`javascript
 import { getQueueStats } from "@/lib/queue";
 import { logger } from "@/lib/logger";
 
@@ -709,7 +709,7 @@ async function ErrorList() {
     </div>
   );
 }
-```
+\`\`\`
 
 ## 9. การตั้งค่าและ Deploy บน Vercel
 
@@ -717,16 +717,16 @@ async function ErrorList() {
 
 1. **สร้างโปรเจ็กต์ Next.js**
 
-   ```bash
+   \`\`\`bash
    npx create-next-app@latest webhook-system
    cd webhook-system
-   ```
+   \`\`\`
 
 2. **ติดตั้ง dependencies ที่จำเป็น**
 
-   ```bash
+   \`\`\`bash
    npm install @upstash/redis @upstash/ratelimit @notionhq/client @octokit/rest bullmq logtail winston
-   ```
+   \`\`\`
 
 3. **สร้าง Upstash Redis บน Vercel**
    - เข้าไปที่ Vercel Dashboard
@@ -736,7 +736,7 @@ async function ErrorList() {
 
 4. **ตั้งค่า Environment Variables ใน Vercel**
 
-   ```env
+   \`\`\`env
    WEBHOOK_SECRET=your_strong_secret_here
    UPSTASH_REDIS_URL=your_upstash_redis_url
    UPSTASH_REDIS_TOKEN=your_upstash_redis_token
@@ -744,7 +744,7 @@ async function ErrorList() {
    GITHUB_TOKEN=ghp_...
    LOGTAIL_TOKEN=your_logtail_token
    NOTION_TASKS_DB_ID=your_notion_database_id
-   ```
+   \`\`\`
 
    - ตั้งค่าใน Vercel Dashboard: Project Settings > Environment Variables
 
@@ -753,12 +753,12 @@ async function ErrorList() {
    - ตั้งค่า Rate Limiting ใน Vercel Firewall สำหรับ endpoint หลัก
 
 6. **Deploy ไปยัง Vercel**
-   ```bash
+   \`\`\`bash
    git init
    git add .
    git commit -m "Initial commit"
    vercel --prod
-   ```
+   \`\`\`
 
 ### ขั้นตอนการทดสอบ
 

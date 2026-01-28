@@ -43,7 +43,7 @@ Deploy to Vercel in seconds:
 
 ### Local Development
 
-```bash
+\`\`\`bash
 # Clone the repository
 git clone https://github.com/UnicornXOS/bl1nk-auth.git
 cd bl1nk-auth
@@ -56,7 +56,7 @@ cp .env.example .env
 
 # Run development server
 npm run dev
-```
+\`\`\`
 
 Open [http://localhost:3000](http://localhost:3000) 🎉
 
@@ -66,7 +66,7 @@ Open [http://localhost:3000](http://localhost:3000) 🎉
 
 Create a `.env` file with:
 
-```env
+\`\`\`env
 # OAuth Providers
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
@@ -76,13 +76,13 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 # JWT Secret
 JWT_SECRET=your_super_secret_key_min_32_chars
-```
+\`\`\`
 
 ### Client Configuration
 
 Edit `config/clients.json` to add your allowed clients:
 
-```json
+\`\`\`json
 [
   {
     "client": "your-app",
@@ -90,7 +90,7 @@ Edit `config/clients.json` to add your allowed clients:
     "returns": ["https://your-app.com/auth/callback"]
   }
 ]
-```
+\`\`\`
 
 ## 🎨 Design System
 
@@ -113,7 +113,7 @@ bl1nk Auth features a custom **Neon Design System** with:
 
 ## 🏗️ Project Structure
 
-```
+\`\`\`
 bl1nk-auth/
 ├── app/                    # Next.js App Router
 │   ├── (auth)/            # Authentication pages
@@ -125,7 +125,7 @@ bl1nk-auth/
 ├── lib/                  # Utilities & integrations
 ├── config/               # Configuration files
 └── public/               # Static assets
-```
+\`\`\`
 
 ## 🔐 Security
 

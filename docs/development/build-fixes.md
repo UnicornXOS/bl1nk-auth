@@ -24,11 +24,11 @@
 
 ### Fix 1: Update quickstart page import
 
-```typescript
+\`\`\`typescript
 // Change from named import to default import if needed
 import CodeSnippet from "@/components/code-snippet";
 // Or ensure named export is correct
-```
+\`\`\`
 
 ### Fix 2: Verify all components export correctly
 
@@ -42,9 +42,9 @@ Ensure `@/*` path mapping works correctly in `tsconfig.json`
 
 ## 🔧 Build Command
 
-```bash
+\`\`\`bash
 npm run build
-```
+\`\`\`
 
 ## 📋 Status
 

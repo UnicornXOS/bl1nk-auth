@@ -13,13 +13,13 @@
 - Keys now read from `process.env.REACT_APP_*` variables
 - Display only masked versions (last 4 characters)
 
-```javascript
+\`\`\`javascript
 // Before:
 { id: 1, name: 'OpenAI GPT-4', key: 'sk-...****', status: 'active', usage: 85 }
 
 // After:
 { id: 1, name: 'OpenAI GPT-4', key: process.env.REACT_APP_OPENAI_KEY ? '****' + process.env.REACT_APP_OPENAI_KEY.slice(-4) : 'Not configured', status: 'active', usage: 85 }
-```
+\`\`\`
 
 #### Issue 2: API Key Storage in handleAddApiKey (Line ~68)
 
@@ -30,11 +30,11 @@
 - Added TODO comment for server-side secure storage
 - Keys are masked before being added to state
 
-```javascript
+\`\`\`javascript
 const maskedKey =
   newApiKey.key.length > 4 ? "****" + newApiKey.key.slice(-4) : "****";
 // TODO: Send actual key to secure server endpoint for storage
-```
+\`\`\`
 
 #### Issue 3: API Key Format Exposure in Placeholder (Line ~370)
 
@@ -44,14 +44,14 @@ const maskedKey =
 - Changed placeholder to generic text
 - Added autoComplete="off" for additional security
 
-```javascript
+\`\`\`javascript
 // Before:
 placeholder = "sk-...";
 
 // After:
 placeholder = "Enter your API key";
 autoComplete = "off";
-```
+\`\`\`
 
 ### Additional Security Improvements
 
@@ -70,11 +70,11 @@ autoComplete = "off";
 
 Add these to your `.env.local` file:
 
-```bash
+\`\`\`bash
 REACT_APP_OPENAI_KEY=your_openai_key_here
 REACT_APP_ANTHROPIC_KEY=your_anthropic_key_here
 REACT_APP_GOOGLE_KEY=your_google_key_here
-```
+\`\`\`
 
 ## Verification Steps
 

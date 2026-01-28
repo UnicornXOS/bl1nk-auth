@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth/middleware";
-import GlassCard from "@/components/common/ui/GlassCard";
-import IOS26Button from "@/components/common/ui/IOS26Button";
+import GlassCard from "@/components/shared/GlassCard";
+import IOS26Button from "@/components/shared/IOS26Button";
 
 export default async function TeamMembersPage() {
     const session = await auth();

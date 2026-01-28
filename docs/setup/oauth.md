@@ -12,16 +12,16 @@
 1. ไป https://github.com/settings/developers
 2. คลิก "New OAuth App"
 3. กรอกข้อมูล:
-   ```
+   \`\`\`
    Application name: bl1nk-auth-dev
    Homepage URL: https://bl1nk.site
    Authorization callback URL: http://localhost:8787/api/oauth/callback
-   ```
+   \`\`\`
 4. คัดลอก Client ID และ Client Secret ใส่ใน `.env`:
-   ```bash
+   \`\`\`bash
    GITHUB_CLIENT_ID=your_actual_client_id
    GITHUB_CLIENT_SECRET=your_actual_client_secret
-   ```
+   \`\`\`
 
 ### 2. Google OAuth App
 
@@ -29,22 +29,22 @@
 2. สร้าง Project ใหม่ (ถ้ายังไม่มี)
 3. เปิดใช้งาน Google+ API
 4. สร้าง OAuth 2.0 Client ID:
-   ```
+   \`\`\`
    Application type: Web application
    Name: bl1nk-auth-dev
    Authorized redirect URIs: http://localhost:8787/api/oauth/callback
-   ```
+   \`\`\`
 5. คัดลอก Client ID และ Client Secret ใส่ใน `.env`:
-   ```bash
+   \`\`\`bash
    GOOGLE_CLIENT_ID=your_actual_client_id
    GOOGLE_CLIENT_SECRET=your_actual_client_secret
-   ```
+   \`\`\`
 
 ### 3. ทดสอบ
 
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
 - เปิด http://localhost:8787/login
 - ทดสอบ login ด้วย GitHub และ Google

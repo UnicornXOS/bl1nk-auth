@@ -1,10 +1,10 @@
 import type { JSX } from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import IOS26Toggle from "@/components/common/ui/IOS26Toggle";
-import IOS26Pagination from "@/components/common/ui/IOS26Pagination";
-import IOS26Notification from "@/components/common/ui/IOS26Notification";
-import GlassCard from "@/components/common/ui/GlassCard";
+import IOS26Toggle from "@/components/shared/IOS26Toggle";
+import IOS26Pagination from "@/components/shared/IOS26Pagination";
+import IOS26Notification from "@/components/shared/IOS26Notification";
+import GlassCard from "@/components/shared/GlassCard";
 import { useState } from "react";
 
 // Types
