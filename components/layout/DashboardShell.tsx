@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 export interface DashboardOverview {
   metrics: {
@@ -29,11 +29,7 @@ interface DashboardShellProps {
   overview: DashboardOverview;
 }
 
-const DashboardShell: React.FC<DashboardShellProps> = ({
-  userName,
-  userEmail,
-  overview,
-}) => {
+const DashboardShell: React.FC<DashboardShellProps> = ({ userName, userEmail, overview }) => {
   return (
     <div className="dashboard-shell">
       <h1>Dashboard for {userName || "Guest"}</h1>
@@ -45,8 +41,7 @@ const DashboardShell: React.FC<DashboardShellProps> = ({
         {overview.metrics.map((metric) => (
           <div key={metric.id}>
             <p>
-              {metric.labelTh} ({metric.labelEn}): {metric.value} (
-              {metric.trend.percentage})
+              {metric.labelTh} ({metric.labelEn}): {metric.value} ({metric.trend.percentage})
             </p>
           </div>
         ))}
@@ -68,8 +63,7 @@ const DashboardShell: React.FC<DashboardShellProps> = ({
         {overview.activities.map((activity) => (
           <div key={activity.id}>
             <p>
-              {activity.messageTh} ({activity.messageEn}) - {activity.timestamp}{" "}
-              ({activity.status})
+              {activity.messageTh} ({activity.messageEn}) - {activity.timestamp} ({activity.status})
             </p>
           </div>
         ))}

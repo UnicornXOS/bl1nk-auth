@@ -1,13 +1,13 @@
-import { Queue, Worker, type Job } from "bullmq";
+import { type Job, Queue, Worker } from "bullmq";
 import IORedis from "ioredis";
 
-import { ENV } from "@/lib/utils/env";
-import { logger } from "@/lib/utils/logger";
 import {
   processCustomWebhook,
   processGithubWebhook,
   processNotionWebhook,
 } from "@/lib/integrations";
+import { ENV } from "@/lib/utils/env";
+import { logger } from "@/lib/utils/logger";
 
 export type SupportedProvider = "github" | "notion" | "custom";
 
@@ -143,9 +143,7 @@ export async function getQueueStats(): Promise<{
   };
 }
 
-export async function getRecentFailedJobs(
-  limit: number,
-): Promise<Job<WebhookJob>[]> {
+export async function getRecentFailedJobs(limit: number): Promise<Job<WebhookJob>[]> {
   if (!webhookQueue) {
     throw new Error("Queue is disabled - missing Upstash Redis credentials");
   }

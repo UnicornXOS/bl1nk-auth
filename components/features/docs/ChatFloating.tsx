@@ -52,10 +52,7 @@ export function ChatFloating(): JSX.Element {
       ]);
     } catch (error) {
       const text = error instanceof Error ? error.message : "unknown error";
-      setLines((current: any) => [
-        ...current,
-        { role: "error", text: `เกิดข้อผิดพลาด: ${text}` },
-      ]);
+      setLines((current: any) => [...current, { role: "error", text: `เกิดข้อผิดพลาด: ${text}` }]);
     }
   };
 
@@ -73,9 +70,7 @@ export function ChatFloating(): JSX.Element {
       {open && (
         <div className="mt-2 w-[360px] h-[480px] rounded-lg border bg-background shadow-lg overflow-hidden">
           <div className="flex h-full flex-col">
-            <header className="p-3 border-b text-sm font-semibold">
-              Assistant
-            </header>
+            <header className="p-3 border-b text-sm font-semibold">Assistant</header>
             <div className="flex-1 p-3 overflow-auto text-sm space-y-2">
               {lines.map((line: { role: any; text: any }, index: any) => (
                 <div key={index} className="leading-relaxed">

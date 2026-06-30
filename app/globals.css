@@ -58,9 +58,7 @@
     @apply bg-glass border border-glass rounded-md shadow-lg;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-      0 0 0 1px var(--glass-rim-light),
-      0 4px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 1px var(--glass-rim-light), 0 4px 30px rgba(0, 0, 0, 0.2);
   }
 
   .accent-line-gemini {
@@ -75,8 +73,7 @@
 
   .neon-text-terminal {
     @apply text-user-terminal;
-    text-shadow:
-      0 0 5px rgba(var(--color-user-terminal), 0.7),
-      0 0 10px rgba(var(--color-user-terminal), 0.5);
+    text-shadow: 0 0 5px rgba(var(--color-user-terminal), 0.7), 0 0 10px
+      rgba(var(--color-user-terminal), 0.5);
   }
 }

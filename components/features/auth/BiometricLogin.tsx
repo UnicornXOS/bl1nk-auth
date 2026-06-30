@@ -51,12 +51,8 @@ export function BiometricLogin({
       <IOS26Card className="p-8 text-center">
         <div className="mb-6">
           <div className="app-icon mx-auto mb-4">🔐</div>
-          <h2 className="text-2xl font-bold text-foreground mb-2">
-            เข้าสู่ระบบ
-          </h2>
-          <p className="text-muted-foreground">
-            เลือกวิธีการเข้าสู่ระบบที่คุณต้องการ
-          </p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">เข้าสู่ระบบ</h2>
+          <p className="text-muted-foreground">เลือกวิธีการเข้าสู่ระบบที่คุณต้องการ</p>
         </div>
 
         <div className="space-y-4">
@@ -74,9 +70,7 @@ export function BiometricLogin({
               <span className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                หรือ
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">หรือ</span>
             </div>
           </div>
 
@@ -91,17 +85,12 @@ export function BiometricLogin({
         </div>
 
         <div className="mt-6 text-xs text-muted-foreground">
-          <p>
-            การใช้ไบโอเมตริกส์จะช่วยให้การเข้าสู่ระบบรวดเร็วและปลอดภัยยิ่งขึ้น
-          </p>
+          <p>การใช้ไบโอเมตริกส์จะช่วยให้การเข้าสู่ระบบรวดเร็วและปลอดภัยยิ่งขึ้น</p>
         </div>
       </IOS26Card>
 
       {showBiometric && (
-        <BiometricAuth
-          onSuccess={handleBiometricSuccess}
-          onError={handleBiometricError}
-        />
+        <BiometricAuth onSuccess={handleBiometricSuccess} onError={handleBiometricError} />
       )}
     </div>
   );

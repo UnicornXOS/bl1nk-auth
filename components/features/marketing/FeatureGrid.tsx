@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /**
  * Feature item type definition
@@ -20,8 +20,7 @@ const FeatureGrid = () => {
   const features: FeatureItem[] = [
     {
       title: "การวิเคราะห์ขั้นสูง",
-      description:
-        "รับข้อมูลเชิงลึกที่ครอบคลุมเกี่ยวกับประสิทธิภาพของธุรกิจของคุณด้วยเครื่องมือวิเคราะห์ขั้นสูง",
+      description: "รับข้อมูลเชิงลึกที่ครอบคลุมเกี่ยวกับประสิทธิภาพของธุรกิจของคุณด้วยเครื่องมือวิเคราะห์ขั้นสูง",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -41,8 +40,7 @@ const FeatureGrid = () => {
     },
     {
       title: "การชำระเงินที่ปลอดภัย",
-      description:
-        "ประมวลผลธุรกรรมอย่างปลอดภัยด้วยระบบการชำระเงินที่เข้ารหัสและปลอดภัยสูงสุด",
+      description: "ประมวลผลธุรกรรมอย่างปลอดภัยด้วยระบบการชำระเงินที่เข้ารหัสและปลอดภัยสูงสุด",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -62,8 +60,7 @@ const FeatureGrid = () => {
     },
     {
       title: "การจัดการลูกค้า",
-      description:
-        "จัดการความสัมพันธ์กับลูกค้าอย่างมีประสิทธิภาพด้วยเครื่องมือ CRM ที่ใช้งานง่าย",
+      description: "จัดการความสัมพันธ์กับลูกค้าอย่างมีประสิทธิภาพด้วยเครื่องมือ CRM ที่ใช้งานง่าย",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -83,8 +80,7 @@ const FeatureGrid = () => {
     },
     {
       title: "การบูรณาการที่ยืดหยุ่น",
-      description:
-        "เชื่อมต่อกับแอปและบริการอื่นๆ ได้อย่างง่ายดายด้วย API ที่ยืดหยุ่นและการบูรณาการที่ราบรื่น",
+      description: "เชื่อมต่อกับแอปและบริการอื่นๆ ได้อย่างง่ายดายด้วย API ที่ยืดหยุ่นและการบูรณาการที่ราบรื่น",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -104,8 +100,7 @@ const FeatureGrid = () => {
     },
     {
       title: "การแจ้งเตือนแบบเรียลไทม์",
-      description:
-        "รับการแจ้งเตือนทันทีเกี่ยวกับกิจกรรมที่สำคัญเพื่อให้คุณไม่พลาดสิ่งสำคัญ",
+      description: "รับการแจ้งเตือนทันทีเกี่ยวกับกิจกรรมที่สำคัญเพื่อให้คุณไม่พลาดสิ่งสำคัญ",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -125,8 +120,7 @@ const FeatureGrid = () => {
     },
     {
       title: "การสำรองข้อมูลอัตโนมัติ",
-      description:
-        "ข้อมูลของคุณจะได้รับการสำรองโดยอัตโนมัติเพื่อให้มั่นใจว่าจะไม่สูญหายแม้ในกรณีที่เกิดเหตุการณ์ไม่คาดคิด",
+      description: "ข้อมูลของคุณจะได้รับการสำรองโดยอัตโนมัติเพื่อให้มั่นใจว่าจะไม่สูญหายแม้ในกรณีที่เกิดเหตุการณ์ไม่คาดคิด",
       icon: (
         <svg
           className="h-10 w-10 text-blue-600 dark:text-blue-400"
@@ -169,9 +163,7 @@ const FeatureGrid = () => {
               <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-50">
                 {feature.title}
               </h3>
-              <p className="text-gray-500 dark:text-gray-400">
-                {feature.description}
-              </p>
+              <p className="text-gray-500 dark:text-gray-400">{feature.description}</p>
             </div>
           ))}
         </div>

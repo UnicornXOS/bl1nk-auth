@@ -8,15 +8,9 @@ interface BiometricAuthProps {
   className?: string;
 }
 
-const BiometricAuth = ({
-  onSuccess,
-  onError,
-  className = "",
-}: BiometricAuthProps) => {
+const BiometricAuth = ({ onSuccess, onError, className = "" }: BiometricAuthProps) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [status, setStatus] = useState<
-    "idle" | "authenticating" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "authenticating" | "success" | "error">("idle");
 
   const handleBiometricAuth = async () => {
     if (!window.PublicKeyCredential) {
@@ -75,27 +69,19 @@ const BiometricAuth = ({
         onClick={handleBiometricAuth}
         style={{ cursor: isAuthenticating ? "not-allowed" : "pointer" }}
       >
-        <span
-          className="text-2xl"
-          role="img"
-          aria-label="biometric authentication"
-        >
+        <span className="text-2xl" role="img" aria-label="biometric authentication">
           {getStatusIcon()}
         </span>
       </div>
 
-      <p className="text-center text-sm text-muted-foreground">
-        {getStatusText()}
-      </p>
+      <p className="text-center text-sm text-muted-foreground">{getStatusText()}</p>
 
       <button
         onClick={handleBiometricAuth}
         disabled={isAuthenticating}
         className="w-full ios26-button accessible-button"
       >
-        {isAuthenticating
-          ? "กำลังตรวจสอบ..."
-          : "ใช้การยืนยันตัวตนด้วยไบโอเมตริกส์"}
+        {isAuthenticating ? "กำลังตรวจสอบ..." : "ใช้การยืนยันตัวตนด้วยไบโอเมตริกส์"}
       </button>
     </div>
   );

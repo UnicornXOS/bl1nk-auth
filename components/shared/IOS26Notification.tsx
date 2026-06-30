@@ -29,10 +29,7 @@ export default function IOS26Notification({
           <h4 className="font-semibold mb-1">{title}</h4>
           <p className="text-sm opacity-90">{message}</p>
         </div>
-        <button
-          onClick={onClose}
-          className="text-white/60 hover:text-white transition-colors"
-        >
+        <button onClick={onClose} className="text-white/60 hover:text-white transition-colors">
           ✕
         </button>
       </div>

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -45,9 +39,7 @@ export function ThemeProvider({
 
     let systemTheme: "light" | "dark" = "light";
     if (enableSystem && theme === "system") {
-      systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
+      systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
 
     const currentTheme = theme === "system" ? systemTheme : theme;
@@ -81,9 +73,7 @@ export function ThemeProvider({
     resolvedTheme,
   };
 
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

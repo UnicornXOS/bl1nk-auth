@@ -13,9 +13,7 @@ type LogEntry = {
 
 const SENSITIVE_KEYS = ["secret", "token", "key", "password"];
 
-function scrubMetadata(
-  metadata: LogMetadata,
-): Record<string, unknown> | undefined {
+function scrubMetadata(metadata: LogMetadata): Record<string, unknown> | undefined {
   if (!metadata) return undefined;
   const sanitized: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(metadata)) {
@@ -30,9 +28,7 @@ function scrubMetadata(
 }
 
 const logtailToken = ENV.LOGTAIL_TOKEN;
-const logtailUrl = logtailToken
-  ? `https://in.logtail.com/v1/${logtailToken}`
-  : null;
+const logtailUrl = logtailToken ? `https://in.logtail.com/v1/${logtailToken}` : null;
 
 async function emitRemote(entry: LogEntry): Promise<void> {
   if (!logtailUrl) return;
@@ -59,15 +55,8 @@ function emit(level: LogLevel, message: string, metadata?: LogMetadata): void {
   };
 
   const consoleFn =
-    level === "error"
-      ? console.error
-      : level === "warn"
-        ? console.warn
-        : console.log;
-  consoleFn(
-    `${entry.timestamp} [${entry.level.toUpperCase()}] ${entry.message}`,
-    entry.metadata,
-  );
+    level === "error" ? console.error : level === "warn" ? console.warn : console.log;
+  consoleFn(`${entry.timestamp} [${entry.level.toUpperCase()}] ${entry.message}`, entry.metadata);
   void emitRemote(entry);
 }
 

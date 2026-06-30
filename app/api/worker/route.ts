@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 import type { Worker } from "bullmq";
 
-import { createWorker, type WebhookJob } from "@/lib/webhook/queue";
 import { logger } from "@/lib/utils/logger";
+import { type WebhookJob, createWorker } from "@/lib/webhook/queue";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -78,8 +78,7 @@ export async function GET(): Promise<NextResponse> {
       try {
         await worker.close();
       } catch (closeErr) {
-        const message =
-          closeErr instanceof Error ? closeErr.message : String(closeErr);
+        const message = closeErr instanceof Error ? closeErr.message : String(closeErr);
         logger.error("Failed to close worker", { error: message });
       }
     }

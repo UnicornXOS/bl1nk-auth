@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { CheckIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 /**
  * Plan feature type definition
@@ -31,9 +31,7 @@ interface Plan {
  * Displays pricing plans with toggle between monthly and yearly billing
  */
 const PricingPlans = () => {
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
-    "monthly",
-  );
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
 
   // Plans data
   const plans: Plan[] = [
@@ -156,22 +154,14 @@ const PricingPlans = () => {
                 </div>
               )}
               <div className="mb-5">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">
-                  {plan.name}
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
-                  {plan.description}
-                </p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">{plan.name}</h3>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">{plan.description}</p>
               </div>
               <div className="mb-5">
                 <div className="flex items-baseline">
-                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-50">
-                    ฿
-                  </span>
+                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-50">฿</span>
                   <span className="text-5xl font-bold text-gray-900 dark:text-gray-50">
-                    {billingCycle === "monthly"
-                      ? plan.price.monthly
-                      : plan.price.yearly}
+                    {billingCycle === "monthly" ? plan.price.monthly : plan.price.yearly}
                   </span>
                   <span className="ml-1 text-gray-500 dark:text-gray-400">
                     /{billingCycle === "monthly" ? "เดือน" : "ปี"}
@@ -179,8 +169,7 @@ const PricingPlans = () => {
                 </div>
                 {billingCycle === "yearly" && plan.price.yearly > 0 && (
                   <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                    ประหยัด ฿{plan.price.monthly * 12 - plan.price.yearly}{" "}
-                    เมื่อชำระรายปี
+                    ประหยัด ฿{plan.price.monthly * 12 - plan.price.yearly} เมื่อชำระรายปี
                   </p>
                 )}
               </div>
@@ -210,9 +199,7 @@ const PricingPlans = () => {
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
                     : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-50"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                  plan.highlighted
-                    ? "focus:ring-blue-500"
-                    : "focus:ring-gray-500"
+                  plan.highlighted ? "focus:ring-blue-500" : "focus:ring-gray-500"
                 }`}
               >
                 {plan.buttonText}

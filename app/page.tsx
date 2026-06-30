@@ -8,9 +8,7 @@ export default function Home() {
           <h1 className="text-5xl font-black bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent italic tracking-tighter">
             BL1NK AUTH
           </h1>
-          <p className="text-gray-400 text-lg">
-            Centralized Identity & Access Management
-          </p>
+          <p className="text-gray-400 text-lg">Centralized Identity & Access Management</p>
         </div>
 
         <div className="grid gap-4">

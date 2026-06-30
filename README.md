@@ -43,18 +43,21 @@ Deploy to Vercel in seconds:
 
 ### Local Development
 
-\`\`\`bash
-# Clone the repository
+### Clone the repository
+
 git clone https://github.com/UnicornXOS/bl1nk-auth.git
 cd bl1nk-auth
 
-# Install dependencies
+## Install dependencies
+
 npm install
 
-# Set up environment variables
+## Set up environment variables
+
 cp .env.example .env
 
-# Run development server
+## Run development server
+
 npm run dev
 \`\`\`
 
@@ -67,14 +70,16 @@ Open [http://localhost:3000](http://localhost:3000) 🎉
 Create a `.env` file with:
 
 \`\`\`env
-# OAuth Providers
+
+## OAuth Providers
+
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
 
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-# JWT Secret
+## JWT Secret
 JWT_SECRET=your_super_secret_key_min_32_chars
 \`\`\`
 

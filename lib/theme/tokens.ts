@@ -8,11 +8,25 @@ export const designTokens = {
     accent: "#FCD34D",
     background: "#0A0A0A",
     surface: "#1A1A1A",
+    border: "#334155",
+    foreground: "#F8FAFC",
+    primaryForeground: "#0F172A",
+    secondaryForeground: "#64748B",
+  },
+  shadows: {
+    glow: "0 0 15px rgba(0, 217, 255, 0.5)",
   },
   fonts: {
     display: "Orbitron, sans-serif",
     body: "Inter, sans-serif",
     mono: "Roboto Mono, monospace",
+  },
+  brand: {
+    name: "BL1NK AUTH",
+    tagline: {
+      th: "ระบบจัดการตัวตนและการเข้าถึงแบบรวมศูนย์",
+      en: "Centralized Identity & Access Management",
+    },
   },
 } as const;
 
@@ -31,9 +45,6 @@ const translations = {
   },
 } as const;
 
-export function getLocalizedText(
-  locale: LocaleCode,
-  key: keyof typeof translations.en,
-): string {
+export function getLocalizedText(locale: LocaleCode, key: keyof typeof translations.en): string {
   return translations[locale][key];
 }

@@ -1,16 +1,13 @@
 "use client";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface PageTransitionProps {
   children: ReactNode;
   className?: string;
 }
 
-export function PageTransition({
-  children,
-  className = "",
-}: PageTransitionProps) {
+export function PageTransition({ children, className = "" }: PageTransitionProps) {
   return <div className={`page-transition ${className}`}>{children}</div>;
 }
 

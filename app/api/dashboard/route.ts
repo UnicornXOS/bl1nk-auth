@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getQueueStats } from "@/lib/webhook/queue";
 import { logger } from "@/lib/utils/logger";
+import { getQueueStats } from "@/lib/webhook/queue";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

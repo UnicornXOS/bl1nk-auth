@@ -1,7 +1,7 @@
-import Link from "next/link";
-import type { JSX } from "react";
 import type { LocaleCode } from "@/lib/theme/tokens";
 import { designTokens } from "@/lib/theme/tokens";
+import Link from "next/link";
+import type { JSX } from "react";
 
 type FooterColumn = {
   heading: Record<LocaleCode, string>;
@@ -60,26 +60,16 @@ export default function SiteFooter(): JSX.Element {
     >
       <div className="container grid gap-12 py-12 md:grid-cols-[2fr_3fr]">
         <div className="flex flex-col gap-3">
-          <span className="text-lg font-semibold text-white">
-            {designTokens.brand.name}
-          </span>
-          <p className="max-w-md text-sm text-white/70">
-            {designTokens.brand.tagline.th}
-          </p>
+          <span className="text-lg font-semibold text-white">{designTokens.brand.name}</span>
+          <p className="max-w-md text-sm text-white/70">{designTokens.brand.tagline.th}</p>
           <p className="max-w-md text-xs uppercase tracking-wide text-white/60">
             {designTokens.brand.tagline.en}
           </p>
           <div className="flex flex-col gap-1 text-xs text-white/60">
-            <a
-              href="https://bl1nk.site"
-              className="hover:text-white/80 transition-colors"
-            >
+            <a href="https://bl1nk.site" className="hover:text-white/80 transition-colors">
               bl1nk.site
             </a>
-            <a
-              href="mailto:support@bl1nk.site"
-              className="hover:text-white/80 transition-colors"
-            >
+            <a href="mailto:support@bl1nk.site" className="hover:text-white/80 transition-colors">
               support@bl1nk.site
             </a>
           </div>
@@ -97,9 +87,7 @@ export default function SiteFooter(): JSX.Element {
                     href={link.href}
                     className="group flex flex-col gap-1 rounded-lg border border-transparent p-3 transition-colors hover:border-white/10 hover:bg-white/5"
                   >
-                    <span className="font-medium text-white">
-                      {link.label.th}
-                    </span>
+                    <span className="font-medium text-white">{link.label.th}</span>
                     <span className="text-xs uppercase tracking-wide text-white/60">
                       {link.label.en}
                     </span>
@@ -114,8 +102,7 @@ export default function SiteFooter(): JSX.Element {
         className="border-t py-6 text-center text-xs text-white/50"
         style={{ borderColor: designTokens.colors.border }}
       >
-        © {new Date().getFullYear()} {designTokens.brand.name}. สงวนลิขสิทธิ์ ·
-        All rights reserved.
+        © {new Date().getFullYear()} {designTokens.brand.name}. สงวนลิขสิทธิ์ · All rights reserved.
       </div>
     </footer>
   );

@@ -1,14 +1,14 @@
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AccessibilityProvider } from "@/components/layout/AccessibilityProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import PageTransition from "@/components/shared/PageTransition";
-import type { ReactNode, JSX } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import type { JSX, ReactNode } from "react";
 
 export const metadata = {
   title: "bl1nk-auth",
   description: "OAuth gateway with marketing pages and floating docs assistant",
-    generator: 'v0.app'
+  generator: "v0.app",
 };
 
 export default function RootLayout({

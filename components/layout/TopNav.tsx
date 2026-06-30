@@ -20,17 +20,11 @@ export default function TopNav(): JSX.Element {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 px-4 py-2 bg-black/40 rounded-full border border-white/10">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
-          <span className="text-xs font-mono text-green-400">
-            SYSTEM ONLINE
-          </span>
+          <span className="text-xs font-mono text-green-400">SYSTEM ONLINE</span>
         </div>
 
-        <button className="p-2 text-gray-400 hover:text-white transition-colors">
-          🔔
-        </button>
-        <button className="p-2 text-gray-400 hover:text-white transition-colors">
-          ⚙️
-        </button>
+        <button className="p-2 text-gray-400 hover:text-white transition-colors">🔔</button>
+        <button className="p-2 text-gray-400 hover:text-white transition-colors">⚙️</button>
       </div>
     </header>
   );

@@ -1,80 +1,60 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getClient, isReturnAllowed } from "@/lib/clients";
-import { ENV } from "@/lib/utils/env";
+import { getAvailableProviders, getProvider } from "@/lib/auth";
+import { AUTH_CONFIG } from "@/lib/auth/core/config";
+import { handleAuthError } from "@/lib/auth/core/errors";
+import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
+import { getClient, isReturnAllowed } from "@/lib/utils/clients";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+// ────────────────────────────────────────────────
+// Login Route Handler
+// Initiates OAuth flow for the specified provider
+// ────────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const clientParam = url.searchParams.get("client");
   const returnParam = url.searchParams.get("return");
   const providerParam = url.searchParams.get("provider");
 
+  // Validate required parameters
   if (!clientParam || !returnParam || !providerParam) {
-    return NextResponse.json({ error: "missing_params" }, { status: 400 });
+    return NextResponse.json({ error: AuthErrorCode.MISSING_PARAMS }, { status: 400 });
   }
 
-  const clientConfig = getClient(clientParam);
-  if (!clientConfig || !isReturnAllowed(clientConfig, returnParam)) {
-    return NextResponse.json(
-      { error: "invalid_client_or_return" },
-      { status: 400 },
-    );
-  }
+  try {
+    // Validate client and return URL
+    const clientConfig = getClient(clientParam);
+    if (!clientConfig || !isReturnAllowed(clientConfig, returnParam)) {
+      throw new AuthError(AuthErrorCode.INVALID_CLIENT, "Invalid client or return URL", 400);
+    }
 
-  const stateObj = {
-    client: clientParam,
-    ret: returnParam,
-    provider: providerParam,
-    ts: Date.now(),
-  };
-
-  const stateString = JSON.stringify(stateObj);
-  // Using Buffer for base64url encoding (Node.js runtime)
-  const stateEncoded = Buffer.from(stateString).toString("base64url");
-
-  const callbackUrl = `${ENV.ISSUER.replace(/\/$/, "")}/api/oauth/callback`;
-
-  let redirectUrl = "";
-
-  if (providerParam === "github") {
-    if (!ENV.GITHUB_ID) {
-      console.error("[Login] GitHub provider not configured");
-      return NextResponse.json(
-        { error: "provider_not_configured" },
-        { status: 500 },
+    // Get provider strategy
+    const strategy = getProvider(providerParam);
+    if (!strategy) {
+      throw new AuthError(
+        AuthErrorCode.UNSUPPORTED_PROVIDER,
+        `Unsupported provider: ${providerParam}`,
+        400,
       );
     }
-    const params = new URLSearchParams({
-      client_id: ENV.GITHUB_ID,
-      redirect_uri: callbackUrl,
-      scope: "read:user user:email",
-      state: stateEncoded,
-    });
-    redirectUrl = `https://github.com/login/oauth/authorize?${params.toString()}`;
-  } else if (providerParam === "google") {
-    if (!ENV.GOOGLE_ID) {
-      console.error("[Login] Google provider not configured");
-      return NextResponse.json(
-        { error: "provider_not_configured" },
-        { status: 500 },
-      );
-    }
-    const params = new URLSearchParams({
-      client_id: ENV.GOOGLE_ID,
-      redirect_uri: callbackUrl,
-      response_type: "code",
-      scope: "openid email profile",
-      state: stateEncoded,
-      access_type: "offline",
-    });
-    redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-  } else {
-    return NextResponse.json(
-      { error: "unsupported_provider" },
-      { status: 400 },
-    );
-  }
 
-  return NextResponse.redirect(redirectUrl);
+    // Build OAuth state
+    const stateObj = {
+      client: clientParam,
+      ret: returnParam,
+      provider: providerParam,
+      ts: Date.now(),
+    };
+
+    const stateString = JSON.stringify(stateObj);
+    const stateEncoded = Buffer.from(stateString).toString("base64url");
+
+    // Get authorization URL from provider
+    const redirectUrl = strategy.getAuthorizationUrl(stateEncoded);
+
+    return NextResponse.redirect(redirectUrl);
+  } catch (error) {
+    return handleAuthError("login", error, { provider: providerParam });
+  }
 }

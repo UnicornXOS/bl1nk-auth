@@ -1,4 +1,4 @@
-import { generateKeyPair, exportPKCS8, exportSPKI } from "jose";
+import { exportPKCS8, exportSPKI, generateKeyPair } from "jose";
 
 async function generateKeys() {
   const { publicKey, privateKey } = await generateKeyPair("RS256");

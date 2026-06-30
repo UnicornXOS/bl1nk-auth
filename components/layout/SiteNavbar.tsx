@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { JSX } from "react";
-import type { LocaleCode } from "@/lib/theme/tokens";
-import { designTokens, getLocalizedText } from "@/lib/theme/tokens";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import LiquidLogo from "@/components/shared/LiquidLogo";
+import type { LocaleCode } from "@/lib/theme/tokens";
+import { designTokens, getLocalizedText } from "@/lib/theme/tokens";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import type { JSX } from "react";
+import type React from "react";
 
 type NavigationLink = {
   href: string;
@@ -49,15 +50,14 @@ function DualLineLabel({
   return (
     <span className="flex flex-col leading-tight">
       <span className="text-sm font-medium text-white">{label.th}</span>
-      <span className="text-xs uppercase tracking-wide text-white/60">
-        {label.en}
-      </span>
+      <span className="text-xs uppercase tracking-wide text-white/60">{label.en}</span>
     </span>
   );
 }
 
 export default function SiteNavbar(): JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -68,8 +68,8 @@ export default function SiteNavbar(): JSX.Element {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // TODO: Implement search functionality
-      console.log("Searching for:", searchQuery);
+      // Navigate to search page with query parameter
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -85,19 +85,14 @@ export default function SiteNavbar(): JSX.Element {
         <Link href="/" className="flex items-center gap-3">
           <LiquidLogo size={32} />
           <div className="flex flex-col">
-            <span className="text-lg font-semibold text-white">
-              {designTokens.brand.name}
-            </span>
-            <span className="text-xs text-white/70">
-              {designTokens.brand.tagline.th}
-            </span>
+            <span className="text-lg font-semibold text-white">{designTokens.brand.name}</span>
+            <span className="text-xs text-white/70">{designTokens.brand.tagline.th}</span>
           </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-5">
           {navigationLinks.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}
@@ -118,9 +113,30 @@ export default function SiteNavbar(): JSX.Element {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
+          {/* Search Box */}
+          <form onSubmit={handleSearch} className="relative flex items-center gap-2">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e as React.FormEvent);
+                }
+              }}
+              placeholder="ค้นหา..."
+              className="px-3 py-1 bg-white/10 rounded-full border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/20"
+            />
+            <button
+              type="submit"
+              className="px-3 py-1 bg-white/10 rounded-full border border-white/20 text-white hover:bg-white/20 transition-colors"
+            >
+              ค้นหา
+            </button>
+          </form>
 
           {/* Metrics Display */}
-          <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full backdrop-blur-sm">
+          <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full backdrop-blur-sm ml-4">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-sm text-white/80">26.9K</span>
           </div>
@@ -165,22 +181,17 @@ export default function SiteNavbar(): JSX.Element {
             {mobileOpen
               ? getLocalizedText({ th: "ปิดเมนูนำทาง", en: "Close navigation" })
               : getLocalizedText({
-                th: "เปิดเมนูนำทาง",
-                en: "Open navigation",
-              })}
+                  th: "เปิดเมนูนำทาง",
+                  en: "Open navigation",
+                })}
           </span>
-          <div
-            className="flex flex-col items-center justify-center"
-            style={{ gap: "5px" }}
-          >
+          <div className="flex flex-col items-center justify-center" style={{ gap: "5px" }}>
             <span
               className="block w-6 transition-transform duration-200"
               style={{
                 height: "2px",
                 backgroundColor: designTokens.colors.foreground,
-                transform: mobileOpen
-                  ? "translateY(7px) rotate(45deg)"
-                  : "translateY(0)",
+                transform: mobileOpen ? "translateY(7px) rotate(45deg)" : "translateY(0)",
               }}
             />
             <span
@@ -196,9 +207,7 @@ export default function SiteNavbar(): JSX.Element {
               style={{
                 height: "2px",
                 backgroundColor: designTokens.colors.foreground,
-                transform: mobileOpen
-                  ? "translateY(-7px) rotate(-45deg)"
-                  : "translateY(0)",
+                transform: mobileOpen ? "translateY(-7px) rotate(-45deg)" : "translateY(0)",
               }}
             />
           </div>
@@ -223,9 +232,7 @@ export default function SiteNavbar(): JSX.Element {
               className="flex flex-col rounded-lg border px-4 py-3"
               style={{ borderColor: designTokens.colors.border }}
             >
-              <span className="text-sm font-semibold text-white">
-                {item.label.th}
-              </span>
+              <span className="text-sm font-semibold text-white">{item.label.th}</span>
               <span className="text-xs text-white/70">{item.label.en}</span>
             </Link>
           ))}

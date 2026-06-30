@@ -6,11 +6,7 @@ interface IOS26ToggleProps {
   label: string;
 }
 
-export default function IOS26Toggle({
-  checked,
-  onChange,
-  label,
-}: IOS26ToggleProps): JSX.Element {
+export default function IOS26Toggle({ checked, onChange, label }: IOS26ToggleProps): JSX.Element {
   return (
     <button
       role="switch"

@@ -37,8 +37,8 @@ export default function AssistantPanel(): JSX.Element {
       <div className="assistant-content">
         <div className="token">Read the project files?</div>
         <div className="assistant-message">
-          I’ve indexed the repository context—ask anything about auth flows,
-          webhooks, or deployment steps.
+          I’ve indexed the repository context—ask anything about auth flows, webhooks, or deployment
+          steps.
         </div>
         <form className="assistant-form">
           <input

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface AccessibilityContextType {
   highContrast: boolean;
@@ -19,17 +13,13 @@ interface AccessibilityContextType {
   setVoiceNavigation: (enabled: boolean) => void;
 }
 
-const AccessibilityContext = createContext<
-  AccessibilityContextType | undefined
->(undefined);
+const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
 
 interface AccessibilityProviderProps {
   children: ReactNode;
 }
 
-export function AccessibilityProvider({
-  children,
-}: AccessibilityProviderProps) {
+export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
   const [highContrast, setHighContrast] = useState(false);
   const [largeText, setLargeText] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -38,13 +28,10 @@ export function AccessibilityProvider({
   useEffect(() => {
     // Load accessibility preferences
     const stored = {
-      highContrast:
-        localStorage.getItem("accessibility-highContrast") === "true",
+      highContrast: localStorage.getItem("accessibility-highContrast") === "true",
       largeText: localStorage.getItem("accessibility-largeText") === "true",
-      reduceMotion:
-        localStorage.getItem("accessibility-reduceMotion") === "true",
-      voiceNavigation:
-        localStorage.getItem("accessibility-voiceNavigation") === "true",
+      reduceMotion: localStorage.getItem("accessibility-reduceMotion") === "true",
+      voiceNavigation: localStorage.getItem("accessibility-voiceNavigation") === "true",
     };
 
     setHighContrast(stored.highContrast);
@@ -53,9 +40,7 @@ export function AccessibilityProvider({
     setVoiceNavigation(stored.voiceNavigation);
 
     // Check system preferences
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion && !stored.reduceMotion) {
       setReduceMotion(true);
     }
@@ -74,10 +59,7 @@ export function AccessibilityProvider({
     localStorage.setItem("accessibility-highContrast", highContrast.toString());
     localStorage.setItem("accessibility-largeText", largeText.toString());
     localStorage.setItem("accessibility-reduceMotion", reduceMotion.toString());
-    localStorage.setItem(
-      "accessibility-voiceNavigation",
-      voiceNavigation.toString(),
-    );
+    localStorage.setItem("accessibility-voiceNavigation", voiceNavigation.toString());
   }, [highContrast, largeText, reduceMotion, voiceNavigation]);
 
   // Voice navigation functionality
@@ -95,9 +77,7 @@ export function AccessibilityProvider({
       const activeElement = document.activeElement;
       if (activeElement) {
         const text =
-          activeElement.textContent ||
-          activeElement.getAttribute("aria-label") ||
-          "ไม่พบข้อความ";
+          activeElement.textContent || activeElement.getAttribute("aria-label") || "ไม่พบข้อความ";
         speak(text);
       }
     };
@@ -130,19 +110,13 @@ export function AccessibilityProvider({
     setVoiceNavigation,
   };
 
-  return (
-    <AccessibilityContext.Provider value={value}>
-      {children}
-    </AccessibilityContext.Provider>
-  );
+  return <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>;
 }
 
 export function useAccessibility() {
   const context = useContext(AccessibilityContext);
   if (context === undefined) {
-    throw new Error(
-      "useAccessibility must be used within an AccessibilityProvider",
-    );
+    throw new Error("useAccessibility must be used within an AccessibilityProvider");
   }
   return context;
 }

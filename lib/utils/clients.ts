@@ -15,10 +15,7 @@ export function getClient(client: string | undefined): ClientConfig | null {
   }
 }
 
-export function isReturnAllowed(
-  clientCfg: ClientConfig | null,
-  ret: string,
-): boolean {
+export function isReturnAllowed(clientCfg: ClientConfig | null, ret: string): boolean {
   if (!clientCfg || !Array.isArray(clientCfg.returns)) {
     console.error("Invalid client configuration or missing returns array");
     return false;

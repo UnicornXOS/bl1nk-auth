@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface IOS26CardProps {
   children: ReactNode;
@@ -9,12 +9,7 @@ interface IOS26CardProps {
   delay?: number;
 }
 
-const IOS26Card = ({
-  children,
-  className = "",
-  hover = true,
-  delay = 0,
-}: IOS26CardProps) => (
+const IOS26Card = ({ children, className = "", hover = true, delay = 0 }: IOS26CardProps) => (
   <div className={`ios26-card glassmorphism ${className}`}>{children}</div>
 );
 

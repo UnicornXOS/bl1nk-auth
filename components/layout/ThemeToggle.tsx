@@ -1,7 +1,7 @@
 "use client";
 
-import { useTheme } from "./theme-provider";
 import IOS26Button from "./ios26-button";
+import { useTheme } from "./theme-provider";
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();

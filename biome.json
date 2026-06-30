@@ -22,6 +22,7 @@
       },
       "correctness": {
         "noConstAssign": "error",
+        "noEmptyCharacterClassInRegex": "error",
         "noConstantCondition": "warn",
         "noEmptyCharacterClassInRegex": "error",
         "noEmptyPattern": "error",
@@ -31,6 +32,25 @@
         "noNonoctalDecimalEscape": "error",
         "noPrecisionLoss": "error",
         "noSelfAssign": "error",
+        "noUndeclaredVariables": "error",
+        "noUnreachable": "error",
+        "noUnreachableSuper": "error",
+        "useIsNan": "error",
+        "useYield": "error"
+      },
+      "style": {
+        "noArguments": "error",
+        "noInferrableTypes": "error",
+        "noNamespace": "error",
+        "noNonNullAssertion": "warn",
+        "noVar": "error",
+        "useConst": "error",
+        "useForOf": "error",
+        "useNumberNamespace": "error",
+        "useShorthandFunctionType": "error"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
         "noSetterReturn": "error",
         "noSwitchDeclarations": "error",
         "noUndeclaredVariables": "error",
@@ -62,6 +82,7 @@
         "noCatchAssign": "error",
         "noClassAssign": "error",
         "noCompareNegZero": "error",
+        "noConsole": "warn",
         "noControlCharactersInRegex": "error",
         "noDebugger": "error",
         "noDoubleEquals": "error",
@@ -69,6 +90,8 @@
         "noDuplicateClassMembers": "error",
         "noDuplicateObjectKeys": "error",
         "noDuplicateParameters": "error",
+        "noEmptyBlockStatements": "error",
+        "noExplicitAny": "warn",
         "noEmptyBlockStatements": "warn",
         "noExplicitAny": "warn",
         "noExtraNonNullAssertion": "error",
@@ -76,6 +99,23 @@
         "noFunctionAssign": "error",
         "noGlobalAssign": "error",
         "noImportAssign": "error",
+        "noLabelVar": "error",
+        "noRedeclare": "error",
+        "noShadowRestrictedNames": "error",
+        "noSparseArray": "error",
+        "noUnsafeNegation": "error",
+        "useGetterReturn": "error",
+        "useValidTypeof": "error"
+      },
+      "a11y": {
+        "noAccessKey": "error",
+        "noAriaHiddenOnFocusable": "error",
+        "noDistractingElements": "error",
+        "noHeaderScope": "error",
+        "useAltText": "error",
+        "useAnchorContent": "error",
+        "useKeyWithClickEvents": "warn",
+        "useValidAnchor": "error"
         "noMisleadingCharacterClass": "error",
         "noMisleadingInstantiator": "error",
         "noPrototypeBuiltins": "error",
@@ -90,6 +130,28 @@
   },
   "formatter": {
     "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    },
+    "globals": [
+      "afterAll",
+      "afterEach",
+      "beforeAll",
+      "beforeEach",
+      "describe",
+      "expect",
+      "fdescribe",
+      "fit",
+      "it",
+      "jest",
+      "test"
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,

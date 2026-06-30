@@ -50,3 +50,7 @@ GOOGLE_OAUTH_CREDENTIALS.md
 VERCEL_DEPLOY_READY.md
 *_CREDENTIALS.md
 *_READY.md
+
+# node_modules and build artifacts
+node_modules/
+.next/

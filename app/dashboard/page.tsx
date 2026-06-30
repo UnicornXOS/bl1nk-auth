@@ -1,10 +1,10 @@
-import type { JSX } from "react";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import IOS26Toggle from "@/components/shared/IOS26Toggle";
-import IOS26Pagination from "@/components/shared/IOS26Pagination";
-import IOS26Notification from "@/components/shared/IOS26Notification";
 import GlassCard from "@/components/shared/GlassCard";
+import IOS26Notification from "@/components/shared/IOS26Notification";
+import IOS26Pagination from "@/components/shared/IOS26Pagination";
+import IOS26Toggle from "@/components/shared/IOS26Toggle";
+import { redirect } from "next/navigation";
+import type { JSX } from "react";
 import { useState } from "react";
 
 // Types
@@ -121,8 +121,8 @@ function DashboardClient({
             .
           </h1>
           <p className="text-gray-400 max-w-2xl font-mono text-sm">
-            All systems operational. Webhook delivery rate at 99.8%. No critical
-            alerts detected in the last 24 sectors.
+            All systems operational. Webhook delivery rate at 99.8%. No critical alerts detected in
+            the last 24 sectors.
           </p>
           <button className="mt-6 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all">
             Initialize Terminal
@@ -131,17 +131,8 @@ function DashboardClient({
 
         {/* Abstract Background Waves */}
         <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 50 Q 50 100 100 50 T 200 50"
-              fill="none"
-              stroke="cyan"
-              strokeWidth="0.5"
-            />
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 50 Q 50 100 100 50 T 200 50" fill="none" stroke="cyan" strokeWidth="0.5" />
             <path
               d="M0 60 Q 50 110 100 60 T 200 60"
               fill="none"
@@ -158,18 +149,9 @@ function DashboardClient({
           {/* Key Metrics Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {overview.metrics.map((metric) => (
-              <GlassCard
-                key={metric.id}
-                hoverEffect
-                className="relative overflow-hidden group"
-              >
+              <GlassCard key={metric.id} hoverEffect className="relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <svg
-                    width="60"
-                    height="60"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
+                  <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                   </svg>
                 </div>
@@ -177,9 +159,7 @@ function DashboardClient({
                   {metric.labelEn}
                 </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-display font-bold text-white">
-                    {metric.value}
-                  </span>
+                  <span className="text-3xl font-display font-bold text-white">{metric.value}</span>
                   <span
                     className={`text-xs font-mono px-1.5 py-0.5 rounded ${
                       metric.trend.direction === "up"
@@ -197,44 +177,38 @@ function DashboardClient({
           {/* Activity Feed */}
           <GlassCard className="h-full">
             <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-              <h3 className="font-display text-lg text-white">
-                Recent Activity
-              </h3>
+              <h3 className="font-display text-lg text-white">Recent Activity</h3>
               <span className="px-3 py-1 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20 animate-pulse">
                 Live
               </span>
             </div>
 
             <div className="space-y-4">
-              {overview.activities
-                .slice((currentPage - 1) * 5, currentPage * 5)
-                .map((activity) => (
+              {overview.activities.slice((currentPage - 1) * 5, currentPage * 5).map((activity) => (
+                <div
+                  key={activity.id}
+                  className="group flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
+                >
                   <div
-                    key={activity.id}
-                    className="group flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
-                  >
-                    <div
-                      className={`mt-1.5 w-2 h-2 rounded-full shadow-[0_0_8px] ${
-                        activity.status === "success"
-                          ? "bg-green-500 shadow-green-500"
-                          : activity.status === "warning"
-                            ? "bg-yellow-500 shadow-yellow-500"
-                            : "bg-red-500 shadow-red-500"
-                      }`}
-                    />
-                    <div className="flex-1">
-                      <p className="text-gray-200 font-medium font-mono text-sm group-hover:text-cyan-300 transition-colors">
-                        {activity.messageEn}
-                      </p>
-                      <p className="text-gray-500 text-xs mt-1">
-                        {activity.messageTh}
-                      </p>
-                    </div>
-                    <span className="text-xs text-gray-600 font-mono whitespace-nowrap">
-                      {activity.timestamp}
-                    </span>
+                    className={`mt-1.5 w-2 h-2 rounded-full shadow-[0_0_8px] ${
+                      activity.status === "success"
+                        ? "bg-green-500 shadow-green-500"
+                        : activity.status === "warning"
+                          ? "bg-yellow-500 shadow-yellow-500"
+                          : "bg-red-500 shadow-red-500"
+                    }`}
+                  />
+                  <div className="flex-1">
+                    <p className="text-gray-200 font-medium font-mono text-sm group-hover:text-cyan-300 transition-colors">
+                      {activity.messageEn}
+                    </p>
+                    <p className="text-gray-500 text-xs mt-1">{activity.messageTh}</p>
                   </div>
-                ))}
+                  <span className="text-xs text-gray-600 font-mono whitespace-nowrap">
+                    {activity.timestamp}
+                  </span>
+                </div>
+              ))}
             </div>
             <div className="mt-6">
               <IOS26Pagination
@@ -250,9 +224,7 @@ function DashboardClient({
         <div className="space-y-8">
           {/* Chart Placeholder */}
           <GlassCard>
-            <h3 className="font-display text-lg text-white mb-6">
-              Token Consumption
-            </h3>
+            <h3 className="font-display text-lg text-white mb-6">Token Consumption</h3>
             <div className="relative aspect-square flex items-center justify-center">
               {/* CSS Ring Chart Placeholder */}
               <div className="w-48 h-48 rounded-full border-[12px] border-white/5 border-t-cyan-500 border-r-purple-500 rotate-45 transform transition-transform hover:scale-105" />
@@ -265,14 +237,10 @@ function DashboardClient({
 
           {/* Quick Settings */}
           <GlassCard>
-            <h3 className="font-display text-lg text-white mb-4">
-              Quick Settings
-            </h3>
+            <h3 className="font-display text-lg text-white mb-4">Quick Settings</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
-                <span className="text-sm text-gray-300">
-                  System Notifications
-                </span>
+                <span className="text-sm text-gray-300">System Notifications</span>
                 <IOS26Toggle
                   checked={notificationsEnabled}
                   onChange={handleNotificationToggle}

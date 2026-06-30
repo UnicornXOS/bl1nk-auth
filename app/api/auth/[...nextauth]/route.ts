@@ -1,4 +1,4 @@
-import { authHandlers } from "@/lib/auth/middleware";
+import { authHandlers } from "@/lib/auth/core/middleware";
 
 export const runtime = "nodejs";
 

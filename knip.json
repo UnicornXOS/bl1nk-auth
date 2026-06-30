@@ -1,4 +1,45 @@
 {
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "pages/**/*.{ts,tsx}",
+    "scripts/**/*.ts",
+    "next.config.mjs",
+    "postcss.config.mjs",
+    "tailwind.config.ts"
+  ],
+  "project": ["**/*.{ts,tsx,js,jsx,mjs,cjs}", "!node_modules/**", "!dist/**", "!.next/**"],
+  "ignore": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "public/**",
+    "**/*.d.ts",
+    "prisma/**",
+    "__tests__/**",
+    "components/**"
+  ],
+  "ignoreBinaries": ["prisma", "next", "pnpm", "bun"],
+  "ignoreDependencies": [
+    "pg-native",
+    "@types/node",
+    "@types/react",
+    "@types/react-dom",
+    "@types/pg",
+    "@prisma/client"
+  ],
+  "rules": {
+    "files": "error",
+    "dependencies": "error",
+    "unlisted": "error",
+    "binaries": "error",
+    "exports": "error",
+    "types": "error",
+    "duplicates": "warn"
+  },
+  "next": {
+    "config": ["next.config.mjs"]
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
     "app/**/*.{ts,tsx}",

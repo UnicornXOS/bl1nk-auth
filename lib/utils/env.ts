@@ -8,13 +8,9 @@ function validateEnv() {
   const missing = requiredVars.filter((key) => !process.env[key]);
 
   if (missing.length > 0) {
-    console.error(
-      `Missing required environment variables: ${missing.join(", ")}`,
-    );
+    console.error(`Missing required environment variables: ${missing.join(", ")}`);
     if (process.env.NODE_ENV === "production") {
-      throw new Error(
-        `Missing required environment variables: ${missing.join(", ")}`,
-      );
+      throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
     }
   }
 }

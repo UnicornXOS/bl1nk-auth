@@ -23,10 +23,7 @@ interface FlowCanvasProps {
   edges: FlowEdge[];
 }
 
-export default function FlowCanvas({
-  nodes,
-  edges,
-}: FlowCanvasProps): JSX.Element {
+export default function FlowCanvas({ nodes, edges }: FlowCanvasProps): JSX.Element {
   const nodeMap = new Map(nodes.map((node) => [node.id, node] as const));
 
   return (
