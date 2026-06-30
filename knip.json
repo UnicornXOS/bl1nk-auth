@@ -40,5 +40,62 @@
   },
   "next": {
     "config": ["next.config.mjs"]
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "pages/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "lib/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "project": [
+    "**/*.{ts,tsx,js,jsx}"
+  ],
+  "ignore": [
+    "**/*.d.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "playwright/**",
+    ".next/**",
+    "node_modules/**"
+  ],
+  "ignoreDependencies": [
+    "@types/*",
+    "autoprefixer",
+    "postcss",
+    "tailwindcss",
+    "tailwindcss-animate",
+    "tw-animate-css",
+    "prisma",
+    "tsx",
+    "pg-native",
+    "better-sqlite3"
+  ],
+  "ignoreBinaries": [
+    "prisma",
+    "tsx"
+  ],
+  "next": {
+    "entry": [
+      "app/**/page.{ts,tsx}",
+      "app/**/layout.{ts,tsx}",
+      "app/**/route.{ts,tsx}",
+      "app/**/loading.{ts,tsx}",
+      "app/**/error.{ts,tsx}",
+      "app/**/not-found.{ts,tsx}",
+      "middleware.{ts,tsx}"
+    ]
+  },
+  "rules": {
+    "files": "warn",
+    "dependencies": "error",
+    "devDependencies": "warn",
+    "optionalPeerDependencies": "off",
+    "unlisted": "warn",
+    "binaries": "warn",
+    "unresolved": "error",
+    "exports": "warn",
+    "types": "warn",
+    "duplicates": "error"
   }
 }

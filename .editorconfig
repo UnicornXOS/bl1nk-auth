@@ -21,3 +21,60 @@ trim_trailing_whitespace = false
 
 [Makefile]
 indent_style = tab
+# EditorConfig - https://editorconfig.org
+
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 100
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# TypeScript/JavaScript
+[*.{ts,tsx,js,jsx,mjs,cjs}]
+indent_size = 2
+quote_type = single
+
+# CSS/SCSS
+[*.{css,scss,sass}]
+indent_size = 2
+
+# Prisma schema
+[*.prisma]
+indent_size = 2
+
+# Shell scripts
+[*.sh]
+indent_size = 2
+shell_variant = bash
+
+# Makefile
+[Makefile]
+indent_style = tab
+
+# Docker
+[Dockerfile*]
+indent_size = 2
+
+# Lock files (don't modify)
+[{pnpm-lock.yaml,package-lock.json,yarn.lock}]
+indent_size = 2
+insert_final_newline = false

@@ -24,6 +24,13 @@ yarn-error.log*
 .pnpm-debug.log*
 .turbo/
 
+# Playwright
+playwright-report/
+playwright/.cache/
+test-results/
+playwright/snapshots/**/*.png
+!playwright/snapshots/**/*-snapshots/
+
 # Misc / OS
 .DS_Store
 Thumbs.db
@@ -31,6 +38,7 @@ Thumbs.db
 # VS Code / AI / Agents
 .vscode/
 !.vscode/settings.json
+!.vscode/extensions.json
 .github/instructions/codacy.instructions.md
 .kilocode/mcp.json
 .agent/
