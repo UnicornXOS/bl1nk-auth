@@ -23,8 +23,12 @@ export default function TopNav(): JSX.Element {
           <span className="text-xs font-mono text-green-400">SYSTEM ONLINE</span>
         </div>
 
-        <button className="p-2 text-gray-400 hover:text-white transition-colors">🔔</button>
-        <button className="p-2 text-gray-400 hover:text-white transition-colors">⚙️</button>
+        <button type="button" className="p-2 text-gray-400 hover:text-white transition-colors">
+          🔔
+        </button>
+        <button type="button" className="p-2 text-gray-400 hover:text-white transition-colors">
+          ⚙️
+        </button>
       </div>
     </header>
   );

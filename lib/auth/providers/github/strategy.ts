@@ -1,7 +1,6 @@
 import { AUTH_CONFIG, getCallbackUrl } from "@/lib/auth/core/config";
 import type { ProviderConfig, ProviderStrategy, UserProfile } from "@/lib/auth/core/types";
 import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
-import { ENV } from "@/lib/utils/env";
 
 // ────────────────────────────────────────────────
 // GitHub Provider Configuration

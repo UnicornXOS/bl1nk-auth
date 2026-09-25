@@ -60,16 +60,16 @@ const Testimonials = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial) => (
             <div
-              key={index}
+              key={testimonial.author}
               className="flex flex-col p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <div className="flex-1">
                 <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
+                  {[1, 2, 3, 4, 5].map((star) => (
                     <svg
-                      key={i}
+                      key={`star-${testimonial.author}-${star}`}
                       className="w-5 h-5 text-yellow-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"

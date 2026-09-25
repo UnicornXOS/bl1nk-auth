@@ -1,0 +1,58 @@
+{
+  "slug": "card",
+  "name": "Card",
+  "category": "surfaces",
+  "evidence": "Reconstructed after accidental deletion.",
+  "keyInsightSeed": "Quiet surfaces with sharp information hierarchy and minimal ornament.",
+  "anatomy": [
+    "header",
+    "title",
+    "description",
+    "content",
+    "footer",
+    "action"
+  ],
+  "variantDimensions": [
+    {
+      "name": "style",
+      "values": [
+        "default",
+        "glass",
+        "outline"
+      ]
+    },
+    {
+      "name": "size",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "default-md",
+      "label": "Default Card",
+      "style": "default",
+      "size": "md"
+    },
+    {
+      "id": "glass-md",
+      "label": "Glass Card",
+      "style": "glass",
+      "size": "md"
+    },
+    {
+      "id": "outline-sm",
+      "label": "Outline Card",
+      "style": "outline",
+      "size": "sm"
+    }
+  ],
+  "uiCopySamples": [
+    "Default Card",
+    "Glass Card",
+    "Outline Card"
+  ]
+}

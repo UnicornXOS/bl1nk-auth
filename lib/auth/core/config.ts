@@ -55,7 +55,7 @@ export function getCallbackUrl(): string {
 // ────────────────────────────────────────────────
 export function validateProviderConfig(provider: string): void {
   const config = AUTH_CONFIG.providers[provider as keyof typeof AUTH_CONFIG.providers];
-  if (!config || !config.enabled) {
+  if (!config?.enabled) {
     throw new AuthError(
       AuthErrorCode.PROVIDER_NOT_CONFIGURED,
       `Provider ${provider} is not configured`,

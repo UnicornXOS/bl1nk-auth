@@ -18,8 +18,7 @@ export function trackEvent(name: string, payload: AnalyticsEventPayload = {}): v
   }
 
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
-    console.debug("[analytics]", name, payload);
+    // Analytics tracking enabled in dev
   }
 }
 
@@ -31,5 +30,6 @@ export function useAnalyticsEvent(
   useEffect(() => {
     trackEvent(name, payload);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: dynamic dependencies array
   }, dependencies);
 }

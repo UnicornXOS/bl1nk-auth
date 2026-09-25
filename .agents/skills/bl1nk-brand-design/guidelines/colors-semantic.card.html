@@ -1,0 +1,46 @@
+<!-- @dsCard group="Colors" viewport="700x140" name="Semantic Tokens" subtitle="Light & dark mode semantic color aliases" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { padding: 16px 20px; font-family: var(--font-body); display: flex; gap: 12px; }
+    .panel { flex: 1; border-radius: 12px; padding: 12px; }
+    .panel-light { background: var(--background); border: 1px solid var(--border); color: var(--foreground); }
+    .panel-dark { background: oklch(0.145 0 0); border: 1px solid oklch(0.269 0 0); color: oklch(0.985 0 0); }
+    .title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; font-family: var(--font-mono); }
+    .row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { display: flex; align-items: center; gap: 5px; font-size: 10px; font-family: var(--font-mono); }
+    .dot { width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="panel panel-light">
+    <div class="title">Light mode</div>
+    <div class="row">
+      <div class="chip"><div class="dot" style="background:var(--background);border-color:rgba(0,0,0,0.1)"></div>bg</div>
+      <div class="chip"><div class="dot" style="background:var(--foreground)"></div>fg</div>
+      <div class="chip"><div class="dot" style="background:var(--primary)"></div>primary</div>
+      <div class="chip"><div class="dot" style="background:var(--secondary);border-color:rgba(0,0,0,0.1)"></div>secondary</div>
+      <div class="chip"><div class="dot" style="background:var(--muted);border-color:rgba(0,0,0,0.08)"></div>muted</div>
+      <div class="chip"><div class="dot" style="background:var(--border)"></div>border</div>
+      <div class="chip"><div class="dot" style="background:var(--destructive)"></div>destructive</div>
+    </div>
+  </div>
+  <div class="panel panel-dark">
+    <div class="title">Dark mode</div>
+    <div class="row">
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.145 0 0)"></div>bg</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.985 0 0)"></div>fg</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:var(--primary)"></div>primary</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.269 0 0)"></div>secondary</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.269 0 0)"></div>muted</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.269 0 0)"></div>border</div>
+      <div class="chip" style="color:#94a3b8"><div class="dot" style="background:oklch(0.396 0.141 25.723)"></div>destructive</div>
+    </div>
+  </div>
+</body>
+</html>

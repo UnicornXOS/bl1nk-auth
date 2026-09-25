@@ -1,0 +1,161 @@
+<!-- @dsCard group="Components" viewport="900x620" name="Interactive Components" subtitle="Accordion · Tabs · Dialog · Command · Sidebar" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles.css">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: var(--background); color: var(--foreground); font-family: var(--font-body); }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const {
+    Accordion, AccordionItem, AccordionTrigger, AccordionContent,
+    Tabs, TabsList, TabsTrigger, TabsContent,
+    Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+    Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut,
+    SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter,
+    SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger,
+    Button, Card, CardContent, CardHeader, CardTitle,
+  } = window.Bl1nkDesignSystem_428be4;
+
+  const lbl = { fontSize: 10, fontWeight: 600, color: 'var(--muted-foreground)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'var(--font-mono)' };
+  function Section({ label, children, style }) {
+    return <div style={{ marginBottom: 24, ...style }}><div style={lbl}>{label}</div>{children}</div>;
+  }
+
+  function App() {
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+
+    return (
+      <div style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+
+        {/* Accordion */}
+        <Section label="Accordion">
+          <Card>
+            <CardContent style={{ paddingTop: 8, paddingBottom: 0 }}>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="a1">
+                  <AccordionTrigger>What is bl1nk?</AccordionTrigger>
+                  <AccordionContent>A dark-glass design system built for modern SaaS dashboards, featuring emerald accents and neumorphic inputs.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="a2">
+                  <AccordionTrigger>How do I install it?</AccordionTrigger>
+                  <AccordionContent>Import the design system bundle and styles.css into your project, then destructure components from the global namespace.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="a3">
+                  <AccordionTrigger>Is dark mode supported?</AccordionTrigger>
+                  <AccordionContent>Yes — add the <code>.dark</code> class to your root element to activate all dark-mode color tokens.</AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+        </Section>
+
+        {/* Tabs */}
+        <Section label="Tabs">
+          <Tabs defaultValue="overview">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview">
+              <Card><CardContent><div style={{ color: 'var(--muted-foreground)', fontSize: 'var(--text-sm)' }}>Overview panel — key metrics and status at a glance.</div></CardContent></Card>
+            </TabsContent>
+            <TabsContent value="analytics">
+              <Card><CardContent><div style={{ color: 'var(--muted-foreground)', fontSize: 'var(--text-sm)' }}>Analytics panel — charts, funnels, and retention data.</div></CardContent></Card>
+            </TabsContent>
+            <TabsContent value="settings">
+              <Card><CardContent><div style={{ color: 'var(--muted-foreground)', fontSize: 'var(--text-sm)' }}>Settings panel — integrations, billing, and permissions.</div></CardContent></Card>
+            </TabsContent>
+          </Tabs>
+        </Section>
+
+        {/* Dialog */}
+        <Section label="Dialog">
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Confirm Action</DialogTitle>
+                  <DialogDescription>This will permanently delete the selected workspace. This action cannot be undone.</DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                  <Button variant="destructive" onClick={() => setDialogOpen(false)}>Delete</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Section>
+
+        {/* Command */}
+        <Section label="Command Palette">
+          <Command style={{ maxWidth: 340 }}>
+            <CommandInput placeholder="Search commands…" />
+            <CommandList>
+              <CommandGroup heading="Suggestions">
+                <CommandItem onSelect={() => {}}><span>📊</span> View Analytics<CommandShortcut>⌘A</CommandShortcut></CommandItem>
+                <CommandItem onSelect={() => {}}><span>⚙️</span> Settings<CommandShortcut>⌘,</CommandShortcut></CommandItem>
+                <CommandItem onSelect={() => {}}><span>🔔</span> Notifications</CommandItem>
+              </CommandGroup>
+              <CommandSeparator />
+              <CommandGroup heading="Account">
+                <CommandItem onSelect={() => {}}>Profile</CommandItem>
+                <CommandItem onSelect={() => {}} disabled>Billing (unavailable)</CommandItem>
+                <CommandItem onSelect={() => {}}>Sign out<CommandShortcut>⇧⌘Q</CommandShortcut></CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </Section>
+
+        {/* Sidebar */}
+        <Section label="Sidebar" style={{ gridColumn: '1 / -1' }}>
+          <SidebarProvider defaultOpen={true}>
+            <div style={{ display: 'flex', height: 220, border: '1px solid var(--border)', borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
+              <Sidebar>
+                <SidebarHeader>
+                  <SidebarTrigger />
+                  <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)', whiteSpace: 'nowrap', overflow: 'hidden' }}>bl1nk</span>
+                </SidebarHeader>
+                <SidebarContent>
+                  <SidebarGroup>
+                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarMenu>
+                      <SidebarMenuItem><SidebarMenuButton isActive tooltip="Dashboard">📊 Dashboard</SidebarMenuButton></SidebarMenuItem>
+                      <SidebarMenuItem><SidebarMenuButton tooltip="Analytics">📈 Analytics</SidebarMenuButton></SidebarMenuItem>
+                      <SidebarMenuItem><SidebarMenuButton tooltip="Projects">📁 Projects</SidebarMenuButton></SidebarMenuItem>
+                      <SidebarMenuItem><SidebarMenuButton tooltip="Settings">⚙️ Settings</SidebarMenuButton></SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroup>
+                </SidebarContent>
+                <SidebarFooter>
+                  <SidebarMenuButton tooltip="Profile" style={{ fontSize: 'var(--text-xs)' }}>👤 Alex Kim</SidebarMenuButton>
+                </SidebarFooter>
+              </Sidebar>
+              <div style={{ flex: 1, padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted-foreground)', fontSize: 'var(--text-sm)' }}>
+                Main content area
+              </div>
+            </div>
+          </SidebarProvider>
+        </Section>
+
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "slug": "table",
+  "name": "Table",
+  "category": "data-display",
+  "evidence": "Reconstructed after accidental deletion.",
+  "keyInsightSeed": "Data tables should stay dense, readable, and operational rather than decorative.",
+  "anatomy": [
+    "header",
+    "rows",
+    "sort-indicator",
+    "pagination",
+    "selection"
+  ],
+  "variantDimensions": [
+    {
+      "name": "style",
+      "values": [
+        "default",
+        "striped",
+        "bordered"
+      ]
+    },
+    {
+      "name": "size",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "default-md",
+      "label": "Default Table",
+      "style": "default",
+      "size": "md"
+    },
+    {
+      "id": "striped-md",
+      "label": "Striped Table",
+      "style": "striped",
+      "size": "md"
+    }
+  ],
+  "uiCopySamples": [
+    "Default Table",
+    "Striped Table"
+  ]
+}

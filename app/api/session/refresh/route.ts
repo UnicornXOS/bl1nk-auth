@@ -1,7 +1,7 @@
+import { type NextRequest, NextResponse } from "next/server";
 import { AUTH_CONFIG } from "@/lib/auth/core/config";
 import { handleAuthError } from "@/lib/auth/core/errors";
 import { createSessionJWT, verifyAuthToken } from "@/lib/auth/core/token";
-import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const refresh = req.cookies.get(AUTH_CONFIG.cookie.refreshName)?.value;

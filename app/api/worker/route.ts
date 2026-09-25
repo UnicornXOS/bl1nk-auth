@@ -1,9 +1,8 @@
+import type { Worker } from "bullmq";
 import { NextResponse } from "next/server";
 
-import type { Worker } from "bullmq";
-
 import { logger } from "@/lib/utils/logger";
-import { type WebhookJob, createWorker } from "@/lib/webhook/queue";
+import { createWorker, type WebhookJob } from "@/lib/webhook/queue";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

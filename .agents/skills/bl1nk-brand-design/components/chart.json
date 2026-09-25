@@ -1,0 +1,50 @@
+{
+  "slug": "chart",
+  "name": "Chart",
+  "category": "data-viz",
+  "evidence": "Reconstructed after accidental deletion.",
+  "keyInsightSeed": "Charts reserve the blue scale for insight moments inside an otherwise monochrome UI.",
+  "anatomy": [
+    "title",
+    "series",
+    "axis",
+    "legend",
+    "tooltip"
+  ],
+  "variantDimensions": [
+    {
+      "name": "type",
+      "values": [
+        "line",
+        "bar",
+        "area"
+      ]
+    },
+    {
+      "name": "size",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "line-md",
+      "label": "Line Chart",
+      "type": "line",
+      "size": "md"
+    },
+    {
+      "id": "bar-md",
+      "label": "Bar Chart",
+      "type": "bar",
+      "size": "md"
+    }
+  ],
+  "uiCopySamples": [
+    "Line Chart",
+    "Bar Chart"
+  ]
+}

@@ -1,8 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import GlassCard from "@/components/shared/GlassCard";
 import IOS26Button from "@/components/shared/IOS26Button";
-import { useState } from "react";
 import { OAuthButtons } from "./oauth-buttons";
 
 export function RegisterForm() {
@@ -31,8 +31,11 @@ export function RegisterForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <label htmlFor="register-name" className="block text-sm font-medium mb-1">
+            Full Name
+          </label>
           <input
+            id="register-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -41,8 +44,11 @@ export function RegisterForm() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label htmlFor="register-email" className="block text-sm font-medium mb-1">
+            Email
+          </label>
           <input
+            id="register-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -51,8 +57,11 @@ export function RegisterForm() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
+          <label htmlFor="register-password" className="block text-sm font-medium mb-1">
+            Password
+          </label>
           <input
+            id="register-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

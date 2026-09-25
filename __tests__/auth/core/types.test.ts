@@ -5,7 +5,7 @@
 // npm install --save-dev jest @types/jest ts-jest
 
 import { AUTH_CONFIG, getAvailableProviders, getCallbackUrl } from "@/lib/auth/core/config";
-import { createErrorResponse, handleAuthError, logAuthError } from "@/lib/auth/core/errors";
+import { createErrorResponse, logAuthError } from "@/lib/auth/core/errors";
 import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
 
 // ────────────────────────────────────────────────

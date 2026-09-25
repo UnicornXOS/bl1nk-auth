@@ -1,5 +1,4 @@
 import prisma from "@/lib/db/prisma";
-import { PrismaClient } from "@prisma/client";
 import { AuthError, AuthErrorCode, type UserProfile } from "./types";
 
 // ────────────────────────────────────────────────
@@ -22,7 +21,6 @@ export async function syncUser(profile: UserProfile) {
 
     return user;
   } catch (error) {
-    console.error("[auth:user] Failed to sync user:", error);
     throw new AuthError(
       AuthErrorCode.AUTHENTICATION_FAILED,
       "Failed to sync user with database",
@@ -41,8 +39,7 @@ export async function getUserById(id: string) {
       where: { id },
       include: { accounts: true },
     });
-  } catch (error) {
-    console.error("[auth:user] Failed to get user:", error);
+  } catch (_error) {
     return null;
   }
 }
@@ -56,8 +53,7 @@ export async function getUserByEmail(email: string) {
       where: { email },
       include: { accounts: true },
     });
-  } catch (error) {
-    console.error("[auth:user] Failed to get user by email:", error);
+  } catch (_error) {
     return null;
   }
 }

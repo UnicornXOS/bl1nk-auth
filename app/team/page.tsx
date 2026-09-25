@@ -49,7 +49,9 @@ export default async function TeamMembersPage() {
                 <span className="text-xs text-green-400">Active</span>
               </td>
               <td className="px-6 py-4">
-                <button className="text-xs text-gray-400 hover:text-white">Edit</button>
+                <button type="button" className="text-xs text-gray-400 hover:text-white">
+                  Edit
+                </button>
               </td>
             </tr>
           </tbody>

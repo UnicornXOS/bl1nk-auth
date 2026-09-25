@@ -112,6 +112,7 @@ const PricingPlans = () => {
         <div className="flex justify-center mb-12">
           <div className="relative flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-full">
             <button
+              type="button"
               onClick={() => setBillingCycle("monthly")}
               className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
                 billingCycle === "monthly"
@@ -122,6 +123,7 @@ const PricingPlans = () => {
               รายเดือน
             </button>
             <button
+              type="button"
               onClick={() => setBillingCycle("yearly")}
               className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
                 billingCycle === "yearly"
@@ -139,34 +141,31 @@ const PricingPlans = () => {
 
         {/* Pricing cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {plans.map((plan, index) => (
+          {plans.map((plan) => (
             <div
-              key={index}
+              key={plan.name}
               className={`flex flex-col p-6 ${
                 plan.highlighted
                   ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 ring-2 ring-blue-500 dark:ring-blue-400"
                   : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
-              } border rounded-xl shadow-sm relative`}
+              } rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative`}
             >
               {plan.highlighted && (
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-                  แนะนำ
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full uppercase tracking-wider">
+                  ยอดนิยม
                 </div>
               )}
-              <div className="mb-5">
+              <div className="mb-6">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">{plan.name}</h3>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">{plan.description}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{plan.description}</p>
               </div>
-              <div className="mb-5">
-                <div className="flex items-baseline">
-                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-50">฿</span>
-                  <span className="text-5xl font-bold text-gray-900 dark:text-gray-50">
-                    {billingCycle === "monthly" ? plan.price.monthly : plan.price.yearly}
-                  </span>
-                  <span className="ml-1 text-gray-500 dark:text-gray-400">
-                    /{billingCycle === "monthly" ? "เดือน" : "ปี"}
-                  </span>
-                </div>
+              <div className="mb-6">
+                <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-50">
+                  ฿{billingCycle === "monthly" ? plan.price.monthly : plan.price.yearly}
+                </span>
+                <span className="text-gray-500 dark:text-gray-400 font-medium">
+                  /{billingCycle === "monthly" ? "เดือน" : "ปี"}
+                </span>
                 {billingCycle === "yearly" && plan.price.yearly > 0 && (
                   <p className="text-sm text-green-600 dark:text-green-400 mt-1">
                     ประหยัด ฿{plan.price.monthly * 12 - plan.price.yearly} เมื่อชำระรายปี
@@ -174,8 +173,8 @@ const PricingPlans = () => {
                 )}
               </div>
               <ul className="space-y-3 mb-6 flex-1">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center">
+                {plan.features.map((feature) => (
+                  <li key={feature.name} className="flex items-center">
                     {feature.included ? (
                       <CheckIcon className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
                     ) : (
@@ -194,6 +193,7 @@ const PricingPlans = () => {
                 ))}
               </ul>
               <button
+                type="button"
                 className={`mt-auto w-full py-3 px-4 rounded-lg font-medium ${
                   plan.highlighted
                     ? "bg-blue-600 hover:bg-blue-700 text-white"

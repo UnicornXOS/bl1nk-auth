@@ -41,8 +41,7 @@ async function emitRemote(entry: LogEntry): Promise<void> {
       body: JSON.stringify(entry),
     });
   } catch (err) {
-    const error = err as Error;
-    console.warn("[logger] Failed to forward log to Logtail", error.message);
+    const _error = err as Error;
   }
 }
 

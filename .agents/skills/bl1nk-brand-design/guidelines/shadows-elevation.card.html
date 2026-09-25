@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Elevation Shadows" subtitle="--shadow-* elevation tokens" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #f1f5f9; padding: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .card { background: #fff; border-radius: 12px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 10px; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card" style="box-shadow:var(--shadow-xs)">xs</div>
+  <div class="card" style="box-shadow:var(--shadow-sm)">sm</div>
+  <div class="card" style="box-shadow:var(--shadow-md)">md</div>
+  <div class="card" style="box-shadow:var(--shadow-lg)">lg</div>
+  <div class="card" style="box-shadow:var(--shadow-xl)">xl</div>
+  <div class="card" style="box-shadow:var(--shadow-2xl)">2xl</div>
+  <div class="card" style="box-shadow:var(--shadow-glow-sm);background:#0f172a;color:#34d399">glow sm</div>
+  <div class="card" style="box-shadow:var(--shadow-glow-md);background:#0f172a;color:#34d399">glow md</div>
+</body>
+</html>

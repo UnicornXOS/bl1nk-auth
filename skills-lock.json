@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "daytona": {
+      "source": "daytona/skills",
+      "sourceType": "github",
+      "skillPath": "skills/daytona/SKILL.md",
+      "computedHash": "8556115a79a165c93866959e0872a23cef76515784973e5f1b3f35255c9cb3a9"
+    },
     "dead-code": {
       "source": "parcadei/continuous-claude-v3",
       "sourceType": "github",

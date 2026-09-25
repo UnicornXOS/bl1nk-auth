@@ -10,5 +10,3 @@ interface PageTransitionProps {
 export function PageTransition({ children, className = "" }: PageTransitionProps) {
   return <div className={`page-transition ${className}`}>{children}</div>;
 }
-
-export default PageTransition;

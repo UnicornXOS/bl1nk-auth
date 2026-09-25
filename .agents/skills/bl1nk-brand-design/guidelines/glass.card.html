@@ -1,0 +1,40 @@
+<!-- @dsCard group="Brand" viewport="700x260" name="Liquid Glass" subtitle="Dark & light glass panel — the signature effect" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #111; padding: 0; }
+    .stage {
+      background: conic-gradient(from 180deg at 50% 50%, #ff6b6b, #f9ca24, #6ab04c, #22a6b3, #4834d4, #be2edd, #ff6b6b);
+      padding: 32px 24px;
+      display: flex;
+      gap: 20px;
+    }
+    .panel { flex: 1; padding: 24px; }
+    h3 { margin: 0 0 6px; font-family: var(--font-heading); font-size: 16px; font-weight: 600; }
+    p  { margin: 0; font-family: var(--font-body); font-size: 13px; opacity: 0.8; line-height: 1.5; }
+    .stat { font-family: var(--font-mono); font-size: 28px; font-weight: 700; margin-top: 10px; }
+    .tag { font-family: var(--font-mono); font-size: 10px; opacity: 0.55; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="glass panel">
+      <h3>Dark Glass</h3>
+      <p>Smoked translucent slab over colourful backgrounds.</p>
+      <div class="stat">$48,210</div>
+      <div class="tag">tone="dark" · .glass</div>
+    </div>
+    <div class="glass-light panel">
+      <h3 style="color:#0f172a">Light Glass</h3>
+      <p style="color:#0f172a">Bright frosted white slab for light UI contexts.</p>
+      <div class="stat" style="color:#0f172a">+12.4%</div>
+      <div class="tag" style="color:#0f172a">tone="light" · .glass-light</div>
+    </div>
+  </div>
+</body>
+</html>

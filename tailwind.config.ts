@@ -20,9 +20,10 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", ...fontFamily.sans],
-        mono: ['"Roboto Mono"', ...fontFamily.mono],
-        display: ['"Orbitron"', "sans-serif"],
+        sans: ['"Plus Jakarta Sans"', '"Noto Sans"', ...fontFamily.sans],
+        heading: ['"Noto Sans"', '"Plus Jakarta Sans"', ...fontFamily.sans],
+        mono: ['"Geist Mono"', ...fontFamily.mono],
+        display: ['"Noto Sans"', ...fontFamily.sans],
       },
       colors: {
         background: "hsl(var(--background))",

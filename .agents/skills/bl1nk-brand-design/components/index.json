@@ -1,0 +1,105 @@
+{
+  "productType": "design system",
+  "kitType": "component-library",
+  "components": [
+    {
+      "slug": "accordion",
+      "name": "Accordion",
+      "category": "disclosure",
+      "variantCount": 2,
+      "keyInsight": "Use for vertically stacked, expandable content sections."
+    },
+    {
+      "slug": "badge",
+      "name": "Badge",
+      "category": "status",
+      "variantCount": 3,
+      "keyInsight": "Small semantic labels for status, count, or category."
+    },
+    {
+      "slug": "button",
+      "name": "Button",
+      "category": "actions",
+      "variantCount": 3,
+      "keyInsight": "Monochrome actions with a single decisive emphasis tier."
+    },
+    {
+      "slug": "card",
+      "name": "Card",
+      "category": "surfaces",
+      "variantCount": 3,
+      "keyInsight": "Quiet surfaces with sharp information hierarchy and minimal ornament."
+    },
+    {
+      "slug": "command",
+      "name": "Command",
+      "category": "input",
+      "variantCount": 2,
+      "keyInsight": "Command-style search and action palette."
+    },
+    {
+      "slug": "dialog",
+      "name": "Dialog",
+      "category": "overlay",
+      "variantCount": 2,
+      "keyInsight": "Modal focus container with explicit close affordance."
+    },
+    {
+      "slug": "glass-panel",
+      "name": "GlassPanel",
+      "category": "surfaces",
+      "variantCount": 2,
+      "keyInsight": "Frosted glass surface for layered layouts."
+    },
+    {
+      "slug": "glow-button",
+      "name": "GlowButton",
+      "category": "actions",
+      "variantCount": 2,
+      "keyInsight": "Emphasis action with glow effect for primary CTAs."
+    },
+    {
+      "slug": "input",
+      "name": "Input",
+      "category": "input",
+      "variantCount": 2,
+      "keyInsight": "Text input with clear border and focus state."
+    },
+    {
+      "slug": "mobile-preview",
+      "name": "MobilePreview",
+      "category": "layout",
+      "variantCount": 1,
+      "keyInsight": "Device frame wrapper for mobile previews."
+    },
+    {
+      "slug": "neumorphic-input",
+      "name": "NeumorphicInput",
+      "category": "input",
+      "variantCount": 2,
+      "keyInsight": "Soft extruded input style for neumorphic themes."
+    },
+    {
+      "slug": "sidebar",
+      "name": "Sidebar",
+      "category": "navigation",
+      "variantCount": 2,
+      "keyInsight": "Sidebar is a soft contextual frame, not a second accent canvas."
+    },
+    {
+      "slug": "tabs",
+      "name": "Tabs",
+      "category": "navigation",
+      "variantCount": 2,
+      "keyInsight": "Segmented content navigation with clear active indicator."
+    }
+  ],
+  "crossComponentPatterns": [
+    "Use monochrome surfaces with a single dark/light inversion for primary emphasis.",
+    "Prefer thin borders and restrained shadows over elevated cards.",
+    "Keep navigation dense, crisp, and text-led."
+  ],
+  "warnings": [
+    "Component structures were reconstructed from existing bl1nk source files after accidental deletion."
+  ]
+}

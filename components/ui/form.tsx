@@ -50,7 +50,9 @@ const useFormField = () => {
 
   const fieldState = getFieldState(fieldContext.name, formState);
 
-  if (!itemContext?.id) {
+  const id = itemContext?.id;
+
+  if (!id) {
     throw new Error("useFormField should be used within <FormItem>");
   }
 
@@ -160,12 +162,12 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = "FormMessage";
 
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
 };

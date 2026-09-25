@@ -3,9 +3,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },

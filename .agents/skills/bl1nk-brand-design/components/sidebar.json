@@ -1,0 +1,49 @@
+{
+  "slug": "sidebar",
+  "name": "Sidebar",
+  "category": "navigation",
+  "evidence": "Reconstructed after accidental deletion.",
+  "keyInsightSeed": "Sidebar is a soft contextual frame, not a second accent canvas.",
+  "anatomy": [
+    "brand",
+    "nav-groups",
+    "footer-actions",
+    "collapsible-trigger"
+  ],
+  "variantDimensions": [
+    {
+      "name": "state",
+      "values": [
+        "expanded",
+        "collapsed",
+        "mobile-overlay"
+      ]
+    },
+    {
+      "name": "size",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "expanded-md",
+      "label": "Expanded Sidebar",
+      "state": "expanded",
+      "size": "md"
+    },
+    {
+      "id": "collapsed-md",
+      "label": "Collapsed Sidebar",
+      "state": "collapsed",
+      "size": "md"
+    }
+  ],
+  "uiCopySamples": [
+    "Expanded Sidebar",
+    "Collapsed Sidebar"
+  ]
+}

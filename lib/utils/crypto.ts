@@ -1,6 +1,6 @@
-import type { UserRole } from "@/lib/auth/roles";
-import { SignJWT, exportJWK, generateKeyPair, importPKCS8, importSPKI, jwtVerify } from "jose";
 import type { JWTPayload, KeyLike } from "jose";
+import { exportJWK, generateKeyPair, importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
+import type { UserRole } from "@/lib/auth/roles";
 
 export interface TokenPayload extends JWTPayload {
   sub: string;
@@ -29,19 +29,19 @@ async function ensureKeys() {
     const { publicKey: pub, privateKey: prv } = await generateKeyPair("RS256");
     privateKey = prv;
     publicKey = pub;
-  } catch (error) {
-    console.error("Failed to initialize cryptographic keys:", error);
+  } catch (_error) {
     throw new Error("Cryptographic key initialization failed");
   }
 }
 
 export async function jwks() {
   await ensureKeys();
-  const jwk = await exportJWK(publicKey!);
-  (jwk as any).use = "sig";
-  (jwk as any).kid = kid;
-  (jwk as any).alg = "RS256";
-  (jwk as any).kty = "RSA";
+  if (!publicKey) throw new Error("Public key not available");
+  const jwk = (await exportJWK(publicKey)) as unknown as Record<string, unknown>;
+  jwk.use = "sig";
+  jwk.kid = kid;
+  jwk.alg = "RS256";
+  jwk.kty = "RSA";
   return { keys: [jwk] };
 }
 
@@ -52,15 +52,15 @@ export async function signJWT(
 ) {
   try {
     await ensureKeys();
+    if (!privateKey) throw new Error("Private key not available");
     return await new SignJWT(payload)
       .setProtectedHeader({ alg: "RS256", kid })
       .setIssuedAt()
       .setIssuer(iss)
       .setAudience(aud)
       .setExpirationTime(expiresIn)
-      .sign(privateKey!);
-  } catch (error) {
-    console.error("JWT signing failed:", error);
+      .sign(privateKey);
+  } catch (_error) {
     throw new Error("Failed to sign JWT token");
   }
 }
@@ -68,14 +68,14 @@ export async function signJWT(
 export async function verifyJWT(token: string, { aud, iss }: { aud: string; iss: string }) {
   try {
     await ensureKeys();
-    const { payload } = await jwtVerify(token, publicKey!, {
+    if (!publicKey) throw new Error("Public key not available");
+    const { payload } = await jwtVerify(token, publicKey, {
       algorithms: ["RS256"],
       audience: aud,
       issuer: iss,
     });
     return payload;
-  } catch (error) {
-    console.error("JWT verification failed:", error);
+  } catch (_error) {
     throw new Error("Failed to verify JWT token");
   }
 }

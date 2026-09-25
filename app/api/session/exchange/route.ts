@@ -1,10 +1,9 @@
+import type { NextRequest } from "next/server";
+import { z } from "zod";
 import { AUTH_CONFIG } from "@/lib/auth/core/config";
 import { handleAuthError } from "@/lib/auth/core/errors";
 import { createCorsResponse } from "@/lib/auth/core/session";
 import { createSessionJWT, verifyAuthToken } from "@/lib/auth/core/token";
-import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
-import { type NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
 const Body = z.object({
   ott: z.string(),

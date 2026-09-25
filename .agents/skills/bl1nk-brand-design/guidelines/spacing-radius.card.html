@@ -1,0 +1,27 @@
+<!-- @dsCard group="Spacing" viewport="700x140" name="Border Radius" subtitle="--radius-* token ramp" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #f8fafc; padding: 20px 24px; font-family: var(--font-mono); display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .box { width: 52px; height: 52px; background: var(--color-emerald); }
+    .lbl { font-size: 9px; color: #64748b; text-align: center; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="item"><div class="box" style="border-radius:var(--radius-none)"></div><div class="lbl">none<br>0px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="lbl">sm<br>6px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-md)"></div><div class="lbl">md<br>8px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius)"></div><div class="lbl">base<br>~11px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="lbl">lg<br>12px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-xl)"></div><div class="lbl">xl<br>14px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-2xl)"></div><div class="lbl">2xl<br>16px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-glass)"></div><div class="lbl">glass<br>24px</div></div>
+  <div class="item"><div class="box" style="border-radius:var(--radius-pill)"></div><div class="lbl">pill<br>999px</div></div>
+</body>
+</html>

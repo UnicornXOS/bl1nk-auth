@@ -1,11 +1,6 @@
 import { validateProviderConfig } from "@/lib/auth/core/config";
 import { createOTT } from "@/lib/auth/core/token";
-import type {
-  CallbackHandler,
-  CallbackResult,
-  OAuthState,
-  UserProfile,
-} from "@/lib/auth/core/types";
+import type { CallbackHandler, CallbackResult, OAuthState } from "@/lib/auth/core/types";
 import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
 import { syncUser } from "@/lib/auth/core/user";
 import { githubStrategy } from "./strategy";
@@ -44,8 +39,6 @@ export class GitHubCallbackHandler implements CallbackHandler {
         redirectUrl: redirectUrl.toString(),
       };
     } catch (error) {
-      console.error("[GitHub Callback] Error:", error);
-
       if (error instanceof AuthError) {
         return {
           success: false,

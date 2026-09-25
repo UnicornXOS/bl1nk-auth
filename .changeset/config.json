@@ -1,9 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
-  "changelog": [
-    "@changesets/changelog-github",
-    { "repo": "UnicornXOS/bl1nk-auth" }
-  ],
+  "changelog": ["@changesets/changelog-github", { "repo": "UnicornXOS/bl1nk-auth" }],
   "commit": false,
   "fixed": [],
   "linked": [],

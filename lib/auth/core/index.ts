@@ -1,56 +1,50 @@
 // Core Auth Module
 // Export all auth utilities from a single entry point
 
-// Types
-export * from "./types";
-
 // Configuration
 export {
   AUTH_CONFIG,
+  getAvailableProviders,
   getCallbackUrl,
   validateProviderConfig,
-  getAvailableProviders,
 } from "./config";
-
-// Token Management
-export {
-  createAccessToken,
-  createRefreshToken,
-  createOTT,
-  verifyAuthToken,
-  createSessionJWT,
-} from "./token";
-
-// User Management
-export {
-  syncUser,
-  getUserById,
-  getUserByEmail,
-  serializeUser,
-} from "./user";
-
-// Session Management
-export {
-  getSession,
-  readRefreshToken,
-  setRefreshTokenCookie,
-  clearRefreshTokenCookie,
-  signOut,
-  createCorsResponse,
-  createSessionResponse,
-  createLogoutResponse,
-} from "./session";
-
-// Middleware
-export {
-  authMiddleware,
-  withAuth,
-  authHandlers,
-} from "./middleware";
-
 // Error Handling
 export {
   createErrorResponse,
-  logAuthError,
   handleAuthError,
+  logAuthError,
 } from "./errors";
+// Middleware
+export {
+  authHandlers,
+  authMiddleware,
+  withAuth,
+} from "./middleware";
+// Session Management
+export {
+  clearRefreshTokenCookie,
+  createCorsResponse,
+  createLogoutResponse,
+  createSessionResponse,
+  getSession,
+  readRefreshToken,
+  setRefreshTokenCookie,
+  signOut,
+} from "./session";
+// Token Management
+export {
+  createAccessToken,
+  createOTT,
+  createRefreshToken,
+  createSessionJWT,
+  verifyAuthToken,
+} from "./token";
+// Types
+export * from "./types";
+// User Management
+export {
+  getUserByEmail,
+  getUserById,
+  serializeUser,
+  syncUser,
+} from "./user";

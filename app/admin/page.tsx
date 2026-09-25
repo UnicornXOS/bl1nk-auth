@@ -2,7 +2,6 @@ import { AdminStats } from "@/components/features/dashboard/admin-stats";
 import { EventLog } from "@/components/features/dashboard/event-log";
 import { WebhookMonitor } from "@/components/features/dashboard/webhook-monitor";
 import { auth } from "@/lib/auth/middleware";
-import prisma from "@/lib/db/prisma";
 
 export default async function AdminPage() {
   const session = await auth();

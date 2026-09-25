@@ -1,9 +1,8 @@
-import { getAvailableProviders, getProvider } from "@/lib/auth";
-import { AUTH_CONFIG } from "@/lib/auth/core/config";
+import { type NextRequest, NextResponse } from "next/server";
+import { getProvider } from "@/lib/auth";
 import { handleAuthError } from "@/lib/auth/core/errors";
 import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
 import { getClient, isReturnAllowed } from "@/lib/utils/clients";
-import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 

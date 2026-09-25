@@ -1,9 +1,9 @@
 import "./globals.css";
-import { AccessibilityProvider } from "@/components/layout/AccessibilityProvider";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import PageTransition from "@/components/shared/PageTransition";
 import { Analytics } from "@vercel/analytics/next";
 import type { JSX, ReactNode } from "react";
+import { AccessibilityProvider } from "@/components/layout/AccessibilityProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { PageTransition } from "@/components/shared/PageTransition";
 
 export const metadata = {
   title: "bl1nk-auth",
@@ -11,14 +11,10 @@ export const metadata = {
   generator: "v0.app",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element {
+export default function RootLayout({ children }: { children: ReactNode }): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-dvh bg-background text-foreground">
+      <body className="min-h-dvh bg-background text-foreground" suppressHydrationWarning>
         <ThemeProvider defaultTheme="system" enableSystem>
           <AccessibilityProvider>
             {/* Skip link for accessibility */}
@@ -27,7 +23,7 @@ export default function RootLayout({
             </a>
 
             <PageTransition>
-              <main id="main-content" role="main" className="flex-grow">
+              <main id="main-content" className="flex-grow">
                 {children}
               </main>
             </PageTransition>

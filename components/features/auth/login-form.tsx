@@ -1,8 +1,11 @@
 "use client";
 
-import GlassCard from "@/components/shared/GlassCard";
-import IOS26Button from "@/components/shared/IOS26Button";
 import { useState } from "react";
+import { BrandLogo } from "@/components/ui/brand-logo";
+import { GlassPanel } from "@/components/ui/glass-panel";
+import { GlowButton } from "@/components/ui/glow-button";
+import { Icon } from "@/components/ui/icon";
+import { NeumorphicInput } from "@/components/ui/neumorphic-input";
 import { OAuthButtons } from "./oauth-buttons";
 
 export function LoginForm() {
@@ -15,8 +18,11 @@ export function LoginForm() {
   };
 
   return (
-    <GlassCard className="max-w-md w-full p-8">
-      <h2 className="text-2xl font-bold mb-6 text-center">Welcome Back</h2>
+    <GlassPanel tone="dark" className="max-w-md w-full p-8 shadow-2xl">
+      <div className="flex flex-col items-center mb-6">
+        <BrandLogo size={40} />
+        <p className="text-xs text-neutral-400 mt-2">Sign in to your bl1nk identity account</p>
+      </div>
 
       <OAuthButtons />
 
@@ -24,36 +30,53 @@ export function LoginForm() {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-white/10" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-[#0a0a0a] px-2 text-gray-400">Or continue with</span>
+        <div className="relative flex justify-center text-xs uppercase tracking-wider">
+          <span className="bg-[#0a0a0a] px-3 text-neutral-400">Or continue with</span>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
+          <label
+            htmlFor="login-email"
+            className="flex items-center gap-1.5 text-xs font-medium text-neutral-300 mb-1.5"
+          >
+            <Icon name="mail" size={14} className="text-[#34d399]" />
+            <span>Email address</span>
+          </label>
+          <NeumorphicInput
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="you@bl1nk.site"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
-          <input
+          <label
+            htmlFor="login-password"
+            className="flex items-center gap-1.5 text-xs font-medium text-neutral-300 mb-1.5"
+          >
+            <Icon name="key" size={14} className="text-[#34d399]" />
+            <span>Password</span>
+          </label>
+          <NeumorphicInput
+            id="login-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="••••••••"
             required
           />
         </div>
-        <IOS26Button type="submit" className="w-full">
-          Sign In
-        </IOS26Button>
+        <div className="pt-2">
+          <GlowButton type="submit" variant="solid" size="lg" className="w-full">
+            <Icon name="login" size={18} />
+            <span>Sign in</span>
+          </GlowButton>
+        </div>
       </form>
-    </GlassCard>
+    </GlassPanel>
   );
 }

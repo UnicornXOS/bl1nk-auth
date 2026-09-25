@@ -1,14 +1,8 @@
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { AUTH_CONFIG } from "./config";
 import { verifyAuthToken } from "./token";
-import {
-  AuthError,
-  AuthErrorCode,
-  type AuthSession,
-  type CookieOptions,
-  DEFAULT_REFRESH_COOKIE_OPTIONS,
-} from "./types";
+import { type AuthSession, type CookieOptions, DEFAULT_REFRESH_COOKIE_OPTIONS } from "./types";
 
 // ────────────────────────────────────────────────
 // Read Refresh Token from Cookie
@@ -57,8 +51,7 @@ export async function getSession(): Promise<AuthSession | null> {
       },
       provider: typeof payload.provider === "string" ? payload.provider : undefined,
     };
-  } catch (error) {
-    console.error("[auth:session] Failed to verify session:", error);
+  } catch (_error) {
     return null;
   }
 }

@@ -7,8 +7,10 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrate: {
     adapter: () => {
-      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-      return new PrismaPg(pool);
+      const connectionString =
+        process.env.PRISMA_DATABASE_URL ?? process.env.DATABASE_URL ?? process.env.POSTGRES_URL;
+      const pool = new Pool({ connectionString });
+      return new PrismaPg(pool as unknown as ConstructorParameters<typeof PrismaPg>[0]);
     },
   },
-});
+} as unknown as Record<string, unknown>);

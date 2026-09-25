@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { FormEvent, JSX } from "react";
+import { useEffect, useState } from "react";
 
 type ChatLine = {
   role: "you" | "assistant" | "error";
@@ -30,7 +30,7 @@ export function ChatFloating(): JSX.Element {
       return;
     }
     form.reset();
-    setLines((current: any) => [...current, { role: "you", text: message }]);
+    setLines((current) => [...current, { role: "you", text: message }]);
 
     try {
       const endpoint = process.env.NEXT_PUBLIC_CONTEXT_BASE
@@ -46,13 +46,13 @@ export function ChatFloating(): JSX.Element {
         }),
       });
       const payload = (await response.json()) as { answer?: string };
-      setLines((current: any) => [
+      setLines((current) => [
         ...current,
         { role: "assistant", text: payload.answer ?? "(no answer)" },
       ]);
     } catch (error) {
       const text = error instanceof Error ? error.message : "unknown error";
-      setLines((current: any) => [...current, { role: "error", text: `เกิดข้อผิดพลาด: ${text}` }]);
+      setLines((current) => [...current, { role: "error", text: `เกิดข้อผิดพลาด: ${text}` }]);
     }
   };
 
@@ -60,7 +60,7 @@ export function ChatFloating(): JSX.Element {
     <div className="fixed bottom-5 right-5">
       <button
         type="button"
-        onClick={() => setOpen((value: any) => !value)}
+        onClick={() => setOpen((value) => !value)}
         className="w-10 h-10 rounded-full shadow-lg bg-primary text-primary-foreground"
         aria-expanded={open}
         aria-label="Toggle chat assistant"
@@ -72,8 +72,8 @@ export function ChatFloating(): JSX.Element {
           <div className="flex h-full flex-col">
             <header className="p-3 border-b text-sm font-semibold">Assistant</header>
             <div className="flex-1 p-3 overflow-auto text-sm space-y-2">
-              {lines.map((line: { role: any; text: any }, index: any) => (
-                <div key={index} className="leading-relaxed">
+              {lines.map((line) => (
+                <div key={line.text} className="leading-relaxed">
                   <span className="font-medium capitalize">{line.role}:</span>{" "}
                   <span>{line.text}</span>
                 </div>
@@ -93,5 +93,3 @@ export function ChatFloating(): JSX.Element {
     </div>
   );
 }
-
-export default ChatFloating;

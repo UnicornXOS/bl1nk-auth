@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { createErrorResponse } from "./errors";
 import { createCorsResponse, getSession } from "./session";
-import type { AuthSession } from "./types";
+import { AuthError, AuthErrorCode, type AuthSession } from "./types";
 
 // ────────────────────────────────────────────────
 // Auth Middleware Handler
@@ -11,7 +12,7 @@ type AuthMiddlewareOptions = {
 };
 
 export async function authMiddleware(
-  req: NextRequest,
+  _req: NextRequest,
   options: AuthMiddlewareOptions = {},
 ): Promise<{ session: AuthSession | null; response?: NextResponse }> {
   const { requireAuth = false, allowedRoles } = options;
@@ -52,7 +53,13 @@ export function withAuth(handler: Handler, options: AuthMiddlewareOptions = {}) 
       return response;
     }
 
-    return handler(req, session!);
+    if (!session) {
+      return createErrorResponse(
+        new AuthError(AuthErrorCode.AUTHENTICATION_FAILED, "Unauthorized", 401),
+      );
+    }
+
+    return handler(req, session);
   };
 }
 

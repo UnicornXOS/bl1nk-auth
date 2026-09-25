@@ -1,0 +1,38 @@
+<!-- @dsCard group="Colors" viewport="700x100" name="Chart Colors" subtitle="5-stop data-viz palette" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #fff; padding: 16px 24px; font-family: var(--font-body); display: flex; gap: 10px; align-items: center; }
+    .item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .bar { border-radius: 6px; width: 72px; }
+    .lbl { font-family: var(--font-mono); font-size: 10px; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="item">
+    <div class="bar" style="height:56px;background:var(--color-chart-1)"></div>
+    <div class="lbl">chart-1<br>emerald</div>
+  </div>
+  <div class="item">
+    <div class="bar" style="height:44px;background:var(--color-chart-2)"></div>
+    <div class="lbl">chart-2<br>teal</div>
+  </div>
+  <div class="item">
+    <div class="bar" style="height:36px;background:var(--color-chart-3)"></div>
+    <div class="lbl">chart-3<br>blue</div>
+  </div>
+  <div class="item">
+    <div class="bar" style="height:48px;background:var(--color-chart-4)"></div>
+    <div class="lbl">chart-4<br>amber</div>
+  </div>
+  <div class="item">
+    <div class="bar" style="height:40px;background:var(--color-chart-5)"></div>
+    <div class="lbl">chart-5<br>yellow</div>
+  </div>
+</body>
+</html>

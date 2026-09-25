@@ -1,0 +1,40 @@
+<!-- @dsCard group="Brand" viewport="700x140" name="Brand Palette" subtitle="Logo gradient — the 4-color identity system" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #fff; padding: 20px 24px; font-family: var(--font-body); display: flex; gap: 16px; align-items: center; }
+    .swatch { border-radius: 12px; flex-shrink: 0; }
+    .name { font-size: 12px; font-weight: 600; color: #0f172a; margin-top: 6px; }
+    .val  { font-family: var(--font-mono); font-size: 10px; color: #94a3b8; margin-top: 2px; }
+    .gradient-strip { flex: 1; height: 80px; border-radius: 12px; background: conic-gradient(from 180deg at 50% 50%, var(--color-logo-orange), var(--color-logo-pink), var(--color-logo-purple), var(--color-logo-teal), var(--color-logo-orange)); }
+  </style>
+</head>
+<body style="font-family: &quot;Geist Mono&quot;">
+  <div>
+    <div class="swatch" style="width:64px;height:64px;background:var(--color-logo-teal)"></div>
+    <div class="name">Teal</div>
+    <div class="val">#0abfbc</div>
+  </div>
+  <div>
+    <div class="swatch" style="width:64px;height:64px;background:var(--color-logo-orange)"></div>
+    <div class="name">Orange</div>
+    <div class="val">#f96332</div>
+  </div>
+  <div>
+    <div class="swatch" style="width:64px;height:64px;background:var(--color-logo-pink)"></div>
+    <div class="name">Pink</div>
+    <div class="val">#e91e8c</div>
+  </div>
+  <div>
+    <div class="swatch" style="width:64px;height:64px;background:var(--color-logo-purple)"></div>
+    <div class="name">Purple</div>
+    <div class="val">#9c27b0</div>
+  </div>
+  <div class="gradient-strip" title="Logo conic gradient" style="background-size: contain"></div>
+</body>
+</html>

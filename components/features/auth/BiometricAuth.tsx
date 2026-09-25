@@ -28,7 +28,7 @@ const BiometricAuth = ({ onSuccess, onError, className = "" }: BiometricAuthProp
 
       setStatus("success");
       onSuccess();
-    } catch (error) {
+    } catch (_error) {
       setStatus("error");
       onError?.("Authentication failed");
     } finally {
@@ -64,7 +64,8 @@ const BiometricAuth = ({ onSuccess, onError, className = "" }: BiometricAuthProp
 
   return (
     <div className={`biometric-auth ${className}`}>
-      <div
+      <button
+        type="button"
         className="biometric-icon"
         onClick={handleBiometricAuth}
         style={{ cursor: isAuthenticating ? "not-allowed" : "pointer" }}
@@ -72,11 +73,12 @@ const BiometricAuth = ({ onSuccess, onError, className = "" }: BiometricAuthProp
         <span className="text-2xl" role="img" aria-label="biometric authentication">
           {getStatusIcon()}
         </span>
-      </div>
+      </button>
 
       <p className="text-center text-sm text-muted-foreground">{getStatusText()}</p>
 
       <button
+        type="button"
         onClick={handleBiometricAuth}
         disabled={isAuthenticating}
         className="w-full ios26-button accessible-button"
@@ -86,8 +88,5 @@ const BiometricAuth = ({ onSuccess, onError, className = "" }: BiometricAuthProp
     </div>
   );
 };
-
-// Import button component for internal use
-import IOS26Button from "./ios26-button";
 
 export default BiometricAuth;

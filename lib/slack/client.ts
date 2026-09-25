@@ -19,7 +19,7 @@ export class SlackClient {
     return response.json();
   }
 
-  async sendFormattedMessage(blocks: any[]) {
+  async sendFormattedMessage(blocks: Record<string, unknown>[]) {
     return fetch(this.webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

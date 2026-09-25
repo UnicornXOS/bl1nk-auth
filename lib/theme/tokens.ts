@@ -45,6 +45,16 @@ const translations = {
   },
 } as const;
 
-export function getLocalizedText(locale: LocaleCode, key: keyof typeof translations.en): string {
-  return translations[locale][key];
+export function getLocalizedText(
+  input: LocaleCode | { th: string; en: string },
+  key?: keyof typeof translations.en,
+  currentLocale: LocaleCode = "en",
+): string {
+  if (typeof input === "object") {
+    return input[currentLocale] ?? input.en;
+  }
+  if (key && translations[input]) {
+    return translations[input][key];
+  }
+  return "";
 }

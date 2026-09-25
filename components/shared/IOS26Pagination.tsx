@@ -14,6 +14,7 @@ export default function IOS26Pagination({
   return (
     <div className="flex items-center justify-center gap-2">
       <button
+        type="button"
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
         className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -26,6 +27,7 @@ export default function IOS26Pagination({
       </span>
 
       <button
+        type="button"
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
         className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

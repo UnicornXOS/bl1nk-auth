@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 
 interface AccessibilityContextType {
   highContrast: boolean;

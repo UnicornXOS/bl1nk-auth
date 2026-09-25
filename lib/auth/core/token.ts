@@ -1,4 +1,4 @@
-import { signJWT, verifyJWT } from "@/lib/utils/crypto";
+import { signJWT, type TokenPayload, verifyJWT } from "@/lib/utils/crypto";
 import { ENV } from "@/lib/utils/env";
 import { AUTH_CONFIG } from "./config";
 import { AuthError, AuthErrorCode, type AuthTokenPayload } from "./types";
@@ -8,13 +8,16 @@ import { AuthError, AuthErrorCode, type AuthTokenPayload } from "./types";
 // ────────────────────────────────────────────────
 export async function createAccessToken(payload: Omit<AuthTokenPayload, "type">): Promise<string> {
   try {
-    return await signJWT({ ...payload, type: "access" }, ENV.JWT_SECRET, {
-      aud: AUTH_CONFIG.token.access.audience,
-      iss: AUTH_CONFIG.issuer,
-      expiresIn: AUTH_CONFIG.token.access.expiresIn,
-    });
-  } catch (error) {
-    console.error("[auth:token] Failed to create access token:", error);
+    return await signJWT(
+      { ...payload, type: "access" } as unknown as TokenPayload,
+      ENV.JWT_SECRET,
+      {
+        aud: AUTH_CONFIG.token.access.audience,
+        iss: AUTH_CONFIG.issuer,
+        expiresIn: AUTH_CONFIG.token.access.expiresIn,
+      },
+    );
+  } catch (_error) {
     throw new AuthError(AuthErrorCode.AUTHENTICATION_FAILED, "Failed to create access token", 500);
   }
 }
@@ -24,13 +27,16 @@ export async function createAccessToken(payload: Omit<AuthTokenPayload, "type">)
 // ────────────────────────────────────────────────
 export async function createRefreshToken(payload: Omit<AuthTokenPayload, "type">): Promise<string> {
   try {
-    return await signJWT({ ...payload, type: "refresh" }, ENV.JWT_SECRET, {
-      aud: AUTH_CONFIG.token.refresh.audience,
-      iss: AUTH_CONFIG.issuer,
-      expiresIn: AUTH_CONFIG.token.refresh.expiresIn,
-    });
-  } catch (error) {
-    console.error("[auth:token] Failed to create refresh token:", error);
+    return await signJWT(
+      { ...payload, type: "refresh" } as unknown as TokenPayload,
+      ENV.JWT_SECRET,
+      {
+        aud: AUTH_CONFIG.token.refresh.audience,
+        iss: AUTH_CONFIG.issuer,
+        expiresIn: AUTH_CONFIG.token.refresh.expiresIn,
+      },
+    );
+  } catch (_error) {
     throw new AuthError(AuthErrorCode.AUTHENTICATION_FAILED, "Failed to create refresh token", 500);
   }
 }
@@ -40,13 +46,12 @@ export async function createRefreshToken(payload: Omit<AuthTokenPayload, "type">
 // ────────────────────────────────────────────────
 export async function createOTT(payload: Omit<AuthTokenPayload, "type">): Promise<string> {
   try {
-    return await signJWT({ ...payload, type: "ott" }, ENV.PRIV, {
+    return await signJWT({ ...payload, type: "ott" } as unknown as TokenPayload, ENV.PRIV, {
       aud: AUTH_CONFIG.token.ott.audience,
       iss: AUTH_CONFIG.issuer,
       expiresIn: AUTH_CONFIG.token.ott.expiresIn,
     });
-  } catch (error) {
-    console.error("[auth:token] Failed to create OTT:", error);
+  } catch (_error) {
     throw new AuthError(
       AuthErrorCode.AUTHENTICATION_FAILED,
       "Failed to create one-time token",
@@ -81,8 +86,6 @@ export async function verifyAuthToken(
     return authPayload;
   } catch (error) {
     if (error instanceof AuthError) throw error;
-
-    console.error("[auth:token] Token verification failed:", error);
     throw new AuthError(
       AuthErrorCode.INVALID_TOKEN,
       "Token verification failed",
@@ -100,8 +103,9 @@ export async function createSessionJWT(sub: string, audience?: string): Promise<
     return await signJWT(
       {
         sub,
+        type: "access",
         scope: ["profile:read", "email:read"],
-      },
+      } as unknown as TokenPayload,
       ENV.JWT_SECRET,
       {
         aud: audience ?? AUTH_CONFIG.token.access.audience,
@@ -109,8 +113,7 @@ export async function createSessionJWT(sub: string, audience?: string): Promise<
         expiresIn: "30m",
       },
     );
-  } catch (error) {
-    console.error("[auth:token] Failed to create session JWT:", error);
+  } catch (_error) {
     throw new AuthError(AuthErrorCode.AUTHENTICATION_FAILED, "Failed to create session JWT", 500);
   }
 }

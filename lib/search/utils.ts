@@ -15,7 +15,7 @@ export interface SearchResult<T> {
  * @param searchFields Array of field names to search in (for objects) or true for string values
  * @returns Filtered array of items matching the query
  */
-export function fuzzySearch<T extends Record<string, any> | string>(
+export function fuzzySearch<T extends Record<string, unknown> | string>(
   items: T[],
   query: string,
   searchFields: (keyof T)[] | boolean = true,
@@ -53,7 +53,7 @@ function fieldsToSome<T>(fields: (keyof T)[], test: (field: keyof T) => boolean)
 /**
  * Simple search that returns both results and metadata
  */
-export function search<T extends Record<string, any>>(
+export function search<T extends Record<string, unknown>>(
   items: T[],
   query: string,
   searchFields: (keyof T)[] | boolean = true,

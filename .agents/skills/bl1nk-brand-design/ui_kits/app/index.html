@@ -1,0 +1,325 @@
+<!-- @dsCard group="App" viewport="1440x900" name="Dashboard" subtitle="bl1nk design system dashboard — dark glass UI" -->
+<!-- @startingPoint section="App" subtitle="bl1nk dark glass dashboard" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bl1nk — Dashboard</title>
+  <link rel="stylesheet" href="../../styles.css">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="./tweaks-panel.jsx"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body, #root { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    body { background: oklch(0.145 0 0); color: oklch(0.985 0 0); font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: oklch(0.269 0 0); border-radius: 4px; }
+    .nav-btn:hover { background: rgba(52,211,153,0.08) !important; color: rgba(255,255,255,0.9) !important; }
+    .row-hover:hover { background: rgba(255,255,255,0.04) !important; }
+    #search-input::placeholder { color: var(--search-accent, #34d399); opacity: 1; }
+    @keyframes bl1nk-sheen {
+      0%   { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translateX(420%) skewX(-18deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+/* ── Inline component implementations (self-contained, no bundle needed) ── */
+
+function Btn({ variant='default', size='default', disabled, style, children, ...p }) {
+  const [h,setH] = React.useState(false);
+  const [a,setA] = React.useState(false);
+  const base = { display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6,
+    borderRadius:'var(--radius, 0.675rem)', fontFamily:'inherit', fontWeight:500, lineHeight:1,
+    whiteSpace:'nowrap', cursor:disabled?'not-allowed':'pointer', border:'1px solid transparent',
+    transition:'all 150ms ease', outline:'none', userSelect:'none', flexShrink:0,
+    opacity:disabled?0.5:1, pointerEvents:disabled?'none':'auto',
+    transform:a?'translateY(1px)':'none', fontSize:size==='xs'?11:size==='sm'?13:14,
+    height:size==='xs'?24:size==='sm'?28:size==='lg'?36:32,
+    padding:size==='xs'?'0 8px':size==='lg'?'0 12px':'0 10px' };
+  const V = { default:{background:h?'oklch(0.68 0.149 162.5)':'var(--primary,#34d399)',color:'oklch(0.205 0 0)'},
+    outline:{background:h?'oklch(0.269 0 0)':'transparent',color:'oklch(0.985 0 0)',borderColor:'oklch(0.269 0 0)'},
+    secondary:{background:h?'oklch(0.32 0 0)':'oklch(0.269 0 0)',color:'oklch(0.985 0 0)'},
+    ghost:{background:h?'rgba(255,255,255,0.06)':'transparent',color:'oklch(0.985 0 0)'},
+    destructive:{background:h?'rgba(239,68,68,0.18)':'rgba(239,68,68,0.1)',color:'oklch(0.637 0.237 25.331)'},
+    link:{background:'transparent',color:'var(--primary,#34d399)',textDecoration:h?'underline':'none'} }[variant]||{};
+  return <button disabled={disabled} style={{...base,...V,...style}}
+    onMouseEnter={()=>setH(true)} onMouseLeave={()=>{setH(false);setA(false);}}
+    onMouseDown={()=>setA(true)} onMouseUp={()=>setA(false)} {...p}>{children}</button>;
+}
+
+function Bdg({ variant='default', style, children, ...p }) {
+  const V = { default:{background:'var(--primary,#34d399)',color:'oklch(0.205 0 0)'},
+    secondary:{background:'oklch(0.269 0 0)',color:'oklch(0.985 0 0)'},
+    destructive:{background:'rgba(239,68,68,0.12)',color:'oklch(0.637 0.237 25.331)'},
+    outline:{background:'transparent',color:'oklch(0.708 0 0)',border:'1px solid oklch(0.269 0 0)'} }[variant]||{};
+  return <span style={{ display:'inline-flex', alignItems:'center', height:20, padding:'0 8px',
+    borderRadius:999, fontSize:11, fontWeight:600, whiteSpace:'nowrap', flexShrink:0, ...V, ...style }} {...p}>{children}</span>;
+}
+
+function Inp({ style, ...p }) {
+  const [f,setF] = React.useState(false);
+  return <input style={{ display:'block', width:'100%', height:32, padding:'0 10px', fontSize:14,
+    fontFamily:'inherit', color:'#e2e8f0', background:'transparent', border:'1px solid',
+    borderColor:f?'var(--primary,#34d399)':'oklch(0.269 0 0)', borderRadius:'var(--radius,0.675rem)',
+    outline:'none', boxShadow:f?'0 0 0 3px rgba(52,211,153,0.2)':'none',
+    transition:'border-color 150ms,box-shadow 150ms', ...style }}
+    onFocus={()=>setF(true)} onBlur={()=>setF(false)} {...p} />;
+}
+
+function Glass({ tone='dark', style, children, ...p }) {
+  return <div className={tone==='light'?'glass-light':'glass'} style={style} {...p}>{children}</div>;
+}
+
+function GlowBtn({ variant='solid', size='default', disabled, style, children, ...p }) {
+  const [h,setH] = React.useState(false);
+  const [a,setA] = React.useState(false);
+  const [sh,setSh] = React.useState(false);
+  const sz = { sm:{height:36,padding:'0 16px',fontSize:13}, default:{height:44,padding:'0 24px',fontSize:14}, lg:{height:52,padding:'0 32px',fontSize:16} }[size]||{};
+  const V = { solid:{background:'var(--primary,#34d399)',color:'oklch(0.205 0 0)',border:'none',
+      boxShadow:h?'0 10px 30px -6px rgba(52,211,153,0.65)':'0 4px 14px -4px rgba(52,211,153,0.45)'},
+    glass:{background:'rgba(10,12,20,0.6)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
+      color:'var(--primary,#34d399)',border:'none',
+      boxShadow:h?'inset 0 0 0 1px rgba(255,255,255,0.12)':'inset 0 0 0 1px rgba(255,255,255,0.07)'},
+    outline:{background:h?'rgba(52,211,153,0.08)':'transparent',color:'var(--primary,#34d399)',
+      border:'1px solid rgba(52,211,153,0.4)',boxShadow:h?'0 8px 24px -8px rgba(52,211,153,0.5)':'none'} }[variant]||{};
+  return <button disabled={disabled} style={{ position:'relative', display:'inline-flex', alignItems:'center',
+    justifyContent:'center', overflow:'hidden', borderRadius:'var(--radius-xl,0.875rem)', fontFamily:'inherit',
+    fontWeight:500, whiteSpace:'nowrap', cursor:disabled?'not-allowed':'pointer', outline:'none', userSelect:'none',
+    opacity:disabled?0.5:1, pointerEvents:disabled?'none':'auto',
+    transform:a?'scale(0.97)':h?'scale(1.025)':'scale(1)',
+    transition:'transform 280ms cubic-bezier(0.34,1.56,0.64,1),box-shadow 200ms ease',
+    height:sz.height, padding:sz.padding, fontSize:sz.fontSize, ...V, ...style }}
+    onMouseEnter={()=>{ setH(true); setSh(false); requestAnimationFrame(()=>setSh(true)); setTimeout(()=>setSh(false),720); }}
+    onMouseLeave={()=>{ setH(false); setA(false); }}
+    onMouseDown={()=>setA(true)} onMouseUp={()=>setA(false)} {...p}>
+    <span aria-hidden style={{ position:'absolute',top:0,bottom:0,left:0,width:'33%',
+      background:'linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.45) 50%,transparent 100%)',
+      animation:sh?'bl1nk-sheen 0.7s ease-in-out forwards':'none', pointerEvents:'none' }} />
+    <span style={{ position:'relative', zIndex:10, display:'inline-flex', alignItems:'center', gap:8 }}>{children}</span>
+  </button>;
+}
+
+/* ── App data ── */
+const NAV = [
+  { icon:'dashboard',  label:'Dashboard', active:true },
+  { icon:'widgets',    label:'Components', badge:'48' },
+  { icon:'palette',    label:'Tokens'  },
+  { icon:'article',    label:'Guidelines' },
+  { icon:'layers',     label:'UI Kits'  },
+  { icon:'code',       label:'API Docs' },
+];
+const STATS = [
+  { label:'Components', value:'48',   delta:'+6 this month',   icon:'widgets'  },
+  { label:'Tokens',     value:'201',  delta:'+24 this month',  icon:'palette'  },
+  { label:'Teams',      value:'12',   delta:'+3 this month',   icon:'groups'   },
+  { label:'Coverage',   value:'94%',  delta:'+2% this sprint', icon:'verified' },
+];
+const ROWS = [
+  { name:'Button',          group:'Core',    status:'Stable', when:'2h ago'  },
+  { name:'GlassPanel',      group:'Core',    status:'Stable', when:'2h ago'  },
+  { name:'GlowButton',      group:'Core',    status:'Stable', when:'2h ago'  },
+  { name:'NeumorphicInput', group:'Core',    status:'Stable', when:'1d ago'  },
+  { name:'DataTable',       group:'Data',    status:'Beta',   when:'2d ago'  },
+  { name:'CommandPalette',  group:'Overlay', status:'Draft',  when:'4d ago'  },
+];
+
+const DIM  = 'oklch(0.269 0 0)';
+const SURF = 'oklch(0.205 0 0)';
+
+const ACCENTS = {
+  emerald:{ c:'#34d399', c2:'#0abfbc', dark:'oklch(0.205 0 0)', conic:'conic-gradient(from 200deg at 65% 50%, #0a0f1e, #0d3a2e, #0f766e, #115e59, #1e1b4b, #0a0f1e)' },
+  violet:{ c:'#a78bfa', c2:'#e91e8c', dark:'oklch(0.145 0 0)', conic:'conic-gradient(from 200deg at 65% 50%, #0a0f1e, #2e1065, #4c1d95, #6b21a8, #831843, #0a0f1e)' },
+  sunset:{ c:'#f97316', c2:'#f96332', dark:'oklch(0.145 0 0)', conic:'conic-gradient(from 200deg at 65% 50%, #1a0f0a, #7c2d12, #9a3412, #c2410c, #831843, #1a0f0a)' },
+};
+const DENSITY = {
+  compact:{ navPad:'6px 12px', navFont:12, iconSize:15, headerH:44, statPad:'11px 14px', statVal:20, rowPad:'7px 14px', tableFont:12.5, gap:8 },
+  regular:{ navPad:'8px 12px', navFont:14, iconSize:17, headerH:54, statPad:'16px 18px', statVal:26, rowPad:'11px 16px', tableFont:14,   gap:14 },
+  comfy:{   navPad:'11px 14px', navFont:15, iconSize:19, headerH:66, statPad:'22px 24px', statVal:32, rowPad:'16px 20px', tableFont:15,   gap:18 },
+};
+
+function Sidebar({ active, onSelect, accent, density }) {
+  return (
+    <aside style={{ width:240, flexShrink:0, background:SURF, borderRight:`1px solid ${DIM}`,
+      display:'flex', flexDirection:'column', height:'100%' }}>
+      <div style={{ padding:'22px 20px 18px', display:'flex', alignItems:'center', gap:10 }}>
+        <img src="../../assets/logo.png" width={34} height={34} alt="bl1nk" style={{ borderRadius:8 }} />
+        <span style={{ fontFamily:'var(--font-heading,\'Noto Sans\',sans-serif)', fontWeight:800, fontSize:20, letterSpacing:'-0.03em' }}>
+          bl<span style={{ color:accent.c }}>1</span>nk
+        </span>
+      </div>
+      <div style={{ fontSize:10, fontFamily:'var(--font-mono,monospace)', color:'rgba(255,255,255,0.28)',
+        padding:'0 20px 8px', letterSpacing:'0.08em', textTransform:'uppercase',
+        borderBottom:`1px solid ${DIM}`, marginBottom:8 }}>Design System</div>
+      <nav style={{ flex:1, padding:'0 8px', display:'flex', flexDirection:'column', gap:1, overflowY:'auto' }}>
+        {NAV.map(it => (
+          <button key={it.label} className="nav-btn" onClick={() => onSelect(it.label)} style={{
+            display:'flex', alignItems:'center', gap:10, padding:density.navPad, borderRadius:'var(--radius,0.675rem)',
+            background:active===it.label?`${accent.c}1f`:'transparent',
+            color:active===it.label?accent.c:'rgba(255,255,255,0.58)',
+            border:'none', cursor:'pointer', fontSize:density.navFont, fontFamily:'inherit',
+            fontWeight:active===it.label?500:400, width:'100%', textAlign:'left', transition:'all 150ms ease' }}>
+            <span className="material-icons" style={{ fontSize:density.iconSize }}>{it.icon}</span>
+            <span style={{ flex:1 }}>{it.label}</span>
+            {it.badge && <span style={{ background:accent.c, color:'#0f172a', fontSize:10, fontWeight:700,
+              padding:'1px 6px', borderRadius:999, fontFamily:'var(--font-mono,monospace)' }}>{it.badge}</span>}
+          </button>
+        ))}
+      </nav>
+      <div style={{ padding:'14px 16px 18px', borderTop:`1px solid ${DIM}`, display:'flex', alignItems:'center', gap:10 }}>
+        <div style={{ width:30, height:30, borderRadius:'50%', background:`linear-gradient(135deg,${accent.c},${accent.c2})`,
+          display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'#0f172a', flexShrink:0 }}>JD</div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ fontSize:13, fontWeight:500 }}>Jane Doe</div>
+          <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', fontFamily:'var(--font-mono,monospace)' }}>Admin</div>
+        </div>
+        <span className="material-icons" style={{ fontSize:16, color:'rgba(255,255,255,0.28)', cursor:'pointer' }}>more_vert</span>
+      </div>
+    </aside>
+  );
+}
+
+function Header({ accent, density }) {
+  return (
+    <header style={{ height:density.headerH, borderBottom:`1px solid ${DIM}`, display:'flex', alignItems:'center',
+      padding:'0 24px', gap:12, background:'oklch(0.145 0 0)', flexShrink:0 }}>
+      <div style={{ flex:1, maxWidth:380 }}>
+        <input id="search-input" className="neumorphic-input" placeholder="Search components, tokens…"
+          style={{ '--search-accent':accent.c, width:'100%', height:32, fontSize:13, background:SURF, color:'#e2e8f0', boxShadow:'var(--shadow-neumorph-dark)', border:'none' }} />
+      </div>
+      <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:4 }}>
+        {['notifications','help_outline'].map(ic => (
+          <button key={ic} style={{ background:'transparent', border:'none', cursor:'pointer',
+            color:'rgba(255,255,255,0.42)', padding:7, borderRadius:'var(--radius,0.675rem)', lineHeight:0 }}>
+            <span className="material-icons" style={{ fontSize:19 }}>{ic}</span>
+          </button>
+        ))}
+        <div style={{ width:30, height:30, borderRadius:'50%', background:`linear-gradient(135deg,${accent.c},${accent.c2})`,
+          display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700,
+          color:'#0f172a', cursor:'pointer', marginLeft:4 }}>JD</div>
+      </div>
+    </header>
+  );
+}
+
+function StatsSection({ accent, density, flat }) {
+  return (
+    <div style={{ background: flat ? SURF : accent.conic, padding:'28px 24px' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+        <div>
+          <div style={{ fontFamily:'var(--font-heading,\'Noto Sans\',sans-serif)', fontWeight:700, fontSize:18, letterSpacing:'-0.02em' }}>Design System Health</div>
+          <div style={{ fontSize:11, color:'rgba(255,255,255,0.4)', fontFamily:'var(--font-mono,monospace)', marginTop:2 }}>Last updated: today at 09:41</div>
+        </div>
+        <GlowBtn size="sm" variant={flat?'outline':'glass'} style={flat?{ borderColor:accent.c+'66', color:accent.c }:{}}>Export report</GlowBtn>
+      </div>
+      <div style={{ display:'flex', gap:density.gap }}>
+        {STATS.map(s => (
+          flat ? (
+            <div key={s.label} style={{ flex:1, padding:density.statPad, background:'rgba(255,255,255,0.03)', border:`1px solid ${DIM}`, borderRadius:'var(--radius-xl,0.875rem)' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
+                <div style={{ fontSize:11, opacity:0.65, textTransform:'uppercase', letterSpacing:'0.06em' }}>{s.label}</div>
+                <span className="material-icons" style={{ fontSize:15, opacity:0.4 }}>{s.icon}</span>
+              </div>
+              <div style={{ fontSize:density.statVal, fontWeight:700, fontFamily:'var(--font-heading,\'Noto Sans\',sans-serif)', letterSpacing:'-0.02em', lineHeight:1.1 }}>{s.value}</div>
+              <div style={{ fontSize:11, opacity:0.7, marginTop:5, fontFamily:'var(--font-mono,monospace)', color:accent.c }}>{s.delta}</div>
+            </div>
+          ) : (
+            <Glass key={s.label} style={{ flex:1, padding:density.statPad }}>
+              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
+                <div style={{ fontSize:11, opacity:0.65, textTransform:'uppercase', letterSpacing:'0.06em' }}>{s.label}</div>
+                <span className="material-icons" style={{ fontSize:15, opacity:0.4 }}>{s.icon}</span>
+              </div>
+              <div style={{ fontSize:density.statVal, fontWeight:700, fontFamily:'var(--font-heading,\'Noto Sans\',sans-serif)', letterSpacing:'-0.02em', lineHeight:1.1 }}>{s.value}</div>
+              <div style={{ fontSize:11, opacity:0.7, marginTop:5, fontFamily:'var(--font-mono,monospace)', color:accent.c }}>{s.delta}</div>
+            </Glass>
+          )
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const SV = { Stable:'default', Beta:'secondary', Draft:'outline' };
+
+function ComponentsTable({ accent, density }) {
+  return (
+    <div style={{ padding:'20px 24px' }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14 }}>
+        <div style={{ fontFamily:'var(--font-heading,\'Noto Sans\',sans-serif)', fontWeight:600, fontSize:15 }}>Recently Updated</div>
+        <Btn variant="ghost" size="sm" style={{ color:accent.c, fontSize:13 }}>View all components →</Btn>
+      </div>
+      <div style={{ border:`1px solid ${DIM}`, borderRadius:'var(--radius-xl,0.875rem)', overflow:'hidden' }}>
+        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:density.tableFont }}>
+          <thead>
+            <tr style={{ background:SURF, borderBottom:`1px solid ${DIM}` }}>
+              {['Component','Group','Status','Updated','Actions'].map(h => (
+                <th key={h} style={{ padding:'9px 16px', textAlign:'left', fontSize:10, fontWeight:600,
+                  fontFamily:'var(--font-mono,monospace)', color:'rgba(255,255,255,0.38)',
+                  letterSpacing:'0.07em', textTransform:'uppercase' }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {ROWS.map((r,i) => (
+              <tr key={r.name} className="row-hover" style={{ borderBottom:i<ROWS.length-1?`1px solid ${DIM}`:'none', transition:'background 120ms' }}>
+                <td style={{ padding:density.rowPad, fontWeight:500 }}>{r.name}</td>
+                <td style={{ padding:density.rowPad, color:'rgba(255,255,255,0.42)', fontFamily:'var(--font-mono,monospace)', fontSize:12 }}>{r.group}</td>
+                <td style={{ padding:density.rowPad }}><Bdg variant={SV[r.status]}>{r.status}</Bdg></td>
+                <td style={{ padding:density.rowPad, color:'rgba(255,255,255,0.32)', fontSize:12, fontFamily:'var(--font-mono,monospace)' }}>{r.when}</td>
+                <td style={{ padding:density.rowPad }}><Btn variant="ghost" size="xs" style={{ color:'rgba(255,255,255,0.45)', fontSize:11 }}>Open ↗</Btn></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "mood": "emerald",
+  "density": "regular",
+  "chrome": "glass"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [active, setActive] = React.useState('Dashboard');
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const accent = ACCENTS[t.mood] || ACCENTS.emerald;
+  const density = DENSITY[t.density] || DENSITY.regular;
+  const flat = t.chrome === 'flat';
+  return (
+    <div style={{ display:'flex', height:'100%', overflow:'hidden' }}>
+      <Sidebar active={active} onSelect={setActive} accent={accent} density={density} />
+      <div style={{ flex:1, display:'flex', flexDirection:'column', overflow:'hidden' }}>
+        <Header accent={accent} density={density} />
+        <main style={{ flex:1, overflowY:'auto' }}>
+          <StatsSection accent={accent} density={density} flat={flat} />
+          <ComponentsTable accent={accent} density={density} />
+        </main>
+      </div>
+      <TweaksPanel>
+        <TweakSection label="Mood" />
+        <TweakRadio label="Accent" value={t.mood} options={['emerald','violet','sunset']} onChange={v=>setTweak('mood', v)} />
+        <TweakSection label="Layout" />
+        <TweakRadio label="Density" value={t.density} options={['compact','regular','comfy']} onChange={v=>setTweak('density', v)} />
+        <TweakSection label="Chrome" />
+        <TweakRadio label="Surfaces" value={t.chrome} options={['glass','flat']} onChange={v=>setTweak('chrome', v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

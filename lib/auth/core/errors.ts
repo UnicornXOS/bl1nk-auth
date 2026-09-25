@@ -24,18 +24,12 @@ export function createErrorResponse(error: AuthError | Error, statusCode?: numbe
 // Error Logging Helper
 // ────────────────────────────────────────────────
 export function logAuthError(
-  context: string,
+  _context: string,
   error: unknown,
-  additionalInfo?: Record<string, unknown>,
+  _additionalInfo?: Record<string, unknown>,
 ): void {
-  const errorMessage = error instanceof Error ? error.message : "Unknown error";
-  const errorStack = error instanceof Error ? error.stack : undefined;
-
-  console.error(`[auth:${context}] Error:`, {
-    message: errorMessage,
-    stack: errorStack,
-    ...additionalInfo,
-  });
+  const _errorMessage = error instanceof Error ? error.message : "Unknown error";
+  const _errorStack = error instanceof Error ? error.stack : undefined;
 }
 
 // ────────────────────────────────────────────────

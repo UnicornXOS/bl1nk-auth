@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import BiometricAuth from "./biometric-auth";
-import IOS26Button from "./ios26-button";
-import IOS26Card from "./ios26-card";
+import IOS26Button from "@/components/shared/IOS26Button";
+import IOS26Card from "@/components/shared/IOS26Card";
+import BiometricAuth from "./BiometricAuth";
 
 interface BiometricLoginProps {
   onLoginSuccess: (userId: string) => void;
@@ -26,9 +26,9 @@ export function BiometricLogin({
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Mock successful login
-      const mockUserId = "user_" + Date.now();
+      const mockUserId = `user_${Date.now()}`;
       onLoginSuccess(mockUserId);
-    } catch (error) {
+    } catch (_error) {
       onLoginError?.("การเข้าสู่ระบบด้วยไบโอเมตริกส์ล้มเหลว");
     } finally {
       setIsLoading(false);
@@ -95,5 +95,3 @@ export function BiometricLogin({
     </div>
   );
 }
-
-export default BiometricLogin;

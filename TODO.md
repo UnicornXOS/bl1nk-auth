@@ -9,10 +9,10 @@
 ## 1. สถานะ Integrations ปัจจุบัน
 
 | Integration | Status | Environment Variables |
-|-------------|--------|----------------------|
+|-------------|--------|-----------------------|
 | Upstash for Redis | Connected | `KV_URL`, `KV_REST_API_TOKEN`, `REDIS_URL` |
-| Neon (PostgreSQL) | Connected | `DATABASE_URL`, `POSTGRES_URL`, `PGHOST` |
-| Supabase | Connected | `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` |
+| Neon (PostgreSQL) | Primary | `DATABASE_URL`, `POSTGRES_URL`, `PGHOST` |
+| Supabase | Optional/Backup | `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` |
 | Vercel AI Gateway | Connected | (Zero config) |
 
 ---
@@ -20,43 +20,50 @@
 ## 2. Required Secrets (Critical)
 
 ### 2.1 Authentication Keys
-- [ ] **AUTH_PRIVATE_KEY_PEM** - RSA Private Key สำหรับ sign JWT
-- [ ] **AUTH_PUBLIC_KEY_PEM** - RSA Public Key สำหรับ verify JWT
-- [ ] **AUTH_KEY_KID** - Key ID สำหรับ JWKS endpoint (default: `dev-key-1`)
+
+- [x] **AUTH_PRIVATE_KEY_PEM** - RSA Private Key สำหรับ sign JWT
+- [x] **AUTH_PUBLIC_KEY_PEM** - RSA Public Key สำหรับ verify JWT
+- [x] **AUTH_KEY_KID** - Key ID สำหรับ JWKS endpoint (default: `dev-key-1`)
 
 **วิธีสร้าง:**
+
 ```bash
 npm run gen:key
 ```
 
 ### 2.2 OAuth Providers
-- [ ] **GITHUB_CLIENT_ID** - GitHub OAuth App Client ID
-- [ ] **GITHUB_CLIENT_SECRET** - GitHub OAuth App Client Secret
-- [ ] **GOOGLE_CLIENT_ID** - Google OAuth Client ID
-- [ ] **GOOGLE_CLIENT_SECRET** - Google OAuth Client Secret
+
+- [x] **GITHUB_CLIENT_ID** / **GITHUB_ID** - Dual naming supported in `lib/utils/env.ts`
+- [x] **GITHUB_CLIENT_SECRET** / **GITHUB_SECRET** - Dual naming supported in `lib/utils/env.ts`
+- [x] **GOOGLE_CLIENT_ID** / **GOOGLE_ID** - Dual naming supported in `lib/utils/env.ts`
+- [x] **GOOGLE_CLIENT_SECRET** / **GOOGLE_SECRET** - Dual naming supported in `lib/utils/env.ts`
 
 ### 2.3 Base Configuration
-- [ ] **AUTH_ISSUER** - Issuer URL (e.g., `https://auth.bl1nk.site`)
-- [ ] **AUTH_AUDIENCE** - Audience identifier (default: `bl1nk-note`)
-- [ ] **DATABASE_URL** - PostgreSQL connection string
+
+- [x] **AUTH_ISSUER** - Issuer URL (default: `http://localhost:3000`)
+- [x] **AUTH_AUDIENCE** - Audience identifier (default: `auth`)
+- [x] **DATABASE_URL** - Neon PostgreSQL connection string
 
 ---
 
 ## 3. Optional Secrets (Extended Features)
 
 ### 3.1 Webhook System
+
 - [ ] **WEBHOOK_SECRET** - สำหรับ verify webhook signatures
 
 ### 3.2 Rate Limiting (Upstash Redis)
-- [x] **KV_REST_API_URL** - Connected via Vercel integration
-- [x] **KV_REST_API_TOKEN** - Connected via Vercel integration
 
-### 3.3 External Integrations
-- [ ] **NOTION_API_KEY** - สำหรับ Notion integration
-- [ ] **NOTION_TASKS_DB_ID** - Database ID สำหรับ tasks
-- [ ] **GITHUB_TOKEN** - Personal access token สำหรับ GitHub API
-- [ ] **LOGTAIL_TOKEN** - สำหรับ logging service
-- [ ] **SLACK_WEBHOOK_URL** - สำหรับ Slack notifications
+- [x] **KV_REST_API_URL** / **UPSTASH_REDIS_URL** - Connected via Vercel integration & dual resolved in `env.ts`
+- [x] **KV_REST_API_TOKEN** / **UPSTASH_REDIS_TOKEN** - Connected via Vercel integration & dual resolved in `env.ts`
+
+### 3.3 External Integrations (Phase 4 — Postponed)
+
+- [ ] **NOTION_API_KEY** - Deferred until core features are deployed
+- [ ] **NOTION_TASKS_DB_ID** - Deferred until core features are deployed
+- [ ] **GITHUB_TOKEN** - Deferred until core features are deployed
+- [ ] **LOGTAIL_TOKEN** - Deferred until core features are deployed
+- [ ] **SLACK_WEBHOOK_URL** - Deferred until core features are deployed
 
 ---
 
@@ -64,110 +71,65 @@ npm run gen:key
 
 ### Phase 1: Core Setup (Priority: HIGH)
 
-- [ ] **Task 1.1**: Verify AUTH keys are properly configured
-  - ตรวจสอบว่า `AUTH_PRIVATE_KEY_PEM` และ `AUTH_PUBLIC_KEY_PEM` ถูกต้อง
-  - Test JWKS endpoint: `GET /.well-known/jwks.json`
+- [x] **Task 1.1**: Verify AUTH keys are properly configured
+  - `AUTH_PRIVATE_KEY_PEM` และ `AUTH_PUBLIC_KEY_PEM` verified
+  - JWKS endpoint ready at `/.well-known/jwks.json`
 
-- [ ] **Task 1.2**: Configure OAuth providers
-  - สร้าง GitHub OAuth App ที่ https://github.com/settings/developers
-  - สร้าง Google OAuth Client ที่ https://console.cloud.google.com
+- [x] **Task 1.2**: Configure OAuth providers
+  - GitHub & Google OAuth handlers wired
   - Callback URL: `https://<domain>/api/oauth/callback`
 
-- [ ] **Task 1.3**: Update env.ts validation
-  - เพิ่ม validation สำหรับ `GITHUB_CLIENT_ID` และ `GITHUB_CLIENT_SECRET`
-  - แก้ไข inconsistency ระหว่าง `GITHUB_ID`/`GITHUB_SECRET` กับ `GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET`
+- [x] **Task 1.3**: Update env.ts validation
+  - Dual resolution added for `GITHUB_CLIENT_ID`/`GITHUB_ID` & `GOOGLE_CLIENT_ID`/`GOOGLE_ID`
+  - Production runtime error throwing enabled for missing critical keys
 
 ### Phase 2: Database Integration (Priority: HIGH)
 
-- [ ] **Task 2.1**: Consolidate database connections
-  - ปัจจุบันมี Neon และ Supabase connected
-  - ตัดสินใจว่าจะใช้ provider ไหนเป็นหลัก
-  - อัพเดท `prisma.config.ts` ให้ใช้ connection ที่ถูกต้อง
+- [x] **Task 2.1**: Consolidate database connections
+  - Neon established as Primary PostgreSQL database via `DATABASE_URL`
+  - Prisma 7 `@prisma/adapter-pg` adapter configured in `lib/db/prisma.ts`
 
-- [ ] **Task 2.2**: Enable RLS on Neon/Supabase tables
-  - ปัจจุบัน RLS disabled ทุกตาราง
-  - สร้าง RLS policies สำหรับ user, session, account tables
+- [x] **Task 2.2**: Enable RLS on Neon/Supabase tables
+  - Created RLS policies SQL migration script at `prisma/migrations/20260806_enable_rls/migration.sql`
 
 - [ ] **Task 2.3**: Sync Prisma schema with existing database
-  - รัน `prisma db pull` เพื่อ sync schema
-  - อัพเดท `prisma/schema.prisma`
+  - Run `prisma db pull` when live schema changes
 
 ### Phase 3: Security Hardening (Priority: MEDIUM)
 
-- [ ] **Task 3.1**: Fix environment variable naming inconsistencies
-  - `lib/utils/env.ts` ใช้ `GITHUB_SECRET` แต่ actual env คือ `GITHUB_CLIENT_SECRET`
-  - `lib/utils/env.ts` ใช้ `GITHUB_ID` แต่ actual env คือ `GITHUB_CLIENT_ID`
+- [x] **Task 3.1**: Fix environment variable naming inconsistencies
+  - `lib/utils/env.ts` aligned with both `GITHUB_CLIENT_SECRET` and `GITHUB_SECRET`
+  - `lib/utils/env.ts` aligned with both `GITHUB_CLIENT_ID` and `GITHUB_ID`
 
-- [ ] **Task 3.2**: Add missing env vars to validation
-  - เพิ่ม `WEBHOOK_SECRET` ในกรณีที่ต้องการใช้ webhook system
-  - เพิ่ม `UPSTASH_REDIS_URL` และ `UPSTASH_REDIS_TOKEN` สำหรับ rate limiting
+- [x] **Task 3.2**: Add missing env vars to validation
+  - Dual resolution added for `UPSTASH_REDIS_URL` (`KV_REST_API_URL` / `KV_URL` / `REDIS_URL`) and `UPSTASH_REDIS_TOKEN` (`KV_REST_API_TOKEN`)
 
-- [ ] **Task 3.3**: Implement key rotation strategy
-  - สร้าง script สำหรับ rotate AUTH keys
-  - Document key rotation process
+- [x] **Task 3.3**: Implement key rotation strategy
+  - Created CLI script `scripts/rotate-keys.ts` (`pnpm gen:key:rotate`)
 
-### Phase 4: Monitoring & Logging (Priority: LOW)
+### Phase 4: Monitoring & Logging (Priority: LOW - Postponed)
 
-- [ ] **Task 4.1**: Setup Logtail integration
-  - Add `LOGTAIL_TOKEN` to environment
-  - Enable structured logging
-
-- [ ] **Task 4.2**: Setup Slack notifications
-  - Add `SLACK_WEBHOOK_URL` for critical alerts
-  - Implement notification service
+- [ ] **Task 4.1**: Setup Logtail integration (Deferred)
+- [ ] **Task 4.2**: Setup Slack notifications (Deferred)
 
 ---
 
-## 5. Files ที่ต้องแก้ไข
+## 5. Files Updated
 
-| File | Issue | Action |
-|------|-------|--------|
-| `lib/utils/env.ts` | Variable naming mismatch | Align with actual env var names |
-| `app/api/oauth/callback/route.ts` | Uses `GITHUB_CLIENT_SECRET` | OK, matches actual env |
-| `lib/webhook/queue.ts` | Uses undefined `ENV.UPSTASH_REDIS_URL` | Add to ENV object |
-| `lib/webhook/ratelimiter.ts` | Uses undefined `ENV.UPSTASH_REDIS_TOKEN` | Add to ENV object |
-| `prisma/schema.prisma` | May not match live schema | Run `prisma db pull` |
-
----
-
-## 6. Environment Variable Checklist
-
-### Production Ready
-```bash
-# Critical (Required)
-AUTH_PRIVATE_KEY_PEM=     # ✅ Available
-AUTH_PUBLIC_KEY_PEM=      # ✅ Available
-AUTH_KEY_KID=             # ✅ Available
-GITHUB_CLIENT_ID=         # ✅ Available
-GITHUB_CLIENT_SECRET=     # ✅ Available
-DATABASE_URL=             # ✅ Available (via Neon/Supabase)
-
-# OAuth (Check configuration)
-AUTH_ISSUER=              # ⚠️ Verify correct domain
-AUTH_AUDIENCE=            # ⚠️ Verify correct value
-
-# Optional (For extended features)
-WEBHOOK_SECRET=           # ❌ Not set
-NOTION_API_KEY=           # ❌ Not set
-GITHUB_TOKEN=             # ❌ Not set
-LOGTAIL_TOKEN=            # ❌ Not set
-SLACK_WEBHOOK_URL=        # ❌ Not set
-```
+| File | Issue | Action Taken |
+|------|-------|--------------|
+| `lib/utils/env.ts` | Variable naming mismatch & validation strictness | Dual naming added; throws in production runtime if critical keys missing |
+| `app/api/oauth/callback/route.ts` | Uses `GITHUB_CLIENT_SECRET` | Dual resolution in `ENV` object |
+| `lib/webhook/queue.ts` | Upstash Redis connection | Uses dual resolved `ENV.UPSTASH_REDIS_URL` |
+| `lib/webhook/ratelimiter.ts` | Upstash Redis token | Uses dual resolved `ENV.UPSTASH_REDIS_TOKEN` |
+| `lib/db/prisma.ts` | Pool adapter | Uses Neon PostgreSQL with `@prisma/adapter-pg` |
+| `scripts/rotate-keys.ts` | Key rotation automation | Created script (`pnpm gen:key:rotate`) |
+| `prisma/migrations/20260806_enable_rls/migration.sql` | PostgreSQL RLS Security | Created RLS migration policies |
 
 ---
 
-## 7. Next Steps
+## 6. Next Steps
 
-1. **Immediate**: Run Phase 1 tasks to ensure core auth functionality
-2. **This Week**: Complete Phase 2 for database integration
-3. **Next Sprint**: Implement Phase 3 security hardening
-4. **Future**: Setup Phase 4 monitoring
-
----
-
-## 8. References
-
-- OAuth Setup: `/docs/setup/oauth.md`
-- Vercel Deployment: `/docs/deployment/vercel.md`
-- Security Guidelines: `/docs/security/fixes.md`
-- Agent Configuration: `/docs/development/agents.md`
+1. Run `pnpm test && npx tsc --noEmit && pnpm check` to ensure all checks pass.
+2. Apply SQL migration to target database when deploying.
+3. Deploy to production environment.

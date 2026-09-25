@@ -1,8 +1,8 @@
-import { handleAuthError } from "@/lib/auth/core/errors";
-import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
-import type { OAuthState } from "@/lib/auth/core/types";
-import { getCallbackHandler } from "@/lib/auth/providers";
 import { type NextRequest, NextResponse } from "next/server";
+import { handleAuthError } from "@/lib/auth/core/errors";
+import type { OAuthState } from "@/lib/auth/core/types";
+import { AuthError, AuthErrorCode } from "@/lib/auth/core/types";
+import { getCallbackHandler } from "@/lib/auth/providers";
 
 export const runtime = "nodejs";
 

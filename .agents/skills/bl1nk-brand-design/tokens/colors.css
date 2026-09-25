@@ -1,0 +1,109 @@
+/* ============================================================
+   bl1nk Design System — Color Tokens
+   ============================================================ */
+
+:root {
+  /* — Brand palette — */
+  --color-emerald:        oklch(0.765 0.149 162.5);   /* #34d399 — primary brand green */
+  --color-emerald-dim:    oklch(0.680 0.149 162.5);
+  --color-emerald-bright: oklch(0.840 0.149 162.5);
+  --color-emerald-glow:   rgba(52, 211, 153, 0.45);
+
+  /* — Logo gradient colors — */
+  --color-logo-teal:      #0abfbc;
+  --color-logo-orange:    #f96332;
+  --color-logo-pink:      #e91e8c;
+  --color-logo-purple:    #9c27b0;
+
+  /* — Neutrals (light mode) — */
+  --color-white:          oklch(1 0 0);
+  --color-neutral-50:     oklch(0.985 0 0);
+  --color-neutral-100:    oklch(0.970 0 0);
+  --color-neutral-200:    oklch(0.922 0 0);
+  --color-neutral-300:    oklch(0.870 0 0);
+  --color-neutral-400:    oklch(0.708 0 0);
+  --color-neutral-500:    oklch(0.556 0 0);
+  --color-neutral-600:    oklch(0.400 0 0);
+  --color-neutral-700:    oklch(0.269 0 0);
+  --color-neutral-800:    oklch(0.205 0 0);
+  --color-neutral-900:    oklch(0.145 0 0);
+  --color-black:          oklch(0 0 0);
+
+  /* — Status — */
+  --color-destructive:    oklch(0.577 0.245 27.325);  /* red */
+  --color-warning:        oklch(0.828 0.189 84.429);   /* amber */
+  --color-success:        oklch(0.765 0.149 162.5);   /* emerald */
+  --color-info:           oklch(0.6 0.118 184.704);   /* teal */
+
+  /* — Chart series — */
+  --color-chart-1:        oklch(0.765 0.149 162.5);
+  --color-chart-2:        oklch(0.600 0.118 184.704);
+  --color-chart-3:        oklch(0.398 0.070 227.392);
+  --color-chart-4:        oklch(0.828 0.189 84.429);
+  --color-chart-5:        oklch(0.769 0.188 70.08);
+
+  /* ─── Semantic aliases (light mode default) ─── */
+  --background:                var(--color-white);
+  --foreground:                var(--color-neutral-900);
+  --card:                      var(--color-white);
+  --card-foreground:           var(--color-neutral-900);
+  --popover:                   var(--color-white);
+  --popover-foreground:        var(--color-neutral-900);
+  --primary:                   var(--color-emerald);
+  --primary-foreground:        oklch(0.205 0 0);
+  --secondary:                 var(--color-neutral-100);
+  --secondary-foreground:      var(--color-neutral-900);
+  --muted:                     var(--color-neutral-100);
+  --muted-foreground:          var(--color-neutral-500);
+  --accent:                    var(--color-neutral-100);
+  --accent-foreground:         var(--color-neutral-900);
+  --destructive:               var(--color-destructive);
+  --destructive-foreground:    var(--color-destructive);
+  --border:                    var(--color-neutral-200);
+  --input:                     var(--color-neutral-200);
+  --ring:                      var(--color-emerald);
+  --sidebar:                   var(--color-neutral-50);
+  --sidebar-foreground:        var(--color-neutral-900);
+  --sidebar-primary:           var(--color-emerald);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent:            var(--color-neutral-100);
+  --sidebar-accent-foreground: var(--color-neutral-900);
+  --sidebar-border:            var(--color-neutral-200);
+  --sidebar-ring:              var(--color-emerald);
+}
+
+/* ─── Dark mode ─── */
+.dark,
+[data-theme="dark"] {
+  --background:                var(--color-neutral-900);
+  --foreground:                var(--color-neutral-50);
+  --card:                      var(--color-neutral-900);
+  --card-foreground:           var(--color-neutral-50);
+  --popover:                   var(--color-neutral-900);
+  --popover-foreground:        var(--color-neutral-50);
+  --primary:                   var(--color-emerald);
+  --primary-foreground:        oklch(0.205 0 0);
+  --secondary:                 var(--color-neutral-700);
+  --secondary-foreground:      var(--color-neutral-50);
+  --muted:                     var(--color-neutral-700);
+  --muted-foreground:          var(--color-neutral-400);
+  --accent:                    var(--color-neutral-700);
+  --accent-foreground:         var(--color-neutral-50);
+  --destructive:               oklch(0.396 0.141 25.723);
+  --destructive-foreground:    oklch(0.637 0.237 25.331);
+  --border:                    var(--color-neutral-700);
+  --input:                     var(--color-neutral-700);
+  --ring:                      var(--color-emerald);
+  --sidebar:                   var(--color-neutral-800);
+  --sidebar-foreground:        var(--color-neutral-50);
+  --sidebar-primary:           var(--color-emerald);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent:            var(--color-neutral-700);
+  --sidebar-accent-foreground: var(--color-neutral-50);
+  --sidebar-border:            var(--color-neutral-700);
+  --sidebar-ring:              var(--color-emerald);
+  --color-chart-2:             oklch(0.696 0.17 162.48);
+  --color-chart-3:             oklch(0.769 0.188 70.08);
+  --color-chart-4:             oklch(0.627 0.265 303.9);
+  --color-chart-5:             oklch(0.645 0.246 16.439);
+}

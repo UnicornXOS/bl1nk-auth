@@ -1,14 +1,14 @@
 "use client";
 
-import ThemeToggle from "@/components/layout/ThemeToggle";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import type React from "react";
+import type { JSX } from "react";
+import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import LiquidLogo from "@/components/shared/LiquidLogo";
 import type { LocaleCode } from "@/lib/theme/tokens";
 import { designTokens, getLocalizedText } from "@/lib/theme/tokens";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import type { JSX } from "react";
-import type React from "react";
 
 type NavigationLink = {
   href: string;
@@ -42,11 +42,7 @@ const actionLinks = {
   },
 };
 
-function DualLineLabel({
-  label,
-}: {
-  label: NavigationLink["label"];
-}): JSX.Element {
+function DualLineLabel({ label }: { label: NavigationLink["label"] }): JSX.Element {
   return (
     <span className="flex flex-col leading-tight">
       <span className="text-sm font-medium text-white">{label.th}</span>
@@ -63,7 +59,7 @@ export default function SiteNavbar(): JSX.Element {
 
   useEffect(() => {
     setMobileOpen(false);
-  }, [pathname]);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

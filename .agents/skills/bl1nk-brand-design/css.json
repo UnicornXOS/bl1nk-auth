@@ -1,0 +1,224 @@
+{
+  "color": {
+    "dark": {
+      "background": {
+        "hex": "#0a0a0a",
+        "opacity": "1"
+      },
+      "primary-foreground": {
+        "hex": "#171717",
+        "opacity": "1"
+      },
+      "muted": {
+        "hex": "#262626",
+        "opacity": "1"
+      },
+      "secondary": {
+        "hex": "#262626",
+        "opacity": "1"
+      },
+      "ring": {
+        "hex": "#737373",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "muted-foreground": {
+        "hex": "#a1a1a1",
+        "opacity": "1"
+      },
+      "foreground": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      },
+      "card-foreground": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      },
+      "secondary-foreground": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      },
+      "destructive-foreground": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      }
+    },
+    "sidebar": {
+      "sidebar-foreground": {
+        "hex": "#0a0a0a",
+        "opacity": "1"
+      },
+      "sidebar-primary": {
+        "hex": "#171717",
+        "opacity": "1"
+      },
+      "sidebar-accent-foreground": {
+        "hex": "#171717",
+        "opacity": "1"
+      },
+      "sidebar-ring": {
+        "hex": "#a1a1a1",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "sidebar-border": {
+        "hex": "#e5e5e5",
+        "opacity": "1"
+      },
+      "sidebar-accent": {
+        "hex": "#f5f5f5",
+        "opacity": "1"
+      },
+      "sidebar": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      },
+      "sidebar-primary-foreground": {
+        "hex": "#fafafa",
+        "opacity": "1"
+      }
+    },
+    "chart": {
+      "chart-5": {
+        "hex": "#1f3fad",
+        "opacity": "1"
+      },
+      "chart-4": {
+        "hex": "#1a4eda",
+        "opacity": "1"
+      },
+      "chart-3": {
+        "hex": "#2563ef",
+        "opacity": "1"
+      },
+      "chart-2": {
+        "hex": "#3a81f6",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "chart-1": {
+        "hex": "#91c5ff",
+        "opacity": "1"
+      }
+    },
+    "success": {
+      "success-foreground": {
+        "hex": "#0a0a0a",
+        "opacity": "1"
+      },
+      "success-subtle": {
+        "hex": "#14241a",
+        "opacity": "1"
+      },
+      "success": {
+        "hex": "#62d178",
+        "opacity": "1"
+      },
+      "success-strong": {
+        "hex": "#8be59c",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    },
+    "error": {
+      "error-foreground": {
+        "hex": "#0a0a0a",
+        "opacity": "1"
+      },
+      "error-subtle": {
+        "hex": "#2a1517",
+        "opacity": "1"
+      },
+      "error": {
+        "hex": "#ff6166",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "error-strong": {
+        "hex": "#ff9a9d",
+        "opacity": "1"
+      }
+    },
+    "accent": {
+      "accent": {
+        "hex": "#f5f5f5",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    },
+    "border": {
+      "border": {
+        "hex": "#e8e8e8",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "font-sans": "Geist, ui-sans-serif, sans-serif, system-ui",
+      "font-serif": "DM Serif Display, ui-serif, serif",
+      "font-mono": "Geist Mono, ui-monospace, monospace"
+    },
+    "size": {},
+    "weight": {},
+    "lineHeight": {}
+  },
+  "shadow": {
+    "shadow-2xs": {
+      "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)"
+    },
+    "shadow-xs": {
+      "value": "0 1px 3px 0 rgb(0 0 0 / 0.1)"
+    },
+    "shadow-sm": {
+      "value": "0 2px 4px 0 rgb(0 0 0 / 0.1)"
+    },
+    "shadow-md": {
+      "value": "0 4px 6px -1px rgb(0 0 0 / 0.1)"
+    },
+    "shadow-lg": {
+      "value": "0 10px 15px -3px rgb(0 0 0 / 0.1)"
+    },
+    "shadow-xl": {
+      "value": "0 20px 25px -5px rgb(0 0 0 / 0.1)"
+    },
+    "shadow-2xl": {
+      "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)"
+    }
+  },
+  "radius": {
+    "none": "0px",
+    "sm": "0.125rem",
+    "md": "0.375rem",
+    "lg": "0.5rem",
+    "xl": "0.75rem",
+    "full": "9999px"
+  },
+  "spacing": {
+    "0": "0px",
+    "px": "1px",
+    "0.5": "0.125rem",
+    "1": "0.25rem",
+    "1.5": "0.375rem",
+    "2": "0.5rem",
+    "3": "0.75rem",
+    "4": "1rem",
+    "5": "1.25rem",
+    "6": "1.5rem",
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
+    "20": "5rem",
+    "24": "6rem"
+  },
+  "zIndex": {
+    "0": "0",
+    "10": "10",
+    "20": "20",
+    "30": "30",
+    "40": "40",
+    "50": "50"
+  }
+}

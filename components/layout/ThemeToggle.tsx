@@ -1,7 +1,7 @@
 "use client";
 
-import IOS26Button from "./ios26-button";
-import { useTheme } from "./theme-provider";
+import { useTheme } from "next-themes";
+import IOS26Button from "@/components/shared/IOS26Button";
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -43,5 +43,3 @@ export function ThemeToggle() {
     </IOS26Button>
   );
 }
-
-export default ThemeToggle;

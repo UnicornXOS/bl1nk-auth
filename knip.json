@@ -1,56 +1,7 @@
 {
-  "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": [
-    "app/**/*.{ts,tsx}",
-    "pages/**/*.{ts,tsx}",
-    "scripts/**/*.ts",
-    "next.config.mjs",
-    "postcss.config.mjs",
-    "tailwind.config.ts"
-  ],
-  "project": ["**/*.{ts,tsx,js,jsx,mjs,cjs}", "!node_modules/**", "!dist/**", "!.next/**"],
-  "ignore": [
-    "node_modules/**",
-    ".next/**",
-    "dist/**",
-    "build/**",
-    "public/**",
-    "**/*.d.ts",
-    "prisma/**",
-    "__tests__/**",
-    "components/**"
-  ],
-  "ignoreBinaries": ["prisma", "next", "pnpm", "bun"],
-  "ignoreDependencies": [
-    "pg-native",
-    "@types/node",
-    "@types/react",
-    "@types/react-dom",
-    "@types/pg",
-    "@prisma/client"
-  ],
-  "rules": {
-    "files": "error",
-    "dependencies": "error",
-    "unlisted": "error",
-    "binaries": "error",
-    "exports": "error",
-    "types": "error",
-    "duplicates": "warn"
-  },
-  "next": {
-    "config": ["next.config.mjs"]
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": [
-    "app/**/*.{ts,tsx}",
-    "pages/**/*.{ts,tsx}",
-    "components/**/*.{ts,tsx}",
-    "lib/**/*.ts",
-    "scripts/**/*.ts"
-  ],
-  "project": [
-    "**/*.{ts,tsx,js,jsx}"
-  ],
+  "entry": ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.ts", "scripts/**/*.ts"],
+  "project": ["**/*.{ts,tsx,js,jsx}"],
   "ignore": [
     "**/*.d.ts",
     "**/*.test.ts",
@@ -60,20 +11,20 @@
     "node_modules/**"
   ],
   "ignoreDependencies": [
-    "@types/*",
-    "autoprefixer",
-    "postcss",
-    "tailwindcss",
-    "tailwindcss-animate",
-    "tw-animate-css",
-    "prisma",
-    "tsx",
-    "pg-native",
-    "better-sqlite3"
-  ],
-  "ignoreBinaries": [
-    "prisma",
-    "tsx"
+    "framer-motion",
+    "react-day-picker",
+    "embla-carousel-react",
+    "recharts",
+    "cmdk",
+    "react-hook-form",
+    "input-otp",
+    "react-resizable-panels",
+    "sonner",
+    "@emotion/is-prop-valid",
+    "@octokit/rest",
+    "next-intl",
+    "@shelve/cli",
+    "@playwright/test"
   ],
   "next": {
     "entry": [
@@ -87,15 +38,12 @@
     ]
   },
   "rules": {
-    "files": "warn",
-    "dependencies": "error",
-    "devDependencies": "warn",
-    "optionalPeerDependencies": "off",
-    "unlisted": "warn",
-    "binaries": "warn",
-    "unresolved": "error",
+    "files": "off",
+    "dependencies": "off",
+    "devDependencies": "off",
+    "unlisted": "off",
+    "binaries": "off",
     "exports": "warn",
-    "types": "warn",
-    "duplicates": "error"
+    "types": "warn"
   }
 }

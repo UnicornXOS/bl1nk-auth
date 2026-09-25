@@ -1,0 +1,13 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@prisma/engines': true
+  '@swc/core': true
+  better-sqlite3: true
+  cbor-extract: set this to true or false
+  esbuild: true
+  libpq: true
+  msgpackr-extract: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+onlyBuiltDependencies: '@parcel/watcher,@prisma/engines,@swc/core,better-sqlite3,esbuild,libpq,msgpackr-extract,prisma,sharp,unrs-resolver'

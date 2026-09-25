@@ -9,6 +9,7 @@ interface IOS26ToggleProps {
 export default function IOS26Toggle({ checked, onChange, label }: IOS26ToggleProps): JSX.Element {
   return (
     <button
+      type="button"
       role="switch"
       aria-checked={checked}
       aria-label={label}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import type { JSX } from "react";
+import { useState } from "react";
 
 type TabId = "Chat" | "Planning" | "Agent";
 

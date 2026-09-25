@@ -1,74 +1,73 @@
-import { designTokens } from "@/lib/theme/tokens";
+"use client";
+
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function SearchPage() {
+const MOCK_DATA = [
+  {
+    id: 1,
+    title: "Documentation Guide",
+    type: "documentation",
+    path: "/docs",
+    description: "Complete guide to using BL1NK AUTH",
+  },
+  {
+    id: 2,
+    title: "API Reference",
+    type: "documentation",
+    path: "/docs/api",
+    description: "Complete API reference for developers",
+  },
+  {
+    id: 3,
+    title: "Authentication Settings",
+    type: "settings",
+    path: "/profile",
+    description: "Manage your authentication preferences",
+  },
+  {
+    id: 4,
+    title: "Admin Dashboard",
+    type: "page",
+    path: "/admin",
+    description: "Administrative control panel",
+  },
+  {
+    id: 5,
+    title: "Team Management",
+    type: "page",
+    path: "/team",
+    description: "Manage team members and permissions",
+  },
+  {
+    id: 6,
+    title: "Pricing Plans",
+    type: "page",
+    path: "/pricing",
+    description: "View available pricing plans",
+  },
+  {
+    id: 7,
+    title: "Login Page",
+    type: "page",
+    path: "/auth/login",
+    description: "User authentication interface",
+  },
+];
+
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const [results, setResults] = useState<Array<any>>([]);
+  const [results, setResults] = useState<typeof MOCK_DATA>([]);
   const [loading, setLoading] = useState(false);
-
-  // Mock data for demonstration - in a real app, this would come from an API
-  const mockData = [
-    {
-      id: 1,
-      title: "Documentation Guide",
-      type: "documentation",
-      path: "/docs",
-      description: "Complete guide to using BL1NK AUTH",
-    },
-    {
-      id: 2,
-      title: "API Reference",
-      type: "documentation",
-      path: "/docs/api",
-      description: "Complete API reference for developers",
-    },
-    {
-      id: 3,
-      title: "Authentication Settings",
-      type: "settings",
-      path: "/profile",
-      description: "Manage your authentication preferences",
-    },
-    {
-      id: 4,
-      title: "Admin Dashboard",
-      type: "page",
-      path: "/admin",
-      description: "Administrative control panel",
-    },
-    {
-      id: 5,
-      title: "Team Management",
-      type: "page",
-      path: "/team",
-      description: "Manage team members and permissions",
-    },
-    {
-      id: 6,
-      title: "Pricing Plans",
-      type: "page",
-      path: "/pricing",
-      description: "View available pricing plans",
-    },
-    {
-      id: 7,
-      title: "Login Page",
-      type: "page",
-      path: "/auth/login",
-      description: "User authentication interface",
-    },
-  ];
 
   useEffect(() => {
     if (query.trim()) {
       setLoading(true);
-      // Simulate API delay
       const timeout = setTimeout(() => {
         const searchTerm = query.toLowerCase().trim();
-        const filteredResults = mockData.filter(
+        const filteredResults = MOCK_DATA.filter(
           (item) =>
             item.title.toLowerCase().includes(searchTerm) ||
             item.description.toLowerCase().includes(searchTerm),
@@ -78,10 +77,9 @@ export default function SearchPage() {
       }, 300);
 
       return () => clearTimeout(timeout);
-    } else {
-      setResults([]);
-      setLoading(false);
     }
+    setResults([]);
+    setLoading(false);
   }, [query]);
 
   return (
@@ -98,18 +96,12 @@ export default function SearchPage() {
           <div className="flex items-center space-x-3">
             <input
               type="text"
-              value={query}
-              onChange={(e) => {
-                // In a real app, you'd update the URL here
-                // For demo, we'll just keep it as is
-              }}
+              defaultValue={query}
               placeholder="ค้นหาเอกสาร, หน้า, หรือการตั้งค่า..."
               className="flex-1 px-4 py-2 bg-[#0A0A0A] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00D9FF]"
             />
             <button
-              onClick={() => {
-                // In a real app, this would trigger a new search
-              }}
+              type="button"
               className="px-4 py-2 bg-[#00D9FF] text-[#0A0A0A] rounded-lg hover:bg-[#00BED4] transition-colors"
             >
               ค้นหา
@@ -119,7 +111,7 @@ export default function SearchPage() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-pulse w-8 h-8 border-4 border-[#00D9FF] border-t-transparent rounded-full"></div>
+            <div className="inline-block animate-pulse w-8 h-8 border-4 border-[#00D9FF] border-t-transparent rounded-full" />
             <p className="mt-4 text-white/50">กำลังค้นหา...</p>
           </div>
         ) : query.trim() === "" ? (
@@ -164,5 +156,13 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A] text-white p-6">Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 }

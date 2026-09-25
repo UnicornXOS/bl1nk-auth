@@ -7,12 +7,7 @@ interface LiquidLogoProps {
   className?: string;
 }
 
-export default function LiquidLogo({
-  src = "/logo.svg",
-  alt = "BlinkOS",
-  size = 80,
-  className = "",
-}: LiquidLogoProps): JSX.Element {
+export default function LiquidLogo({ size = 80, className = "" }: LiquidLogoProps): JSX.Element {
   return (
     <div
       className={`backdrop-blur-sm bg-blue-500/10 rounded-2xl p-4 liquid-glass ${className}`}
