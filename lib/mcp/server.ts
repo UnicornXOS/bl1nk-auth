@@ -177,6 +177,7 @@ export async function handleMcpRequest(req: McpToolCallRequest): Promise<McpTool
                 }),
               },
             ],
+            isError: true,
           },
         };
       }
