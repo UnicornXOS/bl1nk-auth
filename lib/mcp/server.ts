@@ -163,14 +163,21 @@ export async function handleMcpRequest(req: McpToolCallRequest): Promise<McpTool
 
       if (toolName === "sandbox_run") {
         const code = String(args.code ?? "");
-        // Safe evaluation simulation for sandbox tool
-        const sanitized = code.replace(/process|globalThis|require|import/g, "");
-        const evalResult = Function(`"use strict"; return (${sanitized});`)();
         return {
           jsonrpc: "2.0",
           id,
           result: {
-            content: [{ type: "text", text: JSON.stringify({ result: evalResult }) }],
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  success: false,
+                  error: "sandbox_run is disabled for security reasons: dynamic code execution is not allowed",
+                  receivedLength: code.length,
+                }),
+              },
+            ],
+            isError: true,
           },
         };
       }
